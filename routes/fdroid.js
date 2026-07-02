@@ -67,9 +67,8 @@ module.exports = {
   name: "F-Droid Search",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/fdroid/search?q=telegram&limit=10`,
-  logo: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
+  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/F-Droid_Logo_2.svg/512px-F-Droid_Logo_2.svg.png",
   category: "search",
   info: "Search for open-source Android apps on F-Droid",
   router
 };
-
