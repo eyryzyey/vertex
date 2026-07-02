@@ -86,12 +86,11 @@ router.get("/search", async (req, res) => {
 
 module.exports = {
   path: "/api/topcinema",
-  name: "Top Cinema Search",
+  name: "Top Cinema",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/topcinema/search?q=one+piece&type=anime&limit=5`,
   logo: "https://cdn-icons-png.flaticon.com/512/3658/3659898.png",
-  category: "topcinema",
+  category: "search",
   info: "Search for anime and movies from Top Cinema",
   router
 };
-
