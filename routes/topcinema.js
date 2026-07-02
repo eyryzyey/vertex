@@ -89,7 +89,7 @@ module.exports = {
   name: "Top Cinema",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/topcinema/search?q=one+piece&type=anime&limit=5`,
-  logo: "https://cdn-icons-png.flaticon.com/512/3658/3659898.png",
+  logo: "https://cdn-icons-png.flaticon.com/512/2314/2314736.png",
   category: "search",
   info: "Search for anime and movies from Top Cinema",
   router
