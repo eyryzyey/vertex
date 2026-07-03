@@ -65,7 +65,7 @@ router.get("/download", async (req, res) => {
 });
 
 module.exports = {
-  path: "/api/Instagram",
+  path: "/api/snap",
   name: "Instagram video Downloader",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/snap/download?url=https://www.instagram.com/reel/xxxxx`,
