@@ -68,7 +68,7 @@ module.exports = {
   path: "/api/snap",
   name: "Instagram video Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/snap/download?url=https://www.instagram.com/reel/xxxxx`,
+  url: `${global.t || "http://localhost:3000"}/api/snap/download?url=https://www.instagram.com/reel/DaTQs4Vg6S9/?igsh=MTc0amduajN6cnQ3cg==`,
   logo: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
   category: "download",
   info: "Download Instagram reels and videos via SnapTube",
