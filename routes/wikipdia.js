@@ -73,11 +73,11 @@ router.get("/search", async (req, res) => {
 
 module.exports = {
   path: "/api/wikipedia",
-  name: "Wikipedia AI",
+  name: "Wikipedia Search",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/wikipedia/search?q=artificial+intelligence&lang=en`,
   logo: "https://cdn-icons-png.flaticon.com/512/174/174854.png",
-  category: "ai",
+  category: "search",
   info: "Search for articles on Wikipedia",
   router
 };
