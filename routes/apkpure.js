@@ -70,7 +70,7 @@ module.exports = {
   name: "APKPure Search",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/apkpure/search?q=whatsapp&limit=10`,
-  logo: "https://static.wikia.nocookie.net/logopedia/images/0/0c/APKPure_icon.png",
+  logo: "https://cdn-icons-png.flaticon.com/512/6125/6125000.png",
   category: "search",
   info: "Search for Android apps on APKPure",
   router
