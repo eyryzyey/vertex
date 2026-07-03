@@ -36,7 +36,7 @@ router.get("/download", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Missing or invalid parameter: 'url' is required",
-        example: `${global.t || "http://localhost:3000"}/api/snap/download?url=https://www.instagram.com/reel/xxxxx`
+        example: `${global.t || "http://localhost:3000"}/api/snap/download?url=https://www.instagram.com/reel/DaTQs4Vg6S9/?igsh=MTc0amduajN6cnQ3cg==`
       });
     }
 
