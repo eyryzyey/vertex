@@ -273,7 +273,7 @@ body {
 .ligne-horizontale-stats::before { left: 20%; }
 .ligne-horizontale-stats::after { right: 20%; color: var(--bleu-cyan); }
 
-/* Navigation */
+/* Navigation Categories */
 .nav-categories {
   position: sticky;
   top: 0;
@@ -311,11 +311,62 @@ body {
   box-shadow: 0 10px 30px rgba(185,103,255,0.3);
 }
 
+/* ================= استايل شريط البحث المطور المدمج الجديد ================= */
+.search-container-box {
+  max-width: 600px;
+  margin: 35px auto 15px;
+  position: relative;
+  padding: 0 20px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.api-search-field {
+  width: 100%;
+  padding: 16px 20px 16px 55px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 30px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.api-search-field:focus {
+  border-color: transparent;
+  background: rgba(255,255,255,0.06);
+  outline: none;
+  box-shadow: 0 0 25px rgba(185,103,255,0.25), inset 0 2px 4px rgba(0,0,0,0.3);
+  background-image: linear-gradient(var(--noir-elegant), var(--noir-elegant)), var(--gradient-principal);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.api-search-field:focus + i {
+  color: var(--or-rose);
+  text-shadow: 0 0 10px var(--or-rose);
+}
+
 /* Contenu */
 .conteneur-principal {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 10px 20px 40px;
   position: relative;
   z-index: 1;
   min-height: 400px;
@@ -393,14 +444,14 @@ body {
   border-radius: 20px;
 }
 
-/* GRILLE CARRÉE */
+/* Grille Cartes */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
 }
 
-/* CARTE API CARRÉE */
+/* Carte API */
 .carte-api {
   background: linear-gradient(145deg, #161616, #1a1a1a);
   border-radius: 20px;
@@ -518,7 +569,7 @@ body {
   overflow: hidden;
 }
 
-/* MÉTRIQUES */
+/* Metrics */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -549,7 +600,7 @@ body {
   margin-top: 4px;
 }
 
-/* BOUTONS D'ACTION */
+/* Actions */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -689,7 +740,7 @@ body {
   border-radius: 5px;
 }
 
-/* ================= أسلوب الـ CSS المخصص للقائمة الجانبية والخلفية ================= */
+/* Sidebar & Overlay */
 .menu-btn {
   position: fixed;
   top: 20px;
@@ -732,7 +783,6 @@ body {
   box-shadow: 10px 0 40px rgba(0,0,0,0.8);
 }
 
-/* الخلفية المعتمة لإغلاق القائمة عند الضغط في الفراغ */
 .sidebar-overlay {
   position: fixed;
   top: 0;
@@ -821,19 +871,15 @@ body {
 
 <body>
 
-<!-- Loader -->
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
-<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<!-- خلفية الـ Overlay المخصصة لإغلاق القائمة عند الضغط في الفراغ -->
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<!-- أزرار ومحتوى القائمة الجانبية المحدثة -->
 <button class="menu-btn" onclick="openSidebar()">
   <i class="fas fa-bars"></i> Menu
 </button>
@@ -862,7 +908,6 @@ body {
   </ul>
 </div>
 
-<!-- Header -->
 <header class="hero-header">
   <h1 class="logo-principal">VIRIXI API</h1>
   <p class="sous-titre">Collection Dynamique</p>
@@ -888,12 +933,17 @@ body {
   <div class="ligne-horizontale-stats"></div>
 </header>
 
-<!-- Navigation -->
 <nav class="nav-categories" id="navCategories">
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<!-- Contenu -->
+<div class="search-container-box">
+  <div class="search-input-wrapper">
+    <input type="text" id="apiSearchInput" onkeyup="filterApisByName()" placeholder="Rechercher une API (ex: social, ai, tool)...">
+    <i class="fas fa-search"></i>
+  </div>
+</div>
+
 <main class="conteneur-principal" id="mainContainer">
   <div class="message-vide" id="messageVide">
     <i class="fas fa-spinner fa-spin"></i>
@@ -901,7 +951,6 @@ body {
   </div>
 </main>
 
-<!-- Footer -->
 <footer class="footer-luxe">
   <div class="texte-footer">VIRIXI API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
@@ -927,7 +976,6 @@ const CONFIG = {
 let toutesAPIs = [];
 let categories = [];
 
-/* ================= كود الـ JavaScript المطور للتحكم في فتح وإغلاق القائمة الجانبية في الخواء ================= */
 function openSidebar() {
   document.getElementById("customSidebar").style.width = "280px";
   const overlay = document.getElementById("sidebarOverlay");
@@ -999,15 +1047,56 @@ function creerNavigation(categoriesList) {
 }
 
 function filtrerCategorie(categorie, btnElement) {
+  // تصفير شريط البحث عند التبديل بين الأقسام للحفاظ على سلاسة الفلترة
+  document.getElementById('apiSearchInput').value = "";
+  
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
+  
   document.querySelectorAll('.section-categorie').forEach(section => {
     if (categorie === 'all' || section.dataset.category === categorie) {
       section.style.display = 'block';
       section.style.animation = 'none';
       setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
+      
+      // إظهار كافة كروت هذا القسم المختار
+      section.querySelectorAll('.carte-api').forEach(c => c.style.display = "flex");
     } else {
       section.style.display = 'none';
+    }
+  });
+}
+
+/* ================= دالة الفلترة والبحث الفوري المضافة والمطورة ================= */
+function filterApisByName() {
+  const input = document.getElementById('apiSearchInput').value.toLowerCase();
+  const activeBtn = document.querySelector('.btn-categorie.active');
+  const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
+  
+  document.querySelectorAll('.section-categorie').forEach(section => {
+    // التحقق أولاً إذا كان القسم هو المختار حالياً أو إذا كنا في وضع "Tous"
+    if (activeCategory === 'all' || section.dataset.category === activeCategory) {
+      const cards = section.querySelectorAll('.carte-api');
+      let visibleCardsCount = 0;
+
+      cards.forEach(card => {
+        const apiName = card.querySelector('.nom-api').textContent.toLowerCase();
+        const apiDesc = card.querySelector('.description-api').textContent.toLowerCase();
+
+        if (apiName.includes(input) || apiDesc.includes(input)) {
+          card.style.display = "flex";
+          visibleCardsCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // إخفاء عنوان القسم كلياً إذا كانت كل الكروت بداخله مخفية أثناء البحث
+      if (visibleCardsCount > 0) {
+        section.style.display = "block";
+      } else {
+        section.style.display = "none";
+      }
     }
   });
 }
@@ -1088,7 +1177,7 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-function abrirAPI(url) {
+function ouvrirAPI(url) {
   if (url === "#" || !url) {
     alert("URL non disponible");
     return;
