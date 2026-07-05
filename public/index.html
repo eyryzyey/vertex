@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VIRIXI API - Collection Dynamique</title>
+<title>Cristion API - Collection Dynamique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -688,134 +688,6 @@ body {
   background: var(--gradient-principal);
   border-radius: 5px;
 }
-
-/* ================= أسلوب الـ CSS المخصص للقائمة الجانبية والخلفية ================= */
-.menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  padding: 12px 20px;
-  background: rgba(18,18,18,0.8);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 30px;
-  cursor: pointer;
-  z-index: 1001;
-  font-size: 0.9rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.menu-btn:hover {
-  border-color: var(--or-rose);
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(255,107,157,0.2);
-}
-
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  left: 0;
-  background-color: #0d0d0d;
-  border-right: 1px solid rgba(255,255,255,0.05);
-  overflow-x: hidden;
-  transition: 0.4s cubic-bezier(0.05, 0.74, 0.2, 1);
-  padding-top: 80px;
-  box-shadow: 10px 0 40px rgba(0,0,0,0.8);
-}
-
-/* الخلفية المعتمة لإغلاق القائمة عند الضغط في الفراغ */
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
-  z-index: 1999;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sidebar-header {
-  padding: 15px 25px;
-  color: #fff;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  text-align: center;
-}
-
-.sidebar-header h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  background: var(--gradient-principal);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-
-.sidebar-links {
-  list-style: none;
-  padding: 25px 15px;
-  margin: 0;
-}
-
-.sidebar-links li {
-  margin-bottom: 15px;
-}
-
-.sidebar-links a {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: var(--argent);
-  text-decoration: none;
-  font-size: 0.95rem;
-  padding: 12px 20px;
-  border-radius: 12px;
-  transition: all 0.3s;
-  border: 1px solid transparent;
-  text-align: left;
-}
-
-.sidebar-links a:hover {
-  background: rgba(255,255,255,0.03);
-  color: #fff;
-  border-color: rgba(255,107,157,0.1);
-  transform: translateX(5px);
-}
-
-.sidebar-links a i {
-  font-size: 1.2rem;
-}
-.fa-whatsapp { color: #25D366; }
-.fa-instagram { color: #E1306C; }
-.fa-bullhorn { color: #1BD741; }
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 28px;
-  background: none;
-  border: none;
-  color: #555;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.close-btn:hover {
-  color: var(--or-rose);
-}
 </style>
 </head>
 
@@ -830,41 +702,9 @@ body {
 <!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<!-- خلفية الـ Overlay المخصصة لإغلاق القائمة عند الضغط في الفراغ -->
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
-
-<!-- أزرار ومحتوى القائمة الجانبية المحدثة -->
-<button class="menu-btn" onclick="openSidebar()">
-  <i class="fas fa-bars"></i> Menu
-</button>
-
-<div id="customSidebar" class="sidebar">
-  <button class="close-btn" onclick="closeSidebar()">&times;</button>
-  <div class="sidebar-header">
-    <h3>VIRIXI</h3>
-  </div>
-  <ul class="sidebar-links">
-    <li>
-      <a href="https://wa.me/212621482778" target="_blank">
-        <i class="fab fa-whatsapp"></i> Mon WhatsApp
-      </a>
-    </li>
-    <li>
-      <a href="https://www.instagram.com/lu_x_smos?igsh=MWgyZG9keXNnaW44Mw==" target="_blank">
-        <i class="fab fa-instagram"></i> Mon Instagram
-      </a>
-    </li>
-    <li>
-      <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank">
-        <i class="fas fa-bullhorn"></i> Canal WhatsApp
-      </a>
-    </li>
-  </ul>
-</div>
-
 <!-- Header -->
 <header class="hero-header">
-  <h1 class="logo-principal">VIRIXI API</h1>
+  <h1 class="logo-principal">Cristion API</h1>
   <p class="sous-titre">Collection Dynamique</p>
   <div class="ligne-decoration"></div>
   
@@ -903,7 +743,7 @@ body {
 
 <!-- Footer -->
 <footer class="footer-luxe">
-  <div class="texte-footer">VIRIXI API Collection</div>
+  <div class="texte-footer">Cristion API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
 </footer>
 
@@ -926,21 +766,6 @@ const CONFIG = {
 
 let toutesAPIs = [];
 let categories = [];
-
-/* ================= كود الـ JavaScript المطور للتحكم في فتح وإغلاق القائمة الجانبية في الخواء ================= */
-function openSidebar() {
-  document.getElementById("customSidebar").style.width = "280px";
-  const overlay = document.getElementById("sidebarOverlay");
-  overlay.style.display = "block";
-  setTimeout(() => { overlay.style.opacity = "1"; }, 10);
-}
-
-function closeSidebar() {
-  document.getElementById("customSidebar").style.width = "0";
-  const overlay = document.getElementById("sidebarOverlay");
-  overlay.style.opacity = "0";
-  setTimeout(() => { overlay.style.display = "none"; }, 300);
-}
 
 function creerParticules() {
   const container = document.getElementById('particles');
@@ -1088,7 +913,7 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-function abrirAPI(url) {
+function ouvrirAPI(url) {
   if (url === "#" || !url) {
     alert("URL non disponible");
     return;
@@ -1158,4 +983,3 @@ initialiser();
 
 </body>
 </html>
-
