@@ -277,11 +277,11 @@ body {
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.95);
+  background: rgba(10,10,10,0.85);
   backdrop-filter: blur(20px);
   padding: 20px;
   z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -289,84 +289,85 @@ body {
 }
 
 .btn-categorie {
-  padding: 12px 25px;
-  border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 22px;
+  border: 1px solid rgba(255,255,255,0.1);
   background: transparent;
   color: var(--argent);
-  border-radius: 30px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  font-weight: 600;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .btn-categorie:hover,
 .btn-categorie.active {
-  background: var(--gradient-principal);
-  border-color: transparent;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(185,103,255,0.3);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  transform: translateY(-1px);
 }
 
-/* ================= استايل شريط البحث المطور المدمج الجديد ================= */
-.search-container-box {
-  max-width: 600px;
-  margin: 35px auto 15px;
-  position: relative;
-  padding: 0 20px;
-}
-
-.search-input-wrapper {
-  position: relative;
+/* ================= شريط البحث الفخم بأسلوب Vercel المطور ================= */
+.vercel-search-wrapper {
   width: 100%;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 20px;
+  position: sticky;
+  top: 81px; /* يستقر مباشرة أسفل شريط الأقسام */
+  z-index: 99;
 }
 
-.search-input-wrapper i {
+.vercel-search-box {
+  max-width: 1360px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vercel-search-box i {
   position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 15px;
   color: #666;
-  font-size: 1.1rem;
-  transition: color 0.3s;
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color 0.2s;
 }
 
 .api-search-field {
   width: 100%;
-  padding: 16px 20px 16px 55px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 30px;
-  color: white;
+  padding: 12px 16px 12px 45px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
 .api-search-field:focus {
-  border-color: transparent;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
   outline: none;
-  box-shadow: 0 0 25px rgba(185,103,255,0.25), inset 0 2px 4px rgba(0,0,0,0.3);
-  background-image: linear-gradient(var(--noir-elegant), var(--noir-elegant)), var(--gradient-principal);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
 }
 
 .api-search-field:focus + i {
-  color: var(--or-rose);
-  text-shadow: 0 0 10px var(--or-rose);
+  color: #ffffff;
 }
 
 /* Contenu */
 .conteneur-principal {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 20px 40px;
+  padding: 40px 20px;
   position: relative;
   z-index: 1;
   min-height: 400px;
@@ -700,6 +701,8 @@ body {
   .logo-principal { font-size: 2.5rem; }
   .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.8rem; }
+  .nav-categories { top: 0; }
+  .vercel-search-wrapper { top: 130px; padding: 10px; } /* تعديل طفيف للموبايل */
   
   .barre-stats {
     flex-direction: column;
@@ -871,19 +874,24 @@ body {
 
 <body>
 
+<!-- Loader -->
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
+<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
+<!-- Sidebar Overlay -->
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
+<!-- Menu Trigger -->
 <button class="menu-btn" onclick="openSidebar()">
   <i class="fas fa-bars"></i> Menu
 </button>
 
+<!-- Sidebar Content -->
 <div id="customSidebar" class="sidebar">
   <button class="close-btn" onclick="closeSidebar()">&times;</button>
   <div class="sidebar-header">
@@ -908,6 +916,7 @@ body {
   </ul>
 </div>
 
+<!-- Header -->
 <header class="hero-header">
   <h1 class="logo-principal">VIRIXI API</h1>
   <p class="sous-titre">Collection Dynamique</p>
@@ -933,17 +942,20 @@ body {
   <div class="ligne-horizontale-stats"></div>
 </header>
 
+<!-- Navigation -->
 <nav class="nav-categories" id="navCategories">
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<div class="search-container-box">
-  <div class="search-input-wrapper">
-    <input type="text" id="apiSearchInput" onkeyup="filterApisByName()" placeholder="Rechercher une API (ex: social, ai, tool)...">
+<!-- ================= شريط البحث الفخم بأسلوب وخلفية Vercel الضبابية التامة ================= -->
+<div class="vercel-search-wrapper">
+  <div class="vercel-search-box">
+    <input type="text" id="apiSearchInput" class="api-search-field" onkeyup="filterApisByName()" placeholder="Search APIs...">
     <i class="fas fa-search"></i>
   </div>
 </div>
 
+<!-- Contenu -->
 <main class="conteneur-principal" id="mainContainer">
   <div class="message-vide" id="messageVide">
     <i class="fas fa-spinner fa-spin"></i>
@@ -951,6 +963,7 @@ body {
   </div>
 </main>
 
+<!-- Footer -->
 <footer class="footer-luxe">
   <div class="texte-footer">VIRIXI API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
@@ -1047,7 +1060,6 @@ function creerNavigation(categoriesList) {
 }
 
 function filtrerCategorie(categorie, btnElement) {
-  // تصفير شريط البحث عند التبديل بين الأقسام للحفاظ على سلاسة الفلترة
   document.getElementById('apiSearchInput').value = "";
   
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
@@ -1058,8 +1070,6 @@ function filtrerCategorie(categorie, btnElement) {
       section.style.display = 'block';
       section.style.animation = 'none';
       setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
-      
-      // إظهار كافة كروت هذا القسم المختار
       section.querySelectorAll('.carte-api').forEach(c => c.style.display = "flex");
     } else {
       section.style.display = 'none';
@@ -1067,14 +1077,12 @@ function filtrerCategorie(categorie, btnElement) {
   });
 }
 
-/* ================= دالة الفلترة والبحث الفوري المضافة والمطورة ================= */
 function filterApisByName() {
   const input = document.getElementById('apiSearchInput').value.toLowerCase();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
   
   document.querySelectorAll('.section-categorie').forEach(section => {
-    // التحقق أولاً إذا كان القسم هو المختار حالياً أو إذا كنا في وضع "Tous"
     if (activeCategory === 'all' || section.dataset.category === activeCategory) {
       const cards = section.querySelectorAll('.carte-api');
       let visibleCardsCount = 0;
@@ -1091,7 +1099,6 @@ function filterApisByName() {
         }
       });
 
-      // إخفاء عنوان القسم كلياً إذا كانت كل الكروت بداخله مخفية أثناء البحث
       if (visibleCardsCount > 0) {
         section.style.display = "block";
       } else {
@@ -1137,6 +1144,7 @@ function creerCarteAPI(api) {
         <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)">
           <i class="fas fa-copy"></i> Copier
         </button>
+        <!-- استدعاء دالة الفتح المصلحة والمعدلة مباشرة -->
         <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')">
           <i class="fas fa-external-link-alt"></i> Ouvrir
         </button>
@@ -1177,12 +1185,21 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
+/* ================= دالة فتح الـ API بعد إصلاحها وثباتها التام ================= */
 function ouvrirAPI(url) {
-  if (url === "#" || !url) {
-    alert("URL non disponible");
+  if (!url || url === "#" || url.trim() === "") {
+    alert("Désolé, l'URL de cette API n'est pas configurée correctement.");
     return;
   }
-  window.open(url, '_blank');
+  
+  // التأكد من فتح الرابط بشكل سليم وآمن في نافذة خارجية جديدة
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.focus();
+  } else {
+    // في حال قام المتصفح بحظر النوافذ المنبثقة
+    window.location.href = url;
+  }
 }
 
 function afficherErreur(message) {
