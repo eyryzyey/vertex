@@ -688,21 +688,159 @@ body {
   background: var(--gradient-principal);
   border-radius: 5px;
 }
+
+/* ================= أسلوب الـ CSS المخصص للقائمة الجانبية المضافة ================= */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 12px 20px;
+  background: rgba(18,18,18,0.8);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 1001;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.menu-btn:hover {
+  border-color: var(--or-rose);
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(255,107,157,0.2);
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  background-color: #0d0d0d;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  overflow-x: hidden;
+  transition: 0.4s cubic-bezier(0.05, 0.74, 0.2, 1);
+  padding-top: 80px;
+  box-shadow: 10px 0 40px rgba(0,0,0,0.8);
+}
+
+.sidebar-header {
+  padding: 15px 25px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+}
+
+.sidebar-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 25px 15px;
+  margin: 0;
+}
+
+.sidebar-links li {
+  margin-bottom: 15px;
+}
+
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--argent);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+  text-align: left;
+}
+
+.sidebar-links a:hover {
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  border-color: rgba(255,107,157,0.1);
+  transform: translateX(5px);
+}
+
+.sidebar-links a i {
+  font-size: 1.2rem;
+}
+.fa-whatsapp { color: #25D366; }
+.fa-instagram { color: #E1306C; }
+.fa-bullhorn { color: #1BD741; }
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: var(--or-rose);
+}
 </style>
 </head>
 
 <body>
 
-<!-- Loader -->
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
-<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<!-- Header -->
+<button class="menu-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i> Menu
+</button>
+
+<div id="customSidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+  <div class="sidebar-header">
+    <h3>VERCEL CONNECT</h3>
+  </div>
+  <ul class="sidebar-links">
+    <li>
+      <a href="https://wa.me/212000000000" target="_blank">
+        <i class="fab fa-whatsapp"></i> Mon WhatsApp
+      </a>
+    </li>
+    <li>
+      <a href="https://instagram.com/eyryzyey" target="_blank">
+        <i class="fab fa-instagram"></i> Mon Instagram
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_blank">
+        <i class="fas fa-bullhorn"></i> Canal WhatsApp
+      </a>
+    </li>
+  </ul>
+</div>
+
 <header class="hero-header">
   <h1 class="logo-principal">Cristion API</h1>
   <p class="sous-titre">Collection Dynamique</p>
@@ -728,12 +866,10 @@ body {
   <div class="ligne-horizontale-stats"></div>
 </header>
 
-<!-- Navigation -->
 <nav class="nav-categories" id="navCategories">
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<!-- Contenu -->
 <main class="conteneur-principal" id="mainContainer">
   <div class="message-vide" id="messageVide">
     <i class="fas fa-spinner fa-spin"></i>
@@ -741,7 +877,6 @@ body {
   </div>
 </main>
 
-<!-- Footer -->
 <footer class="footer-luxe">
   <div class="texte-footer">Cristion API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
@@ -766,6 +901,16 @@ const CONFIG = {
 
 let toutesAPIs = [];
 let categories = [];
+
+/* ================= كود الـ JavaScript لتشغيل القائمة الجانبية ================= */
+function toggleSidebar() {
+  var sidebar = document.getElementById("customSidebar");
+  if (sidebar.style.width === "280px") {
+    sidebar.style.width = "0";
+  } else {
+    sidebar.style.width = "280px";
+  }
+}
 
 function creerParticules() {
   const container = document.getElementById('particles');
@@ -983,3 +1128,4 @@ initialiser();
 
 </body>
 </html>
+
