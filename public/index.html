@@ -251,11 +251,20 @@ body {
   box-shadow: 0 0 15px var(--or-rose);
 }
 
-/* Navigation Categories (تم تعديل الاستايل الدائري الفخم هنا) */
+.ligne-horizontale-stats {
+  width: 100%;
+  max-width: 600px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,107,157,0.3), rgba(185,103,255,0.3), rgba(0,212,255,0.3), transparent);
+  margin: 30px auto 0;
+  position: relative;
+}
+
+/* Navigation Categories */
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.85);
+  background: rgba(10,10,10,0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 20px;
@@ -267,15 +276,16 @@ body {
   flex-wrap: wrap;
 }
 
+/* ================= تم التعديل هنا: أزرار دائرية فخمة متناسقة تماماً ================= */
 .btn-categorie {
   padding: 12px 25px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
   background: transparent;
   color: var(--argent);
-  border-radius: 30px; /* جعل الأزرار دائرية تماماً مثل الكود الثاني */
+  border-radius: 30px; /* جعل الحواف دائرية بالكامل */
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -290,13 +300,13 @@ body {
   box-shadow: 0 10px 30px rgba(185,103,255,0.3);
 }
 
-/* شريط البحث المدمج */
+/* ================= شريط بحث مدمج ومتناسق ================= */
 .vercel-search-wrapper {
   width: 100%;
   background: transparent;
-  padding: 15px 20px;
+  padding: 10px 20px;
   position: sticky;
-  top: 79px;
+  top: 75px; /* تم تكييف الإرتفاع ليتناسق مع حجم الأزرار الجديد */
   z-index: 99;
 }
 
@@ -310,22 +320,22 @@ body {
 
 .vercel-search-box i {
   position: absolute;
-  left: 18px;
+  left: 15px;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   pointer-events: none;
   transition: color 0.2s;
 }
 
 .api-search-field {
   width: 100%;
-  padding: 12px 18px 12px 45px;
+  padding: 10px 16px 10px 40px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
+  border-radius: 8px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
 }
 
@@ -333,7 +343,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.2);
   outline: none;
-  box-shadow: 0 0 15px rgba(0, 214, 255, 0.15);
+  box-shadow: 0 0 10px rgba(0, 214, 255, 0.1);
 }
 
 .api-search-field:focus + i {
@@ -655,7 +665,7 @@ body {
   .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.6rem; }
   .nav-categories { top: 0; padding: 10px; }
-  .vercel-search-wrapper { top: 115px; padding: 6px 15px; }
+  .vercel-search-wrapper { top: 115px; padding: 6px 15px; } /* تعديل تكييف شريط البحث في الموبايل */
   .vercel-search-box { max-width: 100%; }
   
   .barre-stats {
@@ -1109,18 +1119,5 @@ async function chargerAPIs() {
     setTimeout(() => document.getElementById('loader').style.display = 'none', 400);
   } catch (error) {
     console.error(error);
-    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>`;
-    document.getElementById('loader').style.display = 'none';
-  }
-}
+    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>
 
-function initialiser() {
-  creerParticules();
-  chargerAPIs();
-}
-
-initialiser();
-</script>
-
-</body>
-</html>
