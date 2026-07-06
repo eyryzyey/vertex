@@ -276,7 +276,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* ================= التعديل: العودة للشكل الأصلي الفخم للأقسام عند الضغط ================= */
 .btn-categorie {
   padding: 8px 18px;
   border: 1px solid rgba(255,255,255,0.08);
@@ -293,17 +292,16 @@ body {
 
 .btn-categorie:hover,
 .btn-categorie.active {
-  background: var(--gradient-principal); /* التدرج الملون الفخم الأصلي للموقع */
+  background: var(--gradient-principal);
   border-color: transparent;
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(185,103,255,0.3);
 }
 
-/* ================= التعديل: شريط بحث قصير ومدمج تماماً مع خلفية الموقع الأصلي ================= */
 .vercel-search-wrapper {
   width: 100%;
-  background: transparent; /* متناسق وشفاف تماماً مع خلفية الموقع */
+  background: transparent;
   padding: 10px 20px;
   position: sticky;
   top: 59px;
@@ -311,7 +309,7 @@ body {
 }
 
 .vercel-search-box {
-  max-width: 600px; /* تقصير شريط البحث ليصبح رصيناً في المنتصف */
+  max-width: 600px;
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -330,7 +328,7 @@ body {
 .api-search-field {
   width: 100%;
   padding: 10px 16px 10px 40px;
-  background: rgba(255, 255, 255, 0.03); /* مدمج بانسيابية */
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   color: #ffffff;
@@ -971,33 +969,57 @@ function filtrerCategorie(categorie, btnElement) {
   renderInterface(toutesAPIs);
 }
 
+// دالة البحث الذكي المطورة بالكامل الفورية عند كتابة حرفين أو ثلاثة
 function filterApisSmart() {
   const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
+  const container = document.getElementById('mainContainer');
+
+  // إذا كانت خانة البحث تحتوي على أقل من حرفين، يتم عرض واجهة الأقسام العادية تلقائياً
+  if (input.length < 2) {
+    renderInterface(toutesAPIs);
+    return;
+  }
+
+  // تحويل النص المدخل إلى نمط بحث مرن (Fuzzy Logic Regex) لتطابق الحروف المتتالية حتى لو لم تكن كاملة الكلمة
+  const queryWords = input.split(/\s+/);
+  const regexPattern = queryWords.map(word => {
+    return word.split('').map(char => escapeRegExp(char)).join('.*');
+  }).join('|');
   
+  const searchRegex = new RegExp(regexPattern, 'i');
+
   const apisFiltrees = toutesAPIs.filter(api => {
     const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
-    const matchSearch = api.name.toLowerCase().includes(input) || api.info.toLowerCase().includes(input);
+    
+    // الفحص والبحث داخل الاسم، الوصف، أو القسم الخاص بالأيبي
+    const matchSearch = searchRegex.test(api.name) || 
+                        searchRegex.test(api.info) || 
+                        searchRegex.test(api.category);
+                        
     return matchCategory && matchSearch;
   });
 
-  const container = document.getElementById('mainContainer');
-
-  if (input.length > 0) {
-    container.innerHTML = '';
-    if (apisFiltrees.length === 0) {
-      container.innerHTML = `<div class="message-vide"><i class="fas fa-search-minus"></i><p>Aucun résultat pour "${document.getElementById('apiSearchInput').value}"</p></div>`;
-      return;
-    }
-    
-    const singleGrille = document.createElement('div');
-    singleGrille.className = 'grille-cartes';
-    apisFiltrees.forEach(api => singleGrille.appendChild(creerCarteAPI(api)));
-    container.appendChild(singleGrille);
-  } else {
-    renderInterface(toutesAPIs);
+  container.innerHTML = '';
+  if (apisFiltrees.length === 0) {
+    container.innerHTML = `
+      <div class="message-vide">
+        <i class="fas fa-search-minus" style="color: var(--or-rose);"></i>
+        <p>Aucun résultat intelligent trouvé pour "${document.getElementById('apiSearchInput').value}"</p>
+      </div>`;
+    return;
   }
+  
+  const singleGrille = document.createElement('div');
+  singleGrille.className = 'grille-cartes';
+  apisFiltrees.forEach(api => singleGrille.appendChild(creerCarteAPI(api)));
+  container.appendChild(singleGrille);
+}
+
+// دالة مساعدة لتأمين الرموز الخاصة المدخلة لمنع أخطاء الـ RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function creerCarteAPI(api) {
