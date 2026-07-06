@@ -190,7 +190,7 @@ body {
 .ligne-decoration::before { left: -20px; }
 .ligne-decoration::after { right: -20px; }
 
-/* BARRE DE STATISTIQUES HORIZONTALE */
+/* Barre de Statistiques */
 .barre-stats {
   display: flex;
   justify-content: center;
@@ -260,43 +260,31 @@ body {
   position: relative;
 }
 
-.ligne-horizontale-stats::before,
-.ligne-horizontale-stats::after {
-  content: '▸';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--or-rose);
-  font-size: 10px;
-}
-
-.ligne-horizontale-stats::before { left: 20%; }
-.ligne-horizontale-stats::after { right: 20%; color: var(--bleu-cyan); }
-
 /* Navigation Categories */
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.85);
+  background: rgba(10,10,10,0.8);
   backdrop-filter: blur(20px);
-  padding: 20px;
+  -webkit-backdrop-filter: blur(20px);
+  padding: 15px 20px 10px 20px;
   z-index: 100;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .btn-categorie {
-  padding: 10px 22px;
-  border: 1px solid rgba(255,255,255,0.1);
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
   color: var(--argent);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -310,17 +298,17 @@ body {
   transform: translateY(-1px);
 }
 
-/* ================= شريط البحث الفخم بأسلوب Vercel المطور ================= */
+/* ================= شريط البحث المدمج بخلفية الموقع وتقليل المسافة ================= */
 .vercel-search-wrapper {
   width: 100%;
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 16px 20px;
+  background: transparent; /* خلفية شفافة تندمج تماماً مع الموقع */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 8px 20px; /* تقليل المسافة العمودية بالكامل */
   position: sticky;
-  top: 81px; /* يستقر مباشرة أسفل شريط الأقسام */
+  top: 59px; /* يستقر مباشرة أسفل الـ Categories بدون فراغات كبيرة */
   z-index: 99;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .vercel-search-box {
@@ -334,40 +322,39 @@ body {
 .vercel-search-box i {
   position: absolute;
   left: 15px;
-  color: #666;
-  font-size: 0.95rem;
+  color: #555;
+  font-size: 0.85rem;
   pointer-events: none;
   transition: color 0.2s;
 }
 
 .api-search-field {
   width: 100%;
-  padding: 12px 16px 12px 45px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 16px 10px 40px; /* جعل حقل الإدخال رشيقة وأقل سمكاً */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
 }
 
 .api-search-field:focus {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.15);
   outline: none;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
 }
 
 .api-search-field:focus + i {
-  color: #ffffff;
+  color: var(--bleu-cyan);
 }
 
 /* Contenu */
 .conteneur-principal {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 30px 20px;
   position: relative;
   z-index: 1;
   min-height: 400px;
@@ -375,22 +362,22 @@ body {
 
 .message-vide {
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px;
   color: #666;
 }
 
 .message-vide i {
-  font-size: 4rem;
-  margin-bottom: 20px;
+  font-size: 3rem;
+  margin-bottom: 15px;
   color: var(--violet-neon);
 }
 
 /* Sections */
 .section-categorie {
-  margin-bottom: 60px;
+  margin-bottom: 45px;
   opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 0.6s forwards;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
 }
 
 @keyframes fadeInUp {
@@ -402,14 +389,14 @@ body {
 
 .titre-categorie {
   font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  margin-bottom: 30px;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
   display: flex;
   align-items: center;
   gap: 15px;
   color: white;
   position: relative;
-  padding-bottom: 15px;
+  padding-bottom: 12px;
 }
 
 .titre-categorie::after {
@@ -417,31 +404,31 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100px;
-  height: 3px;
+  width: 80px;
+  height: 2px;
   background: var(--gradient-principal);
   border-radius: 2px;
 }
 
 .icone-categorie {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   background: var(--gradient-principal);
-  border-radius: 15px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  box-shadow: 0 10px 30px rgba(255,107,157,0.3);
+  font-size: 1.3rem;
+  box-shadow: 0 8px 25px rgba(255,107,157,0.25);
 }
 
 .compteur-api {
   margin-left: auto;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #666;
   font-family: 'Inter';
-  background: rgba(255,255,255,0.05);
-  padding: 8px 20px;
+  background: rgba(255,255,255,0.04);
+  padding: 6px 16px;
   border-radius: 20px;
 }
 
@@ -449,22 +436,22 @@ body {
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  gap: 25px;
 }
 
 /* Carte API */
 .carte-api {
-  background: linear-gradient(145deg, #161616, #1a1a1a);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: linear-gradient(145deg, #141414, #181818);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
   aspect-ratio: 1 / 1;
-  max-height: 400px;
+  max-height: 380px;
 }
 
 .carte-api::before {
@@ -473,16 +460,16 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: var(--gradient-principal);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .carte-api:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: rgba(255,107,157,0.3);
-  box-shadow: 0 30px 60px rgba(185,103,255,0.2);
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(255,107,157,0.25);
+  box-shadow: 0 25px 50px rgba(185,103,255,0.15);
 }
 
 .carte-api:hover::before {
@@ -490,23 +477,22 @@ body {
 }
 
 .en-tete-carte {
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.08) 0%, rgba(185,103,255,0.04) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .logo-api {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
   object-fit: cover;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
               var(--gradient-principal) border-box;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .info-en-tete {
@@ -514,9 +500,9 @@ body {
 }
 
 .nom-api {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -525,45 +511,38 @@ body {
 .badge-statut {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: rgba(0,212,255,0.15);
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(0,212,255,0.12);
   color: var(--bleu-cyan);
   border-radius: 20px;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid rgba(0,212,255,0.3);
+  border: 1px solid rgba(0,212,255,0.2);
 }
 
 .badge-statut.actif::before {
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background: #00ff88;
   border-radius: 50%;
-  box-shadow: 0 0 10px #00ff88;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  box-shadow: 0 0 8px #00ff88;
 }
 
 .corps-carte {
-  padding: 20px;
+  padding: 18px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .description-api {
-  color: #a0a0a0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  color: #999;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -574,55 +553,54 @@ body {
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
 .metrique {
-  background: rgba(255,255,255,0.03);
-  padding: 15px 8px;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  padding: 12px 6px;
+  border-radius: 10px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 .valeur-metrique {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.7rem;
-  color: #666;
+  font-size: 0.65rem;
+  color: #555;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* Actions */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
   margin-top: auto;
 }
 
 .btn-copier-api {
-  padding: 14px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
-  border: 1px solid rgba(255,107,157,0.3);
-  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(185,103,255,0.15));
+  border: 1px solid rgba(255,107,157,0.2);
+  border-radius: 10px;
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 0.85rem;
 }
 
 .btn-copier-api:hover {
@@ -637,91 +615,72 @@ body {
 }
 
 .btn-ouvrir-api {
-  padding: 14px;
+  padding: 12px;
   background: transparent;
-  border: 1px solid rgba(0,212,255,0.3);
-  border-radius: 12px;
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 10px;
   color: var(--bleu-cyan);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 0.85rem;
 }
 
 .btn-ouvrir-api:hover {
-  background: rgba(0,212,255,0.1);
+  background: rgba(0,212,255,0.08);
   border-color: var(--bleu-cyan);
   transform: translateY(-2px);
-}
-
-/* Erreur */
-.message-erreur {
-  text-align: center;
-  padding: 60px 20px;
-  background: rgba(255,0,0,0.1);
-  border-radius: 20px;
-  border: 1px solid rgba(255,0,0,0.3);
-}
-
-.message-erreur i {
-  font-size: 3rem;
-  color: #ff4444;
-  margin-bottom: 20px;
 }
 
 /* Footer */
 .footer-luxe {
   text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(to top, #0a0a0a, #161616);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin-top: 80px;
+  padding: 45px 20px;
+  background: linear-gradient(to top, #0a0a0a, #141414);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 60px;
 }
 
 .texte-footer {
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   background: var(--gradient-principal);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .copyright {
-  color: #666;
-  font-size: 0.9rem;
+  color: #555;
+  font-size: 0.85rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .logo-principal { font-size: 2.5rem; }
+  .logo-principal { font-size: 2.3rem; }
   .grille-cartes { grid-template-columns: 1fr; }
-  .titre-categorie { font-size: 1.8rem; }
-  .nav-categories { top: 0; }
-  .vercel-search-wrapper { top: 130px; padding: 10px; } /* تعديل طفيف للموبايل */
+  .titre-categorie { font-size: 1.6rem; }
+  .nav-categories { top: 0; padding: 10px; }
+  .vercel-search-wrapper { top: 95px; padding: 6px 15px; }
   
   .barre-stats {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
   
   .separateur-stat {
-    width: 60px;
+    width: 50px;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255,107,157,0.5), transparent);
+    background: linear-gradient(to right, transparent, rgba(255,107,157,0.4), transparent);
   }
   
   .stat-item {
-    padding: 15px 30px;
+    padding: 10px 20px;
     min-width: auto;
-  }
-  
-  .stat-valeur {
-    font-size: 2rem;
   }
   
   .carte-api {
@@ -731,7 +690,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -740,35 +699,28 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--gradient-principal);
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 /* Sidebar & Overlay */
 .menu-btn {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  padding: 12px 20px;
-  background: rgba(18,18,18,0.8);
+  top: 15px;
+  left: 15px;
+  padding: 10px 16px;
+  background: rgba(18,18,18,0.7);
   backdrop-filter: blur(10px);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 30px;
   cursor: pointer;
   z-index: 1001;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.menu-btn:hover {
-  border-color: var(--or-rose);
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(255,107,157,0.2);
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .sidebar {
@@ -778,12 +730,11 @@ body {
   z-index: 2000;
   top: 0;
   left: 0;
-  background-color: #0d0d0d;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  background-color: #0b0b0b;
+  border-right: 1px solid rgba(255,255,255,0.04);
   overflow-x: hidden;
-  transition: 0.4s cubic-bezier(0.05, 0.74, 0.2, 1);
-  padding-top: 80px;
-  box-shadow: 10px 0 40px rgba(0,0,0,0.8);
+  transition: 0.35s cubic-bezier(0.05, 0.74, 0.2, 1);
+  padding-top: 70px;
 }
 
 .sidebar-overlay {
@@ -792,82 +743,59 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
   z-index: 1999;
   display: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sidebar-header {
-  padding: 15px 25px;
-  color: #fff;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  text-align: center;
+  transition: opacity 0.25s ease;
 }
 
 .sidebar-header h3 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   background: var(--gradient-principal);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  text-align: center;
 }
 
 .sidebar-links {
   list-style: none;
-  padding: 25px 15px;
-  margin: 0;
+  padding: 20px 12px;
 }
 
 .sidebar-links li {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .sidebar-links a {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   color: var(--argent);
   text-decoration: none;
-  font-size: 0.95rem;
-  padding: 12px 20px;
-  border-radius: 12px;
-  transition: all 0.3s;
-  border: 1px solid transparent;
-  text-align: left;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: all 0.25s;
 }
 
 .sidebar-links a:hover {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.02);
   color: #fff;
-  border-color: rgba(255,107,157,0.1);
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
-
-.sidebar-links a i {
-  font-size: 1.2rem;
-}
-.fa-whatsapp { color: #25D366; }
-.fa-instagram { color: #E1306C; }
-.fa-bullhorn { color: #1BD741; }
 
 .close-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 28px;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
   background: none;
   border: none;
-  color: #555;
+  color: #444;
   cursor: pointer;
-  transition: color 0.3s;
-}
-
-.close-btn:hover {
-  color: var(--or-rose);
 }
 </style>
 </head>
@@ -898,21 +826,9 @@ body {
     <h3>VIRIXI</h3>
   </div>
   <ul class="sidebar-links">
-    <li>
-      <a href="https://wa.me/212621482778" target="_blank">
-        <i class="fab fa-whatsapp"></i> Mon WhatsApp
-      </a>
-    </li>
-    <li>
-      <a href="https://www.instagram.com/lu_x_smos?igsh=MWgyZG9keXNnaW44Mw==" target="_blank">
-        <i class="fab fa-instagram"></i> Mon Instagram
-      </a>
-    </li>
-    <li>
-      <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank">
-        <i class="fas fa-bullhorn"></i> Canal WhatsApp
-      </a>
-    </li>
+    <li><a href="https://wa.me/212621482778" target="_blank"><i class="fab fa-whatsapp" style="color:#25D366;"></i> Mon WhatsApp</a></li>
+    <li><a href="https://www.instagram.com/lu_x_smos?igsh=MWgyZG9keXNnaW44Mw==" target="_blank"><i class="fab fa-instagram" style="color:#E1306C;"></i> Mon Instagram</a></li>
+    <li><a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank"><i class="fas fa-bullhorn" style="color:#1BD741;"></i> Canal WhatsApp</a></li>
   </ul>
 </div>
 
@@ -938,8 +854,6 @@ body {
       <span class="stat-label">Système Actif</span>
     </div>
   </div>
-  
-  <div class="ligne-horizontale-stats"></div>
 </header>
 
 <!-- Navigation -->
@@ -947,10 +861,10 @@ body {
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<!-- ================= شريط البحث الفخم بأسلوب وخلفية Vercel الضبابية التامة ================= -->
+<!-- ================= شريط البحث المطور المدمج مع الخلفية والمنخفض المسافة ================= -->
 <div class="vercel-search-wrapper">
   <div class="vercel-search-box">
-    <input type="text" id="apiSearchInput" class="api-search-field" onkeyup="filterApisByName()" placeholder="Search APIs...">
+    <input type="text" id="apiSearchInput" class="api-search-field" oninput="filterApisSmart()" placeholder="Search APIs...">
     <i class="fas fa-search"></i>
   </div>
 </div>
@@ -1005,7 +919,7 @@ function closeSidebar() {
 
 function creerParticules() {
   const container = document.getElementById('particles');
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 40; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
@@ -1048,7 +962,7 @@ function grouperParCategorie(apis) {
 
 function creerNavigation(categoriesList) {
   const nav = document.getElementById('navCategories');
-  nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
+  nav.innerHTML = '<button class="btn-categorie active" data-cat="all" onclick="filtrerCategorie(\'all\', this)">Tous</button>';
   categoriesList.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'btn-categorie';
@@ -1061,57 +975,47 @@ function creerNavigation(categoriesList) {
 
 function filtrerCategorie(categorie, btnElement) {
   document.getElementById('apiSearchInput').value = "";
-  
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
-  
-  document.querySelectorAll('.section-categorie').forEach(section => {
-    if (categorie === 'all' || section.dataset.category === categorie) {
-      section.style.display = 'block';
-      section.style.animation = 'none';
-      setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
-      section.querySelectorAll('.carte-api').forEach(c => c.style.display = "flex");
-    } else {
-      section.style.display = 'none';
-    }
-  });
+  renderInterface(toutesAPIs);
 }
 
-function filterApisByName() {
-  const input = document.getElementById('apiSearchInput').value.toLowerCase();
+/* ================= نظام البحث الذكي والفوري القائم على تتبع الأحرف والمدخلات ================= */
+function filterApisSmart() {
+  const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
   
-  document.querySelectorAll('.section-categorie').forEach(section => {
-    if (activeCategory === 'all' || section.dataset.category === activeCategory) {
-      const cards = section.querySelectorAll('.carte-api');
-      let visibleCardsCount = 0;
-
-      cards.forEach(card => {
-        const apiName = card.querySelector('.nom-api').textContent.toLowerCase();
-        const apiDesc = card.querySelector('.description-api').textContent.toLowerCase();
-
-        if (apiName.includes(input) || apiDesc.includes(input)) {
-          card.style.display = "flex";
-          visibleCardsCount++;
-        } else {
-          card.style.display = "none";
-        }
-      });
-
-      if (visibleCardsCount > 0) {
-        section.style.display = "block";
-      } else {
-        section.style.display = "none";
-      }
-    }
+  // تصفية المصفوفة بناءً على الحروف والـ Category النشطة
+  const apisFiltrees = toutesAPIs.filter(api => {
+    const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
+    const matchSearch = api.name.toLowerCase().includes(input) || api.info.toLowerCase().includes(input);
+    return matchCategory && matchSearch;
   });
+
+  const container = document.getElementById('mainContainer');
+
+  if (input.length > 0) {
+    // إذا بدأ المستخدم في الكتابة (حرف، حرفين أو أكثر): يتم إلغاء تقسيم المجموعات وتُعرض البطاقات المطابقة فوراً
+    container.innerHTML = '';
+    if (apisFiltrees.length === 0) {
+      container.innerHTML = `<div class="message-vide"><i class="fas fa-search-minus"></i><p>Aucun résultat pour "${document.getElementById('apiSearchInput').value}"</p></div>`;
+      return;
+    }
+    
+    const singleGrille = document.createElement('div');
+    singleGrille.className = 'grille-cartes';
+    apisFiltrees.forEach(api => singleGrille.appendChild(creerCarteAPI(api)));
+    container.appendChild(singleGrille);
+  } else {
+    // إذا كان حقل البحث فارغاً، نعيد بناء الواجهة المقسمة تلقائياً
+    renderInterface(toutesAPIs);
+  }
 }
 
 function creerCarteAPI(api) {
   const carte = document.createElement('div');
   carte.className = 'carte-api';
-  carte.style.animationDelay = Math.random() * 0.5 + 's';
   
   carte.innerHTML = `
     <div class="en-tete-carte">
@@ -1119,35 +1023,19 @@ function creerCarteAPI(api) {
            onerror="this.src='https://via.placeholder.com/60/161616/ff6b9d?text=${api.name.charAt(0)}'">
       <div class="info-en-tete">
         <h3 class="nom-api">${api.name}</h3>
-        <span class="badge-statut actif">
-          <i class="fas fa-circle"></i> Opérationnel
-        </span>
+        <span class="badge-statut actif"><i class="fas fa-circle"></i> Opérationnel</span>
       </div>
     </div>
     <div class="corps-carte">
       <p class="description-api">${api.info}</p>
       <div class="metriques">
-        <div class="metrique">
-          <span class="valeur-metrique">${api.latency}</span>
-          <span class="label-metrique">Latence</span>
-        </div>
-        <div class="metrique">
-          <span class="valeur-metrique">${api.uptime}</span>
-          <span class="label-metrique">Disponibilité</span>
-        </div>
-        <div class="metrique">
-          <span class="valeur-metrique">${api.requests}</span>
-          <span class="label-metrique">Requêtes</span>
-        </div>
+        <div class="metrique"><span class="valeur-metrique">${api.latency}</span><span class="label-metrique">Latence</span></div>
+        <div class="metrique"><span class="valeur-metrique">${api.uptime}</span><span class="label-metrique">Uptime</span></div>
+        <div class="metrique"><span class="valeur-metrique">${api.requests}</span><span class="label-metrique">Requêtes</span></div>
       </div>
       <div class="actions-api">
-        <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)">
-          <i class="fas fa-copy"></i> Copier
-        </button>
-        <!-- استدعاء دالة الفتح المصلحة والمعدلة مباشرة -->
-        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')">
-          <i class="fas fa-external-link-alt"></i> Ouvrir
-        </button>
+        <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)"><i class="fas fa-copy"></i> Copier</button>
+        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')"><i class="fas fa-external-link-alt"></i> Ouvrir</button>
       </div>
     </div>
   `;
@@ -1161,13 +1049,11 @@ function creerSectionCategorie(categorie, apis) {
   const icone = getIconeCategorie(categorie);
   section.innerHTML = `
     <h2 class="titre-categorie">
-      <div class="icone-categorie">
-        <i class="fas ${icone}"></i>
-      </div>
+      <div class="icone-categorie"><i class="fas ${icone}"></i></div>
       ${categorie}
       <span class="compteur-api">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
     </h2>
-    <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
+    <div class="grille-cartes"></div>
   `;
   const grille = section.querySelector('.grille-cartes');
   apis.forEach(api => grille.appendChild(creerCarteAPI(api)));
@@ -1185,70 +1071,72 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-/* ================= دالة فتح الـ API بعد إصلاحها وثباتها التام ================= */
+/* ================= دالة Ouvrir المطورة للولوج للـ API بنجاح تام ================= */
 function ouvrirAPI(url) {
   if (!url || url === "#" || url.trim() === "") {
-    alert("Désolé, l'URL de cette API n'est pas configurée correctement.");
+    alert("Désolé, l'URL de cette API n'est pas valide.");
     return;
   }
   
-  // التأكد من فتح الرابط بشكل سليم وآمن في نافذة خارجية جديدة
-  const win = window.open(url, '_blank');
-  if (win) {
-    win.focus();
-  } else {
-    // في حال قام المتصفح بحظر النوافذ المنبثقة
-    window.location.href = url;
+  // تشكيل كائن الرابط والتحقق من صحته لفتحه بسلاسة تامة
+  try {
+    const secureUrl = url.match(/^https?:\/\//i) ? url : `https://${url}`;
+    const win = window.open(secureUrl, '_blank', 'noopener,noreferrer');
+    if (win) {
+      win.focus();
+    } else {
+      window.location.href = secureUrl;
+    }
+  } catch (e) {
+    window.open(url, '_blank');
   }
 }
 
-function afficherErreur(message) {
-  document.getElementById('mainContainer').innerHTML = `
-    <div class="message-erreur">
-      <i class="fas fa-exclamation-triangle"></i>
-      <h3 style="color: #ff4444; margin-bottom: 10px;">Erreur de Connexion</h3>
-      <p>${message}</p>
-      <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 30px; background: var(--gradient-principal); border: none; border-radius: 25px; color: white; cursor: pointer;">
-        <i class="fas fa-refresh"></i> Réessayer
-      </button>
-    </div>
-  `;
+function renderInterface(apisList) {
+  const container = document.getElementById('mainContainer');
+  container.innerHTML = '';
+  
+  const activeBtn = document.querySelector('.btn-categorie.active');
+  const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
+  
+  const filtered = apisList.filter(api => activeCategory === 'all' || api.category === activeCategory);
+  
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="message-vide"><i class="fas fa-inbox"></i><p>Aucune API disponible</p></div>`;
+    return;
+  }
+  
+  const groupe = grouperParCategorie(filtered);
+  Object.keys(groupe).forEach((cat, index) => {
+    const section = creerSectionCategorie(cat, groupe[cat]);
+    section.style.animationDelay = (index * 0.05) + 's';
+    container.appendChild(section);
+  });
 }
 
 async function chargerAPIs() {
   try {
     const response = await fetch(CONFIG.API_URL);
-    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     let apis = Array.isArray(data) ? data : (data.apis || data.data || data.results || data.list || [data]);
+    
     toutesAPIs = apis.map(formaterAPI);
     document.getElementById('totalAPIs').textContent = toutesAPIs.length;
-    const groupe = grouperParCategorie(toutesAPIs);
-    categories = Object.keys(groupe);
+    
+    // استخراج الكاتيجوريز الكلية للناف بار
+    const globalGroupe = grouperParCategorie(toutesAPIs);
+    categories = Object.keys(globalGroupe);
     document.getElementById('totalCategories').textContent = categories.length;
-    const statutEl = document.getElementById('statutSystem');
-    statutEl.innerHTML = '●';
-    statutEl.style.color = '#00ff88';
-    statutEl.style.textShadow = '0 0 20px #00ff88';
+    
     creerNavigation(categories);
-    const container = document.getElementById('mainContainer');
-    container.innerHTML = '';
-    if (toutesAPIs.length === 0) {
-      container.innerHTML = `<div class="message-vide"><i class="fas fa-inbox"></i><p>Aucune API disponible</p></div>`;
-    } else {
-      categories.forEach((cat, index) => {
-        const section = creerSectionCategorie(cat, groupe[cat]);
-        section.style.animationDelay = (index * 0.1) + 's';
-        container.appendChild(section);
-      });
-    }
+    renderInterface(toutesAPIs);
+    
     document.getElementById('loader').style.opacity = '0';
-    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+    setTimeout(() => document.getElementById('loader').style.display = 'none', 400);
   } catch (error) {
-    console.error('Erreur:', error);
-    document.getElementById('statutSystem').innerHTML = '✕';
-    document.getElementById('statutSystem').style.color = '#ff4444';
-    afficherErreur(`Impossible de charger les APIs: ${error.message}`);
+    console.error(error);
+    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>`;
     document.getElementById('loader').style.display = 'none';
   }
 }
@@ -1256,7 +1144,6 @@ async function chargerAPIs() {
 function initialiser() {
   creerParticules();
   chargerAPIs();
-  setInterval(chargerAPIs, 300000);
 }
 
 initialiser();
