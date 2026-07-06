@@ -276,6 +276,7 @@ body {
   flex-wrap: wrap;
 }
 
+/* ================= التعديل: العودة للشكل الأصلي الفخم للأقسام عند الضغط ================= */
 .btn-categorie {
   padding: 8px 18px;
   border: 1px solid rgba(255,255,255,0.08);
@@ -283,7 +284,7 @@ body {
   color: var(--argent);
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -292,27 +293,25 @@ body {
 
 .btn-categorie:hover,
 .btn-categorie.active {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
-  transform: translateY(-1px);
+  background: var(--gradient-principal); /* التدرج الملون الفخم الأصلي للموقع */
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(185,103,255,0.3);
 }
 
-/* ================= شريط البحث المدمج بخلفية الموقع وتقليل المسافة ================= */
+/* ================= التعديل: شريط بحث قصير ومدمج تماماً مع خلفية الموقع الأصلي ================= */
 .vercel-search-wrapper {
   width: 100%;
-  background: transparent; /* خلفية شفافة تندمج تماماً مع الموقع */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 8px 20px; /* تقليل المسافة العمودية بالكامل */
+  background: transparent; /* متناسق وشفاف تماماً مع خلفية الموقع */
+  padding: 10px 20px;
   position: sticky;
-  top: 59px; /* يستقر مباشرة أسفل الـ Categories بدون فراغات كبيرة */
+  top: 59px;
   z-index: 99;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .vercel-search-box {
-  max-width: 1360px;
+  max-width: 600px; /* تقصير شريط البحث ليصبح رصيناً في المنتصف */
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -322,7 +321,7 @@ body {
 .vercel-search-box i {
   position: absolute;
   left: 15px;
-  color: #555;
+  color: #666;
   font-size: 0.85rem;
   pointer-events: none;
   transition: color 0.2s;
@@ -330,10 +329,10 @@ body {
 
 .api-search-field {
   width: 100%;
-  padding: 10px 16px 10px 40px; /* جعل حقل الإدخال رشيقة وأقل سمكاً */
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
+  padding: 10px 16px 10px 40px;
+  background: rgba(255, 255, 255, 0.03); /* مدمج بانسيابية */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
@@ -341,9 +340,10 @@ body {
 }
 
 .api-search-field:focus {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
   outline: none;
+  box-shadow: 0 0 10px rgba(0, 214, 255, 0.1);
 }
 
 .api-search-field:focus + i {
@@ -666,6 +666,7 @@ body {
   .titre-categorie { font-size: 1.6rem; }
   .nav-categories { top: 0; padding: 10px; }
   .vercel-search-wrapper { top: 95px; padding: 6px 15px; }
+  .vercel-search-box { max-width: 100%; }
   
   .barre-stats {
     flex-direction: column;
@@ -802,24 +803,19 @@ body {
 
 <body>
 
-<!-- Loader -->
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
-<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<!-- Sidebar Overlay -->
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<!-- Menu Trigger -->
 <button class="menu-btn" onclick="openSidebar()">
   <i class="fas fa-bars"></i> Menu
 </button>
 
-<!-- Sidebar Content -->
 <div id="customSidebar" class="sidebar">
   <button class="close-btn" onclick="closeSidebar()">&times;</button>
   <div class="sidebar-header">
@@ -832,7 +828,6 @@ body {
   </ul>
 </div>
 
-<!-- Header -->
 <header class="hero-header">
   <h1 class="logo-principal">VIRIXI API</h1>
   <p class="sous-titre">Collection Dynamique</p>
@@ -856,12 +851,10 @@ body {
   </div>
 </header>
 
-<!-- Navigation -->
 <nav class="nav-categories" id="navCategories">
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<!-- ================= شريط البحث المطور المدمج مع الخلفية والمنخفض المسافة ================= -->
 <div class="vercel-search-wrapper">
   <div class="vercel-search-box">
     <input type="text" id="apiSearchInput" class="api-search-field" oninput="filterApisSmart()" placeholder="Search APIs...">
@@ -869,7 +862,6 @@ body {
   </div>
 </div>
 
-<!-- Contenu -->
 <main class="conteneur-principal" id="mainContainer">
   <div class="message-vide" id="messageVide">
     <i class="fas fa-spinner fa-spin"></i>
@@ -877,7 +869,6 @@ body {
   </div>
 </main>
 
-<!-- Footer -->
 <footer class="footer-luxe">
   <div class="texte-footer">VIRIXI API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
@@ -980,13 +971,11 @@ function filtrerCategorie(categorie, btnElement) {
   renderInterface(toutesAPIs);
 }
 
-/* ================= نظام البحث الذكي والفوري القائم على تتبع الأحرف والمدخلات ================= */
 function filterApisSmart() {
   const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
   
-  // تصفية المصفوفة بناءً على الحروف والـ Category النشطة
   const apisFiltrees = toutesAPIs.filter(api => {
     const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
     const matchSearch = api.name.toLowerCase().includes(input) || api.info.toLowerCase().includes(input);
@@ -996,7 +985,6 @@ function filterApisSmart() {
   const container = document.getElementById('mainContainer');
 
   if (input.length > 0) {
-    // إذا بدأ المستخدم في الكتابة (حرف، حرفين أو أكثر): يتم إلغاء تقسيم المجموعات وتُعرض البطاقات المطابقة فوراً
     container.innerHTML = '';
     if (apisFiltrees.length === 0) {
       container.innerHTML = `<div class="message-vide"><i class="fas fa-search-minus"></i><p>Aucun résultat pour "${document.getElementById('apiSearchInput').value}"</p></div>`;
@@ -1008,7 +996,6 @@ function filterApisSmart() {
     apisFiltrees.forEach(api => singleGrille.appendChild(creerCarteAPI(api)));
     container.appendChild(singleGrille);
   } else {
-    // إذا كان حقل البحث فارغاً، نعيد بناء الواجهة المقسمة تلقائياً
     renderInterface(toutesAPIs);
   }
 }
@@ -1071,14 +1058,11 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-/* ================= دالة Ouvrir المطورة للولوج للـ API بنجاح تام ================= */
 function ouvrirAPI(url) {
   if (!url || url === "#" || url.trim() === "") {
     alert("Désolé, l'URL de cette API n'est pas valide.");
     return;
   }
-  
-  // تشكيل كائن الرابط والتحقق من صحته لفتحه بسلاسة تامة
   try {
     const secureUrl = url.match(/^https?:\/\//i) ? url : `https://${url}`;
     const win = window.open(secureUrl, '_blank', 'noopener,noreferrer');
@@ -1124,7 +1108,6 @@ async function chargerAPIs() {
     toutesAPIs = apis.map(formaterAPI);
     document.getElementById('totalAPIs').textContent = toutesAPIs.length;
     
-    // استخراج الكاتيجوريز الكلية للناف بار
     const globalGroupe = grouperParCategorie(toutesAPIs);
     categories = Object.keys(globalGroupe);
     document.getElementById('totalCategories').textContent = categories.length;
