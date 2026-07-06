@@ -267,51 +267,51 @@ body {
   background: rgba(10,10,10,0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 20px;
+  padding: 15px 20px 10px 20px;
   z-index: 100;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-/* ================= تم التعديل هنا: أزرار دائرية فخمة متناسقة تماماً ================= */
+/* ================= التعديل: العودة للشكل الأصلي الفخم للأقسام عند الضغط ================= */
 .btn-categorie {
-  padding: 12px 25px;
-  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
   color: var(--argent);
-  border-radius: 30px; /* جعل الحواف دائرية بالكامل */
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  font-weight: 600;
+  transition: all 0.25s ease;
+  font-size: 0.8rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .btn-categorie:hover,
 .btn-categorie.active {
-  background: var(--gradient-principal);
+  background: var(--gradient-principal); /* التدرج الملون الفخم الأصلي للموقع */
   border-color: transparent;
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(185,103,255,0.3);
+  box-shadow: 0 5px 15px rgba(185,103,255,0.3);
 }
 
-/* ================= شريط بحث مدمج ومتناسق ================= */
+/* ================= التعديل: شريط بحث قصير ومدمج تماماً مع خلفية الموقع الأصلي ================= */
 .vercel-search-wrapper {
   width: 100%;
-  background: transparent;
+  background: transparent; /* متناسق وشفاف تماماً مع خلفية الموقع */
   padding: 10px 20px;
   position: sticky;
-  top: 75px; /* تم تكييف الإرتفاع ليتناسق مع حجم الأزرار الجديد */
+  top: 59px;
   z-index: 99;
 }
 
 .vercel-search-box {
-  max-width: 600px;
+  max-width: 600px; /* تقصير شريط البحث ليصبح رصيناً في المنتصف */
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -330,7 +330,7 @@ body {
 .api-search-field {
   width: 100%;
   padding: 10px 16px 10px 40px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.03); /* مدمج بانسيابية */
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   color: #ffffff;
@@ -665,7 +665,7 @@ body {
   .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.6rem; }
   .nav-categories { top: 0; padding: 10px; }
-  .vercel-search-wrapper { top: 115px; padding: 6px 15px; } /* تعديل تكييف شريط البحث في الموبايل */
+  .vercel-search-wrapper { top: 95px; padding: 6px 15px; }
   .vercel-search-box { max-width: 100%; }
   
   .barre-stats {
@@ -1119,5 +1119,19 @@ async function chargerAPIs() {
     setTimeout(() => document.getElementById('loader').style.display = 'none', 400);
   } catch (error) {
     console.error(error);
-    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>
+    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>`;
+    document.getElementById('loader').style.display = 'none';
+  }
+}
+
+function initialiser() {
+  creerParticules();
+  chargerAPIs();
+}
+
+initialiser();
+</script>
+
+</body>
+</html>
 
