@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VIRIXI API - Collection Dynamique</title>
+<title>Cristion API - Collection Dynamique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -190,7 +190,7 @@ body {
 .ligne-decoration::before { left: -20px; }
 .ligne-decoration::after { right: -20px; }
 
-/* Barre de Statistiques */
+/* BARRE DE STATISTIQUES HORIZONTALE */
 .barre-stats {
   display: flex;
   justify-content: center;
@@ -260,99 +260,62 @@ body {
   position: relative;
 }
 
-/* Navigation Categories */
+.ligne-horizontale-stats::before,
+.ligne-horizontale-stats::after {
+  content: '▸';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--or-rose);
+  font-size: 10px;
+}
+
+.ligne-horizontale-stats::before { left: 20%; }
+.ligne-horizontale-stats::after { right: 20%; color: var(--bleu-cyan); }
+
+/* Navigation */
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.8);
+  background: rgba(10,10,10,0.95);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 15px 20px 10px 20px;
+  padding: 20px;
   z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
 .btn-categorie {
-  padding: 8px 18px;
-  border: 1px solid rgba(255,255,255,0.08);
+  padding: 12px 25px;
+  border: 1px solid rgba(255,255,255,0.2);
   background: transparent;
   color: var(--argent);
-  border-radius: 6px;
+  border-radius: 30px;
   cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 0.8rem;
-  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .btn-categorie:hover,
 .btn-categorie.active {
   background: var(--gradient-principal);
   border-color: transparent;
-  color: #ffffff;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(185,103,255,0.3);
-}
-
-.vercel-search-wrapper {
-  width: 100%;
-  background: transparent;
-  padding: 10px 20px;
-  position: sticky;
-  top: 59px;
-  z-index: 99;
-}
-
-.vercel-search-box {
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.vercel-search-box i {
-  position: absolute;
-  left: 15px;
-  color: #666;
-  font-size: 0.85rem;
-  pointer-events: none;
-  transition: color 0.2s;
-}
-
-.api-search-field {
-  width: 100%;
-  padding: 10px 16px 10px 40px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  color: #ffffff;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.api-search-field:focus {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
-  outline: none;
-  box-shadow: 0 0 10px rgba(0, 214, 255, 0.1);
-}
-
-.api-search-field:focus + i {
-  color: var(--bleu-cyan);
+  box-shadow: 0 10px 30px rgba(185,103,255,0.3);
 }
 
 /* Contenu */
 .conteneur-principal {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 40px 20px;
   position: relative;
   z-index: 1;
   min-height: 400px;
@@ -360,22 +323,22 @@ body {
 
 .message-vide {
   text-align: center;
-  padding: 80px 20px;
+  padding: 100px 20px;
   color: #666;
 }
 
 .message-vide i {
-  font-size: 3rem;
-  margin-bottom: 15px;
+  font-size: 4rem;
+  margin-bottom: 20px;
   color: var(--violet-neon);
 }
 
 /* Sections */
 .section-categorie {
-  margin-bottom: 45px;
+  margin-bottom: 60px;
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s forwards;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s forwards;
 }
 
 @keyframes fadeInUp {
@@ -387,14 +350,14 @@ body {
 
 .titre-categorie {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 15px;
   color: white;
   position: relative;
-  padding-bottom: 12px;
+  padding-bottom: 15px;
 }
 
 .titre-categorie::after {
@@ -402,54 +365,54 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 80px;
-  height: 2px;
+  width: 100px;
+  height: 3px;
   background: var(--gradient-principal);
   border-radius: 2px;
 }
 
 .icone-categorie {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   background: var(--gradient-principal);
-  border-radius: 12px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  box-shadow: 0 8px 25px rgba(255,107,157,0.25);
+  font-size: 1.5rem;
+  box-shadow: 0 10px 30px rgba(255,107,157,0.3);
 }
 
 .compteur-api {
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
   font-family: 'Inter';
-  background: rgba(255,255,255,0.04);
-  padding: 6px 16px;
+  background: rgba(255,255,255,0.05);
+  padding: 8px 20px;
   border-radius: 20px;
 }
 
-/* Grille Cartes */
+/* GRILLE CARRÉE */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 25px;
+  gap: 30px;
 }
 
-/* Carte API */
+/* CARTE API CARRÉE */
 .carte-api {
-  background: linear-gradient(145deg, #141414, #181818);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: linear-gradient(145deg, #161616, #1a1a1a);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   position: relative;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
   aspect-ratio: 1 / 1;
-  max-height: 380px;
+  max-height: 400px;
 }
 
 .carte-api::before {
@@ -458,16 +421,16 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: var(--gradient-principal);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .carte-api:hover {
-  transform: translateY(-8px) scale(1.01);
-  border-color: rgba(255,107,157,0.25);
-  box-shadow: 0 25px 50px rgba(185,103,255,0.15);
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255,107,157,0.3);
+  box-shadow: 0 30px 60px rgba(185,103,255,0.2);
 }
 
 .carte-api:hover::before {
@@ -475,22 +438,23 @@ body {
 }
 
 .en-tete-carte {
-  padding: 18px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.08) 0%, rgba(185,103,255,0.04) 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
 }
 
 .logo-api {
-  width: 55px;
-  height: 55px;
-  border-radius: 14px;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
   object-fit: cover;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
               var(--gradient-principal) border-box;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .info-en-tete {
@@ -498,9 +462,9 @@ body {
 }
 
 .nom-api {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -509,96 +473,104 @@ body {
 .badge-statut {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  background: rgba(0,212,255,0.12);
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(0,212,255,0.15);
   color: var(--bleu-cyan);
   border-radius: 20px;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  border: 1px solid rgba(0,212,255,0.2);
+  letter-spacing: 1px;
+  border: 1px solid rgba(0,212,255,0.3);
 }
 
 .badge-statut.actif::before {
   content: '';
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   background: #00ff88;
   border-radius: 50%;
-  box-shadow: 0 0 8px #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 .corps-carte {
-  padding: 18px;
+  padding: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .description-api {
-  color: #999;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Metrics */
+/* MÉTRIQUES */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .metrique {
-  background: rgba(255,255,255,0.02);
-  padding: 12px 6px;
-  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  padding: 15px 8px;
+  border-radius: 12px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .valeur-metrique {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.65rem;
-  color: #555;
+  font-size: 0.7rem;
+  color: #666;
   text-transform: uppercase;
-  margin-top: 2px;
+  letter-spacing: 1px;
+  margin-top: 4px;
 }
 
-/* Actions */
+/* BOUTONS D'ACTION */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   margin-top: auto;
 }
 
 .btn-copier-api {
-  padding: 12px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(185,103,255,0.15));
-  border: 1px solid rgba(255,107,157,0.2);
-  border-radius: 10px;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
+  border: 1px solid rgba(255,107,157,0.3);
+  border-radius: 12px;
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 0.85rem;
+  gap: 8px;
+  font-size: 0.9rem;
 }
 
 .btn-copier-api:hover {
@@ -613,73 +585,89 @@ body {
 }
 
 .btn-ouvrir-api {
-  padding: 12px;
+  padding: 14px;
   background: transparent;
-  border: 1px solid rgba(0,212,255,0.25);
-  border-radius: 10px;
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 12px;
   color: var(--bleu-cyan);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 0.85rem;
+  gap: 8px;
+  font-size: 0.9rem;
 }
 
 .btn-ouvrir-api:hover {
-  background: rgba(0,212,255,0.08);
+  background: rgba(0,212,255,0.1);
   border-color: var(--bleu-cyan);
   transform: translateY(-2px);
+}
+
+/* Erreur */
+.message-erreur {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255,0,0,0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,0,0,0.3);
+}
+
+.message-erreur i {
+  font-size: 3rem;
+  color: #ff4444;
+  margin-bottom: 20px;
 }
 
 /* Footer */
 .footer-luxe {
   text-align: center;
-  padding: 45px 20px;
-  background: linear-gradient(to top, #0a0a0a, #141414);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 60px;
+  padding: 60px 20px;
+  background: linear-gradient(to top, #0a0a0a, #161616);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 80px;
 }
 
 .texte-footer {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   background: var(--gradient-principal);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .copyright {
-  color: #555;
-  font-size: 0.85rem;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .logo-principal { font-size: 2.3rem; }
+  .logo-principal { font-size: 2.5rem; }
   .grille-cartes { grid-template-columns: 1fr; }
-  .titre-categorie { font-size: 1.6rem; }
-  .nav-categories { top: 0; padding: 10px; }
-  .vercel-search-wrapper { top: 95px; padding: 6px 15px; }
-  .vercel-search-box { max-width: 100%; }
+  .titre-categorie { font-size: 1.8rem; }
   
   .barre-stats {
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
   }
   
   .separateur-stat {
-    width: 50px;
+    width: 60px;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255,107,157,0.4), transparent);
+    background: linear-gradient(to right, transparent, rgba(255,107,157,0.5), transparent);
   }
   
   .stat-item {
-    padding: 10px 20px;
+    padding: 15px 30px;
     min-width: auto;
+  }
+  
+  .stat-valeur {
+    font-size: 2rem;
   }
   
   .carte-api {
@@ -689,7 +677,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -698,136 +686,25 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--gradient-principal);
-  border-radius: 4px;
-}
-
-/* Sidebar & Overlay */
-.menu-btn {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  padding: 10px 16px;
-  background: rgba(18,18,18,0.7);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 30px;
-  cursor: pointer;
-  z-index: 1001;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  left: 0;
-  background-color: #0b0b0b;
-  border-right: 1px solid rgba(255,255,255,0.04);
-  overflow-x: hidden;
-  transition: 0.35s cubic-bezier(0.05, 0.74, 0.2, 1);
-  padding-top: 70px;
-}
-
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(2px);
-  z-index: 1999;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.sidebar-header h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  background: var(--gradient-principal);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-}
-
-.sidebar-links {
-  list-style: none;
-  padding: 20px 12px;
-}
-
-.sidebar-links li {
-  margin-bottom: 12px;
-}
-
-.sidebar-links a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--argent);
-  text-decoration: none;
-  font-size: 0.9rem;
-  padding: 10px 16px;
-  border-radius: 10px;
-  transition: all 0.25s;
-}
-
-.sidebar-links a:hover {
-  background: rgba(255,255,255,0.02);
-  color: #fff;
-  transform: translateX(4px);
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: #444;
-  cursor: pointer;
+  border-radius: 5px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- Loader -->
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
+<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
-
-<button class="menu-btn" onclick="openSidebar()">
-  <i class="fas fa-bars"></i> Menu
-</button>
-
-<div id="customSidebar" class="sidebar">
-  <button class="close-btn" onclick="closeSidebar()">&times;</button>
-  <div class="sidebar-header">
-    <h3>VIRIXI</h3>
-  </div>
-  <ul class="sidebar-links">
-    <li><a href="https://wa.me/212621482778" target="_blank"><i class="fab fa-whatsapp" style="color:#25D366;"></i> Mon WhatsApp</a></li>
-    <li><a href="https://www.instagram.com/lu_x_smos?igsh=MWgyZG9keXNnaW44Mw==" target="_blank"><i class="fab fa-instagram" style="color:#E1306C;"></i> Mon Instagram</a></li>
-    <li><a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank"><i class="fas fa-bullhorn" style="color:#1BD741;"></i> Canal WhatsApp</a></li>
-  </ul>
-</div>
-
+<!-- Header -->
 <header class="hero-header">
-  <h1 class="logo-principal">VIRIXI API</h1>
+  <h1 class="logo-principal">Cristion API</h1>
   <p class="sous-titre">Collection Dynamique</p>
   <div class="ligne-decoration"></div>
   
@@ -847,19 +724,16 @@ body {
       <span class="stat-label">Système Actif</span>
     </div>
   </div>
+  
+  <div class="ligne-horizontale-stats"></div>
 </header>
 
+<!-- Navigation -->
 <nav class="nav-categories" id="navCategories">
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<div class="vercel-search-wrapper">
-  <div class="vercel-search-box">
-    <input type="text" id="apiSearchInput" class="api-search-field" oninput="filterApisSmart()" placeholder="Search APIs...">
-    <i class="fas fa-search"></i>
-  </div>
-</div>
-
+<!-- Contenu -->
 <main class="conteneur-principal" id="mainContainer">
   <div class="message-vide" id="messageVide">
     <i class="fas fa-spinner fa-spin"></i>
@@ -867,8 +741,9 @@ body {
   </div>
 </main>
 
+<!-- Footer -->
 <footer class="footer-luxe">
-  <div class="texte-footer">VIRIXI API Collection</div>
+  <div class="texte-footer">Cristion API Collection</div>
   <p class="copyright">© 2026 - Système Dynamique Français</p>
 </footer>
 
@@ -892,23 +767,9 @@ const CONFIG = {
 let toutesAPIs = [];
 let categories = [];
 
-function openSidebar() {
-  document.getElementById("customSidebar").style.width = "280px";
-  const overlay = document.getElementById("sidebarOverlay");
-  overlay.style.display = "block";
-  setTimeout(() => { overlay.style.opacity = "1"; }, 10);
-}
-
-function closeSidebar() {
-  document.getElementById("customSidebar").style.width = "0";
-  const overlay = document.getElementById("sidebarOverlay");
-  overlay.style.opacity = "0";
-  setTimeout(() => { overlay.style.display = "none"; }, 300);
-}
-
 function creerParticules() {
   const container = document.getElementById('particles');
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 50; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
@@ -951,7 +812,7 @@ function grouperParCategorie(apis) {
 
 function creerNavigation(categoriesList) {
   const nav = document.getElementById('navCategories');
-  nav.innerHTML = '<button class="btn-categorie active" data-cat="all" onclick="filtrerCategorie(\'all\', this)">Tous</button>';
+  nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
   categoriesList.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'btn-categorie';
@@ -963,68 +824,23 @@ function creerNavigation(categoriesList) {
 }
 
 function filtrerCategorie(categorie, btnElement) {
-  document.getElementById('apiSearchInput').value = "";
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
-  renderInterface(toutesAPIs);
-}
-
-// دالة البحث الذكي المطورة بالكامل الفورية عند كتابة حرفين أو ثلاثة
-function filterApisSmart() {
-  const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
-  const activeBtn = document.querySelector('.btn-categorie.active');
-  const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
-  const container = document.getElementById('mainContainer');
-
-  // إذا كانت خانة البحث تحتوي على أقل من حرفين، يتم عرض واجهة الأقسام العادية تلقائياً
-  if (input.length < 2) {
-    renderInterface(toutesAPIs);
-    return;
-  }
-
-  // تحويل النص المدخل إلى نمط بحث مرن (Fuzzy Logic Regex) لتطابق الحروف المتتالية حتى لو لم تكن كاملة الكلمة
-  const queryWords = input.split(/\s+/);
-  const regexPattern = queryWords.map(word => {
-    return word.split('').map(char => escapeRegExp(char)).join('.*');
-  }).join('|');
-  
-  const searchRegex = new RegExp(regexPattern, 'i');
-
-  const apisFiltrees = toutesAPIs.filter(api => {
-    const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
-    
-    // الفحص والبحث داخل الاسم، الوصف، أو القسم الخاص بالأيبي
-    const matchSearch = searchRegex.test(api.name) || 
-                        searchRegex.test(api.info) || 
-                        searchRegex.test(api.category);
-                        
-    return matchCategory && matchSearch;
+  document.querySelectorAll('.section-categorie').forEach(section => {
+    if (categorie === 'all' || section.dataset.category === categorie) {
+      section.style.display = 'block';
+      section.style.animation = 'none';
+      setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
+    } else {
+      section.style.display = 'none';
+    }
   });
-
-  container.innerHTML = '';
-  if (apisFiltrees.length === 0) {
-    container.innerHTML = `
-      <div class="message-vide">
-        <i class="fas fa-search-minus" style="color: var(--or-rose);"></i>
-        <p>Aucun résultat intelligent trouvé pour "${document.getElementById('apiSearchInput').value}"</p>
-      </div>`;
-    return;
-  }
-  
-  const singleGrille = document.createElement('div');
-  singleGrille.className = 'grille-cartes';
-  apisFiltrees.forEach(api => singleGrille.appendChild(creerCarteAPI(api)));
-  container.appendChild(singleGrille);
-}
-
-// دالة مساعدة لتأمين الرموز الخاصة المدخلة لمنع أخطاء الـ RegExp
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function creerCarteAPI(api) {
   const carte = document.createElement('div');
   carte.className = 'carte-api';
+  carte.style.animationDelay = Math.random() * 0.5 + 's';
   
   carte.innerHTML = `
     <div class="en-tete-carte">
@@ -1032,19 +848,34 @@ function creerCarteAPI(api) {
            onerror="this.src='https://via.placeholder.com/60/161616/ff6b9d?text=${api.name.charAt(0)}'">
       <div class="info-en-tete">
         <h3 class="nom-api">${api.name}</h3>
-        <span class="badge-statut actif"><i class="fas fa-circle"></i> Opérationnel</span>
+        <span class="badge-statut actif">
+          <i class="fas fa-circle"></i> Opérationnel
+        </span>
       </div>
     </div>
     <div class="corps-carte">
       <p class="description-api">${api.info}</p>
       <div class="metriques">
-        <div class="metrique"><span class="valeur-metrique">${api.latency}</span><span class="label-metrique">Latence</span></div>
-        <div class="metrique"><span class="valeur-metrique">${api.uptime}</span><span class="label-metrique">Uptime</span></div>
-        <div class="metrique"><span class="valeur-metrique">${api.requests}</span><span class="label-metrique">Requêtes</span></div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.latency}</span>
+          <span class="label-metrique">Latence</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.uptime}</span>
+          <span class="label-metrique">Disponibilité</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.requests}</span>
+          <span class="label-metrique">Requêtes</span>
+        </div>
       </div>
       <div class="actions-api">
-        <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)"><i class="fas fa-copy"></i> Copier</button>
-        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')"><i class="fas fa-external-link-alt"></i> Ouvrir</button>
+        <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)">
+          <i class="fas fa-copy"></i> Copier
+        </button>
+        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')">
+          <i class="fas fa-external-link-alt"></i> Ouvrir
+        </button>
       </div>
     </div>
   `;
@@ -1058,11 +889,13 @@ function creerSectionCategorie(categorie, apis) {
   const icone = getIconeCategorie(categorie);
   section.innerHTML = `
     <h2 class="titre-categorie">
-      <div class="icone-categorie"><i class="fas ${icone}"></i></div>
+      <div class="icone-categorie">
+        <i class="fas ${icone}"></i>
+      </div>
       ${categorie}
       <span class="compteur-api">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
     </h2>
-    <div class="grille-cartes"></div>
+    <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
   `;
   const grille = section.querySelector('.grille-cartes');
   apis.forEach(api => grille.appendChild(creerCarteAPI(api)));
@@ -1081,67 +914,60 @@ function copierURL(url, btn) {
 }
 
 function ouvrirAPI(url) {
-  if (!url || url === "#" || url.trim() === "") {
-    alert("Désolé, l'URL de cette API n'est pas valide.");
+  if (url === "#" || !url) {
+    alert("URL non disponible");
     return;
   }
-  try {
-    const secureUrl = url.match(/^https?:\/\//i) ? url : `https://${url}`;
-    const win = window.open(secureUrl, '_blank', 'noopener,noreferrer');
-    if (win) {
-      win.focus();
-    } else {
-      window.location.href = secureUrl;
-    }
-  } catch (e) {
-    window.open(url, '_blank');
-  }
+  window.open(url, '_blank');
 }
 
-function renderInterface(apisList) {
-  const container = document.getElementById('mainContainer');
-  container.innerHTML = '';
-  
-  const activeBtn = document.querySelector('.btn-categorie.active');
-  const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
-  
-  const filtered = apisList.filter(api => activeCategory === 'all' || api.category === activeCategory);
-  
-  if (filtered.length === 0) {
-    container.innerHTML = `<div class="message-vide"><i class="fas fa-inbox"></i><p>Aucune API disponible</p></div>`;
-    return;
-  }
-  
-  const groupe = grouperParCategorie(filtered);
-  Object.keys(groupe).forEach((cat, index) => {
-    const section = creerSectionCategorie(cat, groupe[cat]);
-    section.style.animationDelay = (index * 0.05) + 's';
-    container.appendChild(section);
-  });
+function afficherErreur(message) {
+  document.getElementById('mainContainer').innerHTML = `
+    <div class="message-erreur">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3 style="color: #ff4444; margin-bottom: 10px;">Erreur de Connexion</h3>
+      <p>${message}</p>
+      <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 30px; background: var(--gradient-principal); border: none; border-radius: 25px; color: white; cursor: pointer;">
+        <i class="fas fa-refresh"></i> Réessayer
+      </button>
+    </div>
+  `;
 }
 
 async function chargerAPIs() {
   try {
     const response = await fetch(CONFIG.API_URL);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     const data = await response.json();
     let apis = Array.isArray(data) ? data : (data.apis || data.data || data.results || data.list || [data]);
-    
     toutesAPIs = apis.map(formaterAPI);
     document.getElementById('totalAPIs').textContent = toutesAPIs.length;
-    
-    const globalGroupe = grouperParCategorie(toutesAPIs);
-    categories = Object.keys(globalGroupe);
+    const groupe = grouperParCategorie(toutesAPIs);
+    categories = Object.keys(groupe);
     document.getElementById('totalCategories').textContent = categories.length;
-    
+    const statutEl = document.getElementById('statutSystem');
+    statutEl.innerHTML = '●';
+    statutEl.style.color = '#00ff88';
+    statutEl.style.textShadow = '0 0 20px #00ff88';
     creerNavigation(categories);
-    renderInterface(toutesAPIs);
-    
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    if (toutesAPIs.length === 0) {
+      container.innerHTML = `<div class="message-vide"><i class="fas fa-inbox"></i><p>Aucune API disponible</p></div>`;
+    } else {
+      categories.forEach((cat, index) => {
+        const section = creerSectionCategorie(cat, groupe[cat]);
+        section.style.animationDelay = (index * 0.1) + 's';
+        container.appendChild(section);
+      });
+    }
     document.getElementById('loader').style.opacity = '0';
-    setTimeout(() => document.getElementById('loader').style.display = 'none', 400);
+    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
   } catch (error) {
-    console.error(error);
-    document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>`;
+    console.error('Erreur:', error);
+    document.getElementById('statutSystem').innerHTML = '✕';
+    document.getElementById('statutSystem').style.color = '#ff4444';
+    afficherErreur(`Impossible de charger les APIs: ${error.message}`);
     document.getElementById('loader').style.display = 'none';
   }
 }
@@ -1149,6 +975,7 @@ async function chargerAPIs() {
 function initialiser() {
   creerParticules();
   chargerAPIs();
+  setInterval(chargerAPIs, 300000);
 }
 
 initialiser();
@@ -1156,4 +983,3 @@ initialiser();
 
 </body>
 </html>
-
