@@ -430,14 +430,14 @@ body {
   border-radius: 20px;
 }
 
-/* Grille Cartes المحدثة لإصلاح التوزيع التلقائي الفخم */
+/* Grille Cartes */
 .grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 25px;
 }
 
-/* Carte API المحدثة لضبط الأبعاد ومنع اختفاء المحتوى */
+/* Carte API */
 .carte-api {
   background: linear-gradient(145deg, #141414, #181818);
   border-radius: 16px;
@@ -448,8 +448,8 @@ body {
   box-shadow: 0 15px 35px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
-  min-height: 340px;
-  height: auto; /* جعل الارتفاع مرن تلقائياً */
+  aspect-ratio: 1 / 1;
+  max-height: 380px;
 }
 
 .carte-api::before {
@@ -534,7 +534,6 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* توزيع مساحي ممتاز للمحتويات الداخيلة */
 }
 
 .description-api {
@@ -543,7 +542,7 @@ body {
   line-height: 1.5;
   margin-bottom: 15px;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* زيادة السطور المعروضة للوصف لتجنب الاختفاء المفاجئ */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -658,13 +657,10 @@ body {
   font-size: 0.85rem;
 }
 
-/* Responsive التعديلات المخصصة للهواتف */
+/* Responsive */
 @media (max-width: 768px) {
   .logo-principal { font-size: 2.3rem; }
-  .grille-cartes { 
-    grid-template-columns: 1fr; /* كرت واحد مفرود بالكامل في الموبايل */
-    gap: 20px;
-  }
+  .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.6rem; }
   .nav-categories { top: 0; padding: 10px; }
   .vercel-search-wrapper { top: 95px; padding: 6px 15px; }
@@ -689,7 +685,6 @@ body {
   .carte-api {
     aspect-ratio: auto;
     max-height: none;
-    min-height: auto;
   }
 }
 
@@ -974,17 +969,20 @@ function filtrerCategorie(categorie, btnElement) {
   renderInterface(toutesAPIs);
 }
 
+// دالة البحث الذكي المطورة بالكامل الفورية عند كتابة حرفين أو ثلاثة
 function filterApisSmart() {
   const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
   const container = document.getElementById('mainContainer');
 
+  // إذا كانت خانة البحث تحتوي على أقل من حرفين، يتم عرض واجهة الأقسام العادية تلقائياً
   if (input.length < 2) {
     renderInterface(toutesAPIs);
     return;
   }
 
+  // تحويل النص المدخل إلى نمط بحث مرن (Fuzzy Logic Regex) لتطابق الحروف المتتالية حتى لو لم تكن كاملة الكلمة
   const queryWords = input.split(/\s+/);
   const regexPattern = queryWords.map(word => {
     return word.split('').map(char => escapeRegExp(char)).join('.*');
@@ -994,6 +992,8 @@ function filterApisSmart() {
 
   const apisFiltrees = toutesAPIs.filter(api => {
     const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
+    
+    // الفحص والبحث داخل الاسم، الوصف، أو القسم الخاص بالأيبي
     const matchSearch = searchRegex.test(api.name) || 
                         searchRegex.test(api.info) || 
                         searchRegex.test(api.category);
@@ -1017,6 +1017,7 @@ function filterApisSmart() {
   container.appendChild(singleGrille);
 }
 
+// دالة مساعدة لتأمين الرموز الخاصة المدخلة لمنع أخطاء الـ RegExp
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -1155,4 +1156,5 @@ initialiser();
 
 </body>
 </html>
+
 
