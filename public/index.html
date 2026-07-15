@@ -10,7 +10,7 @@
 <style>
 :root {
   --noir-profond: #0a0a0a;
-  --noir-elegant: #121212;
+  --noir-elegant: rgba(18, 18, 18, 0.4); /* جعلها شفافة للسماح بظهور الفيديو */
   --or-rose: #ff6b9d;
   --violet-neon: #b967ff;
   --bleu-cyan: #00d4ff;
@@ -19,29 +19,22 @@
   --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
 }
 
-/* وضع الإضاءة والوضع الداكن */
+/* وضع الإضاءة والوضع الداكن بتأثيرات زجاجية شفافة */
 body.light-mode {
   --noir-profond: #f5f5f7;
-  --noir-elegant: #ffffff;
+  --noir-elegant: rgba(255, 255, 255, 0.4);
   --argent: #333333;
   color: #1d1d1f;
 }
 
 body.light-mode .video-overlay {
-  background: rgba(255, 255, 255, 0.75); /* طبقة تظليل فاتحة في الوضع المضيء */
-}
-
-body.light-mode .hero-header {
-  background: transparent;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.35); /* تخفيف التظليل في الوضع الفاتح لرؤية الفيديو */
 }
 
 body.light-mode .carte-api {
-  background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(253,253,253,0.95));
-  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 body.light-mode .carte-api:hover {
@@ -59,7 +52,7 @@ body.light-mode .description-api {
 }
 
 body.light-mode .nav-categories {
-  background: rgba(245,245,247,0.8);
+  background: rgba(245, 245, 247, 0.35);
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -76,24 +69,10 @@ body.light-mode .api-search-field {
 
 body.light-mode .api-search-field:focus {
   background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.15);
-}
-
-body.light-mode .titre-categorie {
-  color: #1d1d1f;
-}
-
-body.light-mode .metrique {
-  background: rgba(0,0,0,0.03);
-  border: 1px solid rgba(0,0,0,0.05);
-}
-
-body.light-mode .label-metrique {
-  color: #777777;
 }
 
 body.light-mode .sidebar {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.65);
   border-right: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -101,17 +80,11 @@ body.light-mode .sidebar-links a {
   color: #333333;
 }
 
-body.light-mode .sidebar-links a:hover {
-  background: rgba(0,0,0,0.03);
-  color: #000000;
-}
-
 body.light-mode .menu-btn,
 body.light-mode .theme-btn {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.35);
   border: 1px solid rgba(0,0,0,0.08);
   color: #333333;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 * {
@@ -146,7 +119,7 @@ body {
   object-fit: cover;
 }
 
-/* طبقة التظليل الداكنة لجعل المحتوى واضحاً والمنظر فخماً */
+/* طبقة تظليل خفيفة جداً لضمان قراءة النصوص مع الحفاظ على وضوح الفيديو بالكامل */
 .video-overlay {
   position: fixed;
   top: 0;
@@ -154,7 +127,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: rgba(10, 10, 10, 0.75); /* توازن رائع لتعتيم الفيديو والحفاظ على جمال أوراق الخريف */
+  background: rgba(10, 10, 10, 0.45); /* خفيفة لتبرز ألوان الخريف الذهبية والجميلة */
   transition: background 0.25s ease;
 }
 
@@ -219,7 +192,7 @@ body {
   position: relative;
   padding: 80px 20px 40px;
   text-align: center;
-  background: transparent; /* إزالة الخلفية الصلبة لرؤية فيديو الخريف بالخلف */
+  background: transparent; 
   border-bottom: 1px solid rgba(255,255,255,0.06);
   overflow: hidden;
 }
@@ -331,11 +304,11 @@ body {
   box-shadow: 0 0 15px var(--or-rose);
 }
 
-/* Navigation Categories */
+/* Navigation Categories (شبه شفافة تماماً لرؤية الخلفية خلفها) */
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.65);
+  background: rgba(10, 10, 10, 0.35); /* شفافة جداً */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   padding: 15px 20px 10px 20px;
@@ -350,7 +323,7 @@ body {
 .btn-categorie {
   padding: 8px 18px;
   border: 1px solid rgba(255,255,255,0.08);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--argent);
   border-radius: 6px;
   cursor: pointer;
@@ -359,6 +332,7 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  backdrop-filter: blur(5px);
 }
 
 .btn-categorie:hover,
@@ -398,18 +372,19 @@ body {
 .api-search-field {
   width: 100%;
   padding: 10px 16px 10px 40px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .api-search-field:focus {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
   outline: none;
 }
 
@@ -495,7 +470,7 @@ body {
   border-radius: 20px;
 }
 
-/* المسافة (Gap) بين الكروت بالكامل */
+/* Gap entre les cartes */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
@@ -503,17 +478,17 @@ body {
   justify-content: center;
 }
 
-/* الكرت المربع (شبه شفاف لكي يعطي رونقاً جذاباً مع الخلفية المتحركة) */
+/* الكرت المربع زجاجي شفاف بالكامل (Glassmorphism) لرؤية أوراق الخريف خلفه بوضوح */
 .carte-api {
-  background: linear-gradient(145deg, rgba(20, 20, 20, 0.85), rgba(24, 24, 24, 0.9));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05); /* خلفية زجاجية شفافة ممتازة */
+  backdrop-filter: blur(15px) saturate(120%);
+  -webkit-backdrop-filter: blur(15px) saturate(120%);
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   aspect-ratio: 1 / 1; 
@@ -533,8 +508,9 @@ body {
 
 .carte-api:hover {
   transform: translateY(-6px);
-  border-color: rgba(255,107,157,0.35);
-  box-shadow: 0 20px 40px rgba(185,103,255,0.2);
+  border-color: rgba(255, 107, 157, 0.5);
+  box-shadow: 0 20px 40px rgba(185, 103, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08); /* تصبح مضيئة قليلاً عند التمرير */
 }
 
 .carte-api:hover::before {
@@ -543,8 +519,8 @@ body {
 
 .en-tete-carte {
   padding: 18px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -556,7 +532,7 @@ body {
   border-radius: 14px;
   object-fit: cover;
   border: 2px solid transparent;
-  background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
+  background: linear-gradient(#161616, #161616) padding-box,
               var(--gradient-principal) border-box;
 }
 
@@ -605,7 +581,7 @@ body {
 }
 
 .description-api {
-  color: #bbb;
+  color: #e0e0e0; /* تفتيح النص قليلاً ليصبح مقروءاً فوق الفيديو */
   font-size: 0.85rem;
   line-height: 1.4;
   margin-bottom: 8px;
@@ -613,9 +589,10 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* حماية وضوح النص */
 }
 
-/* المقاييس */
+/* المقاييس زجاجية */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -624,11 +601,12 @@ body {
 }
 
 .metrique {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.05);
   padding: 10px 4px;
   border-radius: 10px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
 }
 
 .valeur-metrique {
@@ -640,7 +618,7 @@ body {
 
 .label-metrique {
   font-size: 0.62rem;
-  color: #888;
+  color: #ccc;
   text-transform: uppercase;
   margin-top: 1px;
 }
@@ -655,8 +633,8 @@ body {
 
 .btn-copier-api {
   padding: 11px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
-  border: 1px solid rgba(255,107,157,0.25);
+  background: rgba(255, 107, 157, 0.15);
+  border: 1px solid rgba(255,107,157,0.3);
   border-radius: 10px;
   color: white;
   font-weight: 600;
@@ -667,6 +645,7 @@ body {
   justify-content: center;
   gap: 6px;
   font-size: 0.82rem;
+  backdrop-filter: blur(5px);
 }
 
 .btn-copier-api:hover {
@@ -682,7 +661,7 @@ body {
 
 .btn-ouvrir-api {
   padding: 11px;
-  background: transparent;
+  background: rgba(0, 212, 255, 0.08);
   border: 1px solid rgba(0,212,255,0.3);
   border-radius: 10px;
   color: var(--bleu-cyan);
@@ -694,10 +673,11 @@ body {
   justify-content: center;
   gap: 6px;
   font-size: 0.82rem;
+  backdrop-filter: blur(5px);
 }
 
 .btn-ouvrir-api:hover {
-  background: rgba(0,212,255,0.12);
+  background: rgba(0,212,255,0.2);
   border-color: var(--bleu-cyan);
   transform: translateY(-2px);
 }
@@ -706,7 +686,8 @@ body {
 .footer-luxe {
   text-align: center;
   padding: 45px 20px;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(10, 10, 10, 0.45); /* متناسق مع الخلفية زجاجياً */
+  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: 60px;
   position: relative;
@@ -723,7 +704,7 @@ body {
 }
 
 .copyright {
-  color: #777;
+  color: #aaa;
   font-size: 0.85rem;
 }
 
@@ -762,7 +743,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--noir-profond);
+  background: rgba(0,0,0,0.1);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -770,16 +751,17 @@ body {
   border-radius: 4px;
 }
 
-/* Sidebar, Theme Switcher & Overlay */
+/* القائمة الجانبية والأزرار زجاجية شفافة بالكامل لتعرض الفيديو خلفها */
 .menu-btn {
   position: fixed;
   top: 15px;
   left: 15px;
   padding: 10px 16px;
-  background: rgba(18,18,18,0.7);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 30px;
   cursor: pointer;
   z-index: 1001;
@@ -788,7 +770,13 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .theme-btn {
@@ -796,10 +784,11 @@ body {
   top: 15px;
   right: 15px;
   padding: 10px 16px;
-  background: rgba(18,18,18,0.7);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 30px;
   cursor: pointer;
   z-index: 1001;
@@ -808,14 +797,16 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s;
 }
 
 .theme-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
 
+/* القائمة الجانبية (Menu) زجاجية شفافة تظهر الفيديو خلفها */
 .sidebar {
   height: 100%;
   width: 0;
@@ -823,8 +814,10 @@ body {
   z-index: 2000;
   top: 0;
   left: 0;
-  background-color: #0b0b0b;
-  border-right: 1px solid rgba(255,255,255,0.04);
+  background-color: rgba(10, 10, 10, 0.65); /* شفافة */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255,255,255,0.1);
   overflow-x: hidden;
   transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   padding-top: 70px;
@@ -836,8 +829,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(2px);
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(3px);
   z-index: 1999;
   display: none;
   opacity: 0;
@@ -866,7 +859,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--argent);
+  color: #fff;
   text-decoration: none;
   font-size: 0.9rem;
   padding: 10px 16px;
@@ -875,8 +868,7 @@ body {
 }
 
 .sidebar-links a:hover {
-  background: rgba(255,255,255,0.02);
-  color: #fff;
+  background: rgba(255,255,255,0.08);
   transform: translateX(4px);
 }
 
@@ -887,7 +879,7 @@ body {
   font-size: 24px;
   background: none;
   border: none;
-  color: #444;
+  color: #888;
   cursor: pointer;
 }
 </style>
