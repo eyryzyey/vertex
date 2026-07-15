@@ -27,19 +27,25 @@ body.light-mode {
   color: #1d1d1f;
 }
 
+body.light-mode .video-overlay {
+  background: rgba(255, 255, 255, 0.75); /* طبقة تظليل فاتحة في الوضع المضيء */
+}
+
 body.light-mode .hero-header {
-  background: radial-gradient(ellipse at center, #e2e2e9 0%, #f5f5f7 70%);
+  background: transparent;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 body.light-mode .carte-api {
-  background: linear-gradient(145deg, #ffffff, #fdfdfd);
+  background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(253,253,253,0.95));
   border: 1px solid rgba(0,0,0,0.08);
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 body.light-mode .carte-api:hover {
-  box-shadow: 0 20px 40px rgba(185,103,255,0.1);
+  box-shadow: 0 20px 40px rgba(185,103,255,0.15);
 }
 
 body.light-mode .nom-api {
@@ -49,7 +55,7 @@ body.light-mode .nom-api {
 }
 
 body.light-mode .description-api {
-  color: #555555;
+  color: #444444;
 }
 
 body.light-mode .nav-categories {
@@ -63,13 +69,13 @@ body.light-mode .btn-categorie {
 }
 
 body.light-mode .api-search-field {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: #1d1d1f;
 }
 
 body.light-mode .api-search-field:focus {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.08);
   border-color: rgba(0, 0, 0, 0.15);
 }
 
@@ -78,12 +84,12 @@ body.light-mode .titre-categorie {
 }
 
 body.light-mode .metrique {
-  background: rgba(0,0,0,0.02);
-  border: 1px solid rgba(0,0,0,0.04);
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.05);
 }
 
 body.light-mode .label-metrique {
-  color: #888888;
+  color: #777777;
 }
 
 body.light-mode .sidebar {
@@ -121,6 +127,35 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* خلفية الفيديو بكامل الشاشة */
+.video-background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* طبقة التظليل الداكنة لجعل المحتوى واضحاً والمنظر فخماً */
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: rgba(10, 10, 10, 0.75); /* توازن رائع لتعتيم الفيديو والحفاظ على جمال أوراق الخريف */
+  transition: background 0.25s ease;
 }
 
 /* Loader */
@@ -179,58 +214,14 @@ body {
   50% { opacity: 1; }
 }
 
-/* Particules */
-.bg-particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.25;
-}
-
-.particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: var(--violet-neon);
-  border-radius: 50%;
-  animation: float 15s infinite linear;
-}
-
-@keyframes float {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
-}
-
 /* Header */
 .hero-header {
   position: relative;
   padding: 80px 20px 40px;
   text-align: center;
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: transparent; /* إزالة الخلفية الصلبة لرؤية فيديو الخريف بالخلف */
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   overflow: hidden;
-}
-
-.hero-header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg, transparent, var(--or-rose), transparent, var(--violet-neon), transparent);
-  animation: rotate 25s linear infinite;
-  opacity: 0.08;
-}
-
-@keyframes rotate {
-  100% { transform: rotate(360deg); }
 }
 
 .logo-principal {
@@ -344,7 +335,7 @@ body {
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.8);
+  background: rgba(10,10,10,0.65);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   padding: 15px 20px 10px 20px;
@@ -399,7 +390,7 @@ body {
 .vercel-search-box i {
   position: absolute;
   left: 15px;
-  color: #666;
+  color: #aaa;
   font-size: 0.85rem;
   pointer-events: none;
 }
@@ -407,8 +398,8 @@ body {
 .api-search-field {
   width: 100%;
   padding: 10px 16px 10px 40px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
@@ -417,7 +408,7 @@ body {
 }
 
 .api-search-field:focus {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
   outline: none;
 }
@@ -435,7 +426,7 @@ body {
 .message-vide {
   text-align: center;
   padding: 80px 20px;
-  color: #666;
+  color: #bbb;
 }
 
 .message-vide i {
@@ -497,33 +488,35 @@ body {
 .compteur-api {
   margin-left: auto;
   font-size: 0.9rem;
-  color: #666;
+  color: #bbb;
   font-family: 'Inter';
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.08);
   padding: 6px 16px;
   border-radius: 20px;
 }
 
-/* المسافة (Gap) بين الكروت بالكامل في الصفحة */
+/* المسافة (Gap) بين الكروت بالكامل */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
-  gap: 25px; /* المسافة الثابتة والممتازة بين المربعات */
+  gap: 25px; 
   justify-content: center;
 }
 
-/* الكرت المربع (غير مرن - Aspect Ratio 1/1) */
+/* الكرت المربع (شبه شفاف لكي يعطي رونقاً جذاباً مع الخلفية المتحركة) */
 .carte-api {
-  background: linear-gradient(145deg, #141414, #181818);
+  background: linear-gradient(145deg, rgba(20, 20, 20, 0.85), rgba(24, 24, 24, 0.9));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
-  aspect-ratio: 1 / 1; /* إعادة الكرت ليكون مربعاً تماماً وغير مرن */
+  aspect-ratio: 1 / 1; 
 }
 
 .carte-api::before {
@@ -540,8 +533,8 @@ body {
 
 .carte-api:hover {
   transform: translateY(-6px);
-  border-color: rgba(255,107,157,0.25);
-  box-shadow: 0 20px 40px rgba(185,103,255,0.12);
+  border-color: rgba(255,107,157,0.35);
+  box-shadow: 0 20px 40px rgba(185,103,255,0.2);
 }
 
 .carte-api:hover::before {
@@ -550,7 +543,7 @@ body {
 
 .en-tete-carte {
   padding: 18px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.08) 0%, rgba(185,103,255,0.04) 100%);
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
   border-bottom: 1px solid rgba(255,255,255,0.04);
   display: flex;
   align-items: center;
@@ -585,13 +578,13 @@ body {
   align-items: center;
   gap: 5px;
   padding: 4px 10px;
-  background: rgba(0,212,255,0.12);
+  background: rgba(0,212,255,0.15);
   color: var(--bleu-cyan);
   border-radius: 20px;
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  border: 1px solid rgba(0,212,255,0.2);
+  border: 1px solid rgba(0,212,255,0.25);
 }
 
 .badge-statut.actif::before {
@@ -608,35 +601,34 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* لتوزيع العناصر بشكل رائع ومثالي داخل المربع */
+  justify-content: space-between;
 }
 
-/* تقليص الهوامش الداخلية لنزع الفراغات الفائقة */
 .description-api {
-  color: #999;
+  color: #bbb;
   font-size: 0.85rem;
   line-height: 1.4;
-  margin-bottom: 8px; /* تقليص الهامش */
+  margin-bottom: 8px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* المقاييس - إزالة الفراغات التي أشرت إليها بالخط الأخضر */
+/* المقاييس */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-bottom: 6px; /* تقليص المسافة بين المقاييس والكبسات */
+  margin-bottom: 6px;
 }
 
 .metrique {
-  background: rgba(255,255,255,0.02);
-  padding: 10px 4px; /* ضغط الارتفاع الداخلي */
+  background: rgba(255,255,255,0.04);
+  padding: 10px 4px;
   border-radius: 10px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .valeur-metrique {
@@ -648,23 +640,23 @@ body {
 
 .label-metrique {
   font-size: 0.62rem;
-  color: #555;
+  color: #888;
   text-transform: uppercase;
   margin-top: 1px;
 }
 
-/* كبسات الأكشن */
+/* الأزرار */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 4px; /* كبس الأزرار مباشرة تحت المربعات بلا فراغات زائدة */
+  margin-top: 4px;
 }
 
 .btn-copier-api {
   padding: 11px;
-  background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(185,103,255,0.15));
-  border: 1px solid rgba(255,107,157,0.2);
+  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
+  border: 1px solid rgba(255,107,157,0.25);
   border-radius: 10px;
   color: white;
   font-weight: 600;
@@ -691,7 +683,7 @@ body {
 .btn-ouvrir-api {
   padding: 11px;
   background: transparent;
-  border: 1px solid rgba(0,212,255,0.25);
+  border: 1px solid rgba(0,212,255,0.3);
   border-radius: 10px;
   color: var(--bleu-cyan);
   font-weight: 600;
@@ -705,7 +697,7 @@ body {
 }
 
 .btn-ouvrir-api:hover {
-  background: rgba(0,212,255,0.08);
+  background: rgba(0,212,255,0.12);
   border-color: var(--bleu-cyan);
   transform: translateY(-2px);
 }
@@ -714,9 +706,11 @@ body {
 .footer-luxe {
   text-align: center;
   padding: 45px 20px;
-  background: linear-gradient(to top, #0a0a0a, #141414);
+  background: rgba(10, 10, 10, 0.85);
   border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: 60px;
+  position: relative;
+  z-index: 1;
 }
 
 .texte-footer {
@@ -729,7 +723,7 @@ body {
 }
 
 .copyright {
-  color: #555;
+  color: #777;
   font-size: 0.85rem;
 }
 
@@ -759,7 +753,7 @@ body {
   }
   
   .carte-api {
-    aspect-ratio: 1 / 1; /* يظل مربعاً على جميع الهواتف */
+    aspect-ratio: 1 / 1;
   }
 }
 
@@ -901,12 +895,17 @@ body {
 
 <body>
 
+<div class="video-background-container">
+  <video class="video-bg" autoplay loop muted playsinline>
+    <source src="205008.mp4" type="video/mp4">
+  </video>
+</div>
+<div class="video-overlay"></div>
+
 <div class="loader-container" id="loader">
   <div class="loader"></div>
   <div class="texte-loader">Chargement des APIs...</div>
 </div>
-
-<div class="bg-particles" id="particles"></div>
 
 <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
@@ -1020,18 +1019,6 @@ function closeSidebar() {
   const overlay = document.getElementById("sidebarOverlay");
   overlay.style.opacity = "0";
   setTimeout(() => { overlay.style.display = "none"; }, 300);
-}
-
-function creerParticules() {
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 30; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 12 + 's';
-    particle.style.animationDuration = (12 + Math.random() * 8) + 's';
-    container.appendChild(particle);
-  }
 }
 
 function getIconeCategorie(categorie) {
@@ -1246,7 +1233,6 @@ async function chargerAPIs() {
 }
 
 function initialiser() {
-  creerParticules();
   chargerAPIs();
 }
 
