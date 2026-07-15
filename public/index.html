@@ -19,7 +19,7 @@
   --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
 }
 
-/* متغيرات وضع الإضاءة والوضع الداكن */
+/* وضع الإضاءة والوضع الداكن */
 body.light-mode {
   --noir-profond: #f5f5f7;
   --noir-elegant: #ffffff;
@@ -123,7 +123,7 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* Loader السريع الخفيف */
+/* Loader */
 .loader-container {
   position: fixed;
   top: 0;
@@ -179,7 +179,7 @@ body {
   50% { opacity: 1; }
 }
 
-/* Particules خفيفة لتحسين الأداء */
+/* Particules */
 .bg-particles {
   position: fixed;
   top: 0;
@@ -504,15 +504,15 @@ body {
   border-radius: 20px;
 }
 
-/* تعديل مهم: توسيط شبكة الكروت بالكامل بالمنتصف */
+/* المسافة (Gap) بين الكروت بالكامل في الصفحة */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
-  gap: 25px;
-  justify-content: center; /* توسيط المربعات */
+  gap: 25px; /* المسافة الثابتة والممتازة بين المربعات */
+  justify-content: center;
 }
 
-/* Carte API خفيفة وسريعة */
+/* الكرت المربع (غير مرن - Aspect Ratio 1/1) */
 .carte-api {
   background: linear-gradient(145deg, #141414, #181818);
   border-radius: 16px;
@@ -523,8 +523,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
-  aspect-ratio: 1 / 1;
-  max-height: 380px;
+  aspect-ratio: 1 / 1; /* إعادة الكرت ليكون مربعاً تماماً وغير مرن */
 }
 
 .carte-api::before {
@@ -609,59 +608,61 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* لتوزيع العناصر بشكل رائع ومثالي داخل المربع */
 }
 
+/* تقليص الهوامش الداخلية لنزع الفراغات الفائقة */
 .description-api {
   color: #999;
   font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  line-height: 1.4;
+  margin-bottom: 8px; /* تقليص الهامش */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Metrics */
+/* المقاييس - إزالة الفراغات التي أشرت إليها بالخط الأخضر */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-bottom: 15px;
+  margin-bottom: 6px; /* تقليص المسافة بين المقاييس والكبسات */
 }
 
 .metrique {
   background: rgba(255,255,255,0.02);
-  padding: 12px 6px;
+  padding: 10px 4px; /* ضغط الارتفاع الداخلي */
   border-radius: 10px;
   text-align: center;
   border: 1px solid rgba(255,255,255,0.04);
 }
 
 .valeur-metrique {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: #555;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
-/* Actions */
+/* كبسات الأكشن */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: auto;
+  margin-top: 4px; /* كبس الأزرار مباشرة تحت المربعات بلا فراغات زائدة */
 }
 
 .btn-copier-api {
-  padding: 12px;
+  padding: 11px;
   background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(185,103,255,0.15));
   border: 1px solid rgba(255,107,157,0.2);
   border-radius: 10px;
@@ -673,7 +674,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .btn-copier-api:hover {
@@ -688,7 +689,7 @@ body {
 }
 
 .btn-ouvrir-api {
-  padding: 12px;
+  padding: 11px;
   background: transparent;
   border: 1px solid rgba(0,212,255,0.25);
   border-radius: 10px;
@@ -700,7 +701,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .btn-ouvrir-api:hover {
@@ -758,8 +759,7 @@ body {
   }
   
   .carte-api {
-    aspect-ratio: auto;
-    max-height: none;
+    aspect-ratio: 1 / 1; /* يظل مربعاً على جميع الهواتف */
   }
 }
 
@@ -921,7 +921,7 @@ body {
 <div id="customSidebar" class="sidebar">
   <button class="close-btn" onclick="closeSidebar()">&times;</button>
   <div class="sidebar-header">
-    <h3>Virix Cennect</h3>
+    <h3>Virix Connect</h3>
   </div>
   <ul class="sidebar-links">
     <li><a href="https://wa.me/212621482778" target="_blank"><i class="fab fa-whatsapp" style="color:#25D366;"></i> Mon WhatsApp</a></li>
@@ -1024,7 +1024,7 @@ function closeSidebar() {
 
 function creerParticules() {
   const container = document.getElementById('particles');
-  for (let i = 0; i < 30; i++) { /* تقليل العدد لتسريع التحميل */
+  for (let i = 0; i < 30; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
