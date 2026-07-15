@@ -94,7 +94,7 @@ module.exports = {
   url: `${global.t || "http://localhost:3000"}/api/ytplay/play?q=https://www.youtube.com/watch?v=cbfpiuPhaP8`,
   logo: "https://www.youtube.com/favicon.ico",
   category: "download",
-  info: "Search YouTube and get audio download links via NexRay API",
+  info: "Search YouTube and get audio download links via VixRay API",
   router
 };
 
