@@ -969,20 +969,17 @@ function filtrerCategorie(categorie, btnElement) {
   renderInterface(toutesAPIs);
 }
 
-// دالة البحث الذكي المطورة بالكامل الفورية عند كتابة حرفين أو ثلاثة
 function filterApisSmart() {
   const input = document.getElementById('apiSearchInput').value.toLowerCase().trim();
   const activeBtn = document.querySelector('.btn-categorie.active');
   const activeCategory = activeBtn ? activeBtn.dataset.cat : 'all';
   const container = document.getElementById('mainContainer');
 
-  // إذا كانت خانة البحث تحتوي على أقل من حرفين، يتم عرض واجهة الأقسام العادية تلقائياً
   if (input.length < 2) {
     renderInterface(toutesAPIs);
     return;
   }
 
-  // تحويل النص المدخل إلى نمط بحث مرن (Fuzzy Logic Regex) لتطابق الحروف المتتالية حتى لو لم تكن كاملة الكلمة
   const queryWords = input.split(/\s+/);
   const regexPattern = queryWords.map(word => {
     return word.split('').map(char => escapeRegExp(char)).join('.*');
@@ -993,7 +990,6 @@ function filterApisSmart() {
   const apisFiltrees = toutesAPIs.filter(api => {
     const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
     
-    // الفحص والبحث داخل الاسم، الوصف، أو القسم الخاص بالأيبي
     const matchSearch = searchRegex.test(api.name) || 
                         searchRegex.test(api.info) || 
                         searchRegex.test(api.category);
@@ -1017,7 +1013,6 @@ function filterApisSmart() {
   container.appendChild(singleGrille);
 }
 
-// دالة مساعدة لتأمين الرموز الخاصة المدخلة لمنع أخطاء الـ RegExp
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -1085,17 +1080,7 @@ function ouvrirAPI(url) {
     alert("Désolé, l'URL de cette API n'est pas valide.");
     return;
   }
-  try {
-    const secureUrl = url.match(/^https?:\/\//i) ? url : `https://${url}`;
-    const win = window.open(secureUrl, '_blank', 'noopener,noreferrer');
-    if (win) {
-      win.focus();
-    } else {
-      window.location.href = secureUrl;
-    }
-  } catch (e) {
-    window.open(url, '_blank');
-  }
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function renderInterface(apisList) {
@@ -1156,5 +1141,4 @@ initialiser();
 
 </body>
 </html>
-
 
