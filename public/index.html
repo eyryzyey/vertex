@@ -19,6 +19,98 @@
   --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
 }
 
+/* متغيرات وضع الإضاءة والوضع الداكن */
+body.light-mode {
+  --noir-profond: #f5f5f7;
+  --noir-elegant: #ffffff;
+  --argent: #333333;
+}
+
+body.light-mode {
+  color: #1d1d1f;
+}
+
+body.light-mode .hero-header {
+  background: radial-gradient(ellipse at center, #e2e2e9 0%, #f5f5f7 70%);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .carte-api {
+  background: linear-gradient(145deg, #ffffff, #fdfdfd);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+body.light-mode .carte-api:hover {
+  box-shadow: 0 20px 40px rgba(185,103,255,0.1);
+}
+
+body.light-mode .nom-api {
+  background: linear-gradient(135deg, #1d1d1f 0%, #444444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .description-api {
+  color: #555555;
+}
+
+body.light-mode .nav-categories {
+  background: rgba(245,245,247,0.8);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+body.light-mode .btn-categorie {
+  border: 1px solid rgba(0,0,0,0.08);
+  color: #555555;
+}
+
+body.light-mode .api-search-field {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #1d1d1f;
+}
+
+body.light-mode .api-search-field:focus {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode .titre-categorie {
+  color: #1d1d1f;
+}
+
+body.light-mode .metrique {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+body.light-mode .label-metrique {
+  color: #888888;
+}
+
+body.light-mode .sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+body.light-mode .sidebar-links a {
+  color: #333333;
+}
+
+body.light-mode .sidebar-links a:hover {
+  background: rgba(0,0,0,0.03);
+  color: #000000;
+}
+
+body.light-mode .menu-btn,
+body.light-mode .theme-btn {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: #333333;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -31,6 +123,7 @@ body {
   color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Loader */
@@ -126,6 +219,7 @@ body {
   background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   overflow: hidden;
+  transition: background 0.3s;
 }
 
 .hero-header::before {
@@ -701,7 +795,7 @@ body {
   border-radius: 4px;
 }
 
-/* Sidebar & Overlay */
+/* Sidebar, Theme Switcher & Overlay */
 .menu-btn {
   position: fixed;
   top: 15px;
@@ -720,6 +814,31 @@ body {
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.theme-btn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 10px 16px;
+  background: rgba(18,18,18,0.7);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 1001;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.25s ease;
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
 }
 
 .sidebar {
@@ -814,6 +933,10 @@ body {
   <i class="fas fa-bars"></i> Menu
 </button>
 
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+  <i class="fas fa-moon"></i> Mode Sombre
+</button>
+
 <div id="customSidebar" class="sidebar">
   <button class="close-btn" onclick="closeSidebar()">&times;</button>
   <div class="sidebar-header">
@@ -891,6 +1014,18 @@ const CONFIG = {
 
 let toutesAPIs = [];
 let categories = [];
+
+function toggleTheme() {
+  const body = document.body;
+  const themeBtn = document.getElementById('themeBtn');
+  body.classList.toggle('light-mode');
+  
+  if (body.classList.contains('light-mode')) {
+    themeBtn.innerHTML = '<i class="fas fa-sun"></i> Mode Clair';
+  } else {
+    themeBtn.innerHTML = '<i class="fas fa-moon"></i> Mode Sombre';
+  }
+}
 
 function openSidebar() {
   document.getElementById("customSidebar").style.width = "280px";
@@ -1141,4 +1276,3 @@ initialiser();
 
 </body>
 </html>
-
