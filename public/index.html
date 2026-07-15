@@ -24,9 +24,6 @@ body.light-mode {
   --noir-profond: #f5f5f7;
   --noir-elegant: #ffffff;
   --argent: #333333;
-}
-
-body.light-mode {
   color: #1d1d1f;
 }
 
@@ -123,10 +120,10 @@ body {
   color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* Loader */
+/* Loader السريع الخفيف */
 .loader-container {
   position: fixed;
   top: 0;
@@ -139,30 +136,30 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  transition: opacity 0.5s;
+  transition: opacity 0.3s ease;
 }
 
 .loader {
-  width: 80px;
-  height: 80px;
-  border: 4px solid rgba(255,107,157,0.2);
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255,107,157,0.2);
   border-top-color: var(--or-rose);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
   position: relative;
 }
 
 .loader::before {
   content: '';
   position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 4px solid transparent;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 3px solid transparent;
   border-top-color: var(--violet-neon);
   border-radius: 50%;
-  animation: spin 2s linear infinite reverse;
+  animation: spin 1.6s linear infinite reverse;
 }
 
 @keyframes spin {
@@ -170,11 +167,11 @@ body {
 }
 
 .texte-loader {
-  margin-top: 30px;
-  font-size: 1.2rem;
+  margin-top: 20px;
+  font-size: 1rem;
   color: var(--argent);
-  letter-spacing: 3px;
-  animation: pulse-text 1.5s ease-in-out infinite;
+  letter-spacing: 2px;
+  animation: pulse-text 1.2s ease-in-out infinite;
 }
 
 @keyframes pulse-text {
@@ -182,7 +179,7 @@ body {
   50% { opacity: 1; }
 }
 
-/* Particules */
+/* Particules خفيفة لتحسين الأداء */
 .bg-particles {
   position: fixed;
   top: 0;
@@ -191,7 +188,7 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .particle {
@@ -200,15 +197,14 @@ body {
   height: 2px;
   background: var(--violet-neon);
   border-radius: 50%;
-  animation: float 15s infinite;
-  box-shadow: 0 0 10px var(--violet-neon);
+  animation: float 15s infinite linear;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
 }
 
 /* Header */
@@ -219,7 +215,6 @@ body {
   background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   overflow: hidden;
-  transition: background 0.3s;
 }
 
 .hero-header::before {
@@ -230,8 +225,8 @@ body {
   width: 200%;
   height: 200%;
   background: conic-gradient(from 0deg, transparent, var(--or-rose), transparent, var(--violet-neon), transparent);
-  animation: rotate 20s linear infinite;
-  opacity: 0.1;
+  animation: rotate 25s linear infinite;
+  opacity: 0.08;
 }
 
 @keyframes rotate {
@@ -345,22 +340,13 @@ body {
   box-shadow: 0 0 15px var(--or-rose);
 }
 
-.ligne-horizontale-stats {
-  width: 100%;
-  max-width: 600px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255,107,157,0.3), rgba(185,103,255,0.3), rgba(0,212,255,0.3), transparent);
-  margin: 30px auto 0;
-  position: relative;
-}
-
 /* Navigation Categories */
 .nav-categories {
   position: sticky;
   top: 0;
   background: rgba(10,10,10,0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   padding: 15px 20px 10px 20px;
   z-index: 100;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -377,7 +363,7 @@ body {
   color: var(--argent);
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -390,7 +376,7 @@ body {
   border-color: transparent;
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(185,103,255,0.3);
+  box-shadow: 0 5px 15px rgba(185,103,255,0.2);
 }
 
 .vercel-search-wrapper {
@@ -416,7 +402,6 @@ body {
   color: #666;
   font-size: 0.85rem;
   pointer-events: none;
-  transition: color 0.2s;
 }
 
 .api-search-field {
@@ -435,11 +420,6 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.2);
   outline: none;
-  box-shadow: 0 0 10px rgba(0, 214, 255, 0.1);
-}
-
-.api-search-field:focus + i {
-  color: var(--bleu-cyan);
 }
 
 /* Contenu */
@@ -468,8 +448,8 @@ body {
 .section-categorie {
   margin-bottom: 45px;
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s forwards;
+  transform: translateY(15px);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeInUp {
@@ -481,7 +461,7 @@ body {
 
 .titre-categorie {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
   margin-bottom: 25px;
   display: flex;
   align-items: center;
@@ -511,7 +491,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  box-shadow: 0 8px 25px rgba(255,107,157,0.25);
+  box-shadow: 0 8px 25px rgba(255,107,157,0.2);
 }
 
 .compteur-api {
@@ -524,22 +504,23 @@ body {
   border-radius: 20px;
 }
 
-/* Grille Cartes */
+/* تعديل مهم: توسيط شبكة الكروت بالكامل بالمنتصف */
 .grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 360px));
   gap: 25px;
+  justify-content: center; /* توسيط المربعات */
 }
 
-/* Carte API */
+/* Carte API خفيفة وسريعة */
 .carte-api {
   background: linear-gradient(145deg, #141414, #181818);
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.06);
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
   aspect-ratio: 1 / 1;
@@ -555,13 +536,13 @@ body {
   height: 3px;
   background: var(--gradient-principal);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 
 .carte-api:hover {
-  transform: translateY(-8px) scale(1.01);
+  transform: translateY(-6px);
   border-color: rgba(255,107,157,0.25);
-  box-shadow: 0 25px 50px rgba(185,103,255,0.15);
+  box-shadow: 0 20px 40px rgba(185,103,255,0.12);
 }
 
 .carte-api:hover::before {
@@ -687,7 +668,7 @@ body {
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -714,7 +695,7 @@ body {
   color: var(--bleu-cyan);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -783,7 +764,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -834,7 +815,7 @@ body {
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.25s ease;
+  transition: transform 0.2s ease;
 }
 
 .theme-btn:hover {
@@ -851,7 +832,7 @@ body {
   background-color: #0b0b0b;
   border-right: 1px solid rgba(255,255,255,0.04);
   overflow-x: hidden;
-  transition: 0.35s cubic-bezier(0.05, 0.74, 0.2, 1);
+  transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   padding-top: 70px;
 }
 
@@ -866,7 +847,7 @@ body {
   z-index: 1999;
   display: none;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease;
 }
 
 .sidebar-header h3 {
@@ -896,7 +877,7 @@ body {
   font-size: 0.9rem;
   padding: 10px 16px;
   border-radius: 10px;
-  transition: all 0.25s;
+  transition: all 0.2s;
 }
 
 .sidebar-links a:hover {
@@ -1043,12 +1024,12 @@ function closeSidebar() {
 
 function creerParticules() {
   const container = document.getElementById('particles');
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 30; i++) { /* تقليل العدد لتسريع التحميل */
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 15 + 's';
-    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    particle.style.animationDelay = Math.random() * 12 + 's';
+    particle.style.animationDuration = (12 + Math.random() * 8) + 's';
     container.appendChild(particle);
   }
 }
@@ -1124,11 +1105,9 @@ function filterApisSmart() {
 
   const apisFiltrees = toutesAPIs.filter(api => {
     const matchCategory = (activeCategory === 'all' || api.category === activeCategory);
-    
     const matchSearch = searchRegex.test(api.name) || 
                         searchRegex.test(api.info) || 
                         searchRegex.test(api.category);
-                        
     return matchCategory && matchSearch;
   });
 
@@ -1207,7 +1186,7 @@ function copierURL(url, btn) {
   setTimeout(() => {
     btn.innerHTML = originalHTML;
     btn.classList.remove('copie');
-  }, 2000);
+  }, 1500);
 }
 
 function ouvrirAPI(url) {
@@ -1235,7 +1214,7 @@ function renderInterface(apisList) {
   const groupe = grouperParCategorie(filtered);
   Object.keys(groupe).forEach((cat, index) => {
     const section = creerSectionCategorie(cat, groupe[cat]);
-    section.style.animationDelay = (index * 0.05) + 's';
+    section.style.animationDelay = (index * 0.03) + 's';
     container.appendChild(section);
   });
 }
@@ -1258,7 +1237,7 @@ async function chargerAPIs() {
     renderInterface(toutesAPIs);
     
     document.getElementById('loader').style.opacity = '0';
-    setTimeout(() => document.getElementById('loader').style.display = 'none', 400);
+    setTimeout(() => document.getElementById('loader').style.display = 'none', 300);
   } catch (error) {
     console.error(error);
     document.getElementById('mainContainer').innerHTML = `<div class="message-vide"><i class="fas fa-exclamation-circle" style="color:#ff4444;"></i><p>Erreur lors du chargement des données.</p></div>`;
@@ -1276,3 +1255,4 @@ initialiser();
 
 </body>
 </html>
+
