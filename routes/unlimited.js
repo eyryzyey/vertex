@@ -63,7 +63,7 @@ module.exports = {
  type: "get",
  url: `${global.t || "http://localhost:3000"}/api/unlimited/chat?q=hello`,
  logo: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
- category: "tools",
+ category: "ai",
  info: "AI chat powered by UnlimitedAI",
  router
 };
