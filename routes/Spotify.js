@@ -184,7 +184,7 @@ router.get("/info", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Parameter 'url' is required",
-        example: `${global.t || "http://localhost:3000"}/api/spotify/info?url=https://open.spotify.com/track/11dFghVXANMlKmJXsNCbNl`
+        example: `${global.t || "http://localhost:3000"}/api/spotify/info?url=https://open.spotify.com/track/xxxxxx`
       });
     }
 
@@ -225,7 +225,7 @@ module.exports = {
   path: "/api/spotify",
   name: "Spotify Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/11dFghVXANMlKmJXsNCbNl
+  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/xxxxxx
 
 `,
   logo: "https://open.spotify.com/favicon.ico",
