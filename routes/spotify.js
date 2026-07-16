@@ -70,7 +70,8 @@ module.exports = {
   path: "/api/spotify",
   name: "Spotify Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/xxxx`,
+  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/11dFghVXANMlKmJXsNCbNl
+`,
   logo: "https://cdn-icons-png.flaticon.com/512/174/174872.png",
   category: "download",
   info: "Download songs from Spotify",
