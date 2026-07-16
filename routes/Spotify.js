@@ -225,7 +225,8 @@ module.exports = {
   path: "/api/spotify",
   name: "Spotify Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/xxxxxx`,
+  url: `${global.t || "http://localhost:3000"}/api/spotify/download?url=https://open.spotify.com/track/11dFghVXANMlKmJXsNCbNl
+`,
   logo: "https://open.spotify.com/favicon.ico",
   category: "download",
   info: "Download Spotify tracks as MP3 with metadata (title, artist, album, cover)",
