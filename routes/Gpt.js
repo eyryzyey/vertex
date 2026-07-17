@@ -388,11 +388,11 @@ router.post("/chat/stream", async (req, res) => {
 
 module.exports = {
   path: "/api/gemini",
-  name: "Gemini AI Chat",
+  name: "gpt AI Chat",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/gemini/chat?message=Hello%20world`,
   logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg",
   category: "ai",
-  info: "Google Gemini AI chat with conversation memory support via session IDs",
+  info: "Google gpt AI chat with conversation memory support via session IDs",
   router
 };
