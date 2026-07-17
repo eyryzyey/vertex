@@ -429,7 +429,7 @@ module.exports = {
   name: "Universal Media Downloader",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/downloader/info?url=https://www.instagram.com/reel/DQSMSB3gulY/?igsh=bTZxdXFyam1iZ3hm`,
-  logo: "https://engez.a7a.online/favicon.ico",
+  logo: "https://cdn-icons-png.flaticon.com/512/2314/2314736.png",
   category: "download",
   info: "Universal media downloader supporting Facebook, Instagram, TikTok, Twitter, Spotify and more with quality selection and caching",
   router
