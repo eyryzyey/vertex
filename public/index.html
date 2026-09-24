@@ -303,7 +303,7 @@
     .support-item .fa-instagram { color: #e1306c; }
     .support-item .fa-bullhorn { color: #a855f7; }
 
-    /* ---------------- 2. الصفحة الثانية: الأقسام الثلاثة ---------------- */
+    /* ---------------- 2. الصفحة الثانية: الأقسام الثلاثة للمستخدمين ---------------- */
     .main-dashboard {
       display: none;
       width: 100%;
@@ -411,6 +411,130 @@
       border-color: #a855f7;
     }
 
+    /* ---------------- 3. لوحة تحكم الأدمن (Admin Dashboard) ---------------- */
+    .admin-dashboard {
+      display: none;
+      width: 100%;
+      max-width: 1000px;
+      padding: 30px 20px;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-panel-card {
+      background: rgba(15, 15, 22, 0.9);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .admin-panel-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #c084fc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-form .input-group {
+      margin-bottom: 15px;
+    }
+
+    .admin-form label {
+      display: block;
+      font-size: 0.85rem;
+      color: #a1a1aa;
+      margin-bottom: 6px;
+    }
+
+    .admin-form input {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #fff;
+      outline: none;
+    }
+
+    .admin-form input:focus {
+      border-color: #a855f7;
+    }
+
+    .btn-add-user {
+      width: 100%;
+      padding: 12px;
+      background: #a855f7;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-add-user:hover {
+      background: #9333ea;
+    }
+
+    .users-table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: #a1a1aa;
+      font-weight: 600;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: 8px;
+      transition: color 0.2s;
+    }
+
+    .edit-btn { color: #eab308; }
+    .edit-btn:hover { color: #fde047; }
+    .delete-btn { color: #ef4444; }
+    .delete-btn:hover { color: #f87171; }
+
+    .stats-badge {
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(100px); }
       to { opacity: 1; transform: translateY(0); }
@@ -491,7 +615,7 @@
     </div>
   </div>
 
-  <!-- 2️⃣ الصفحة الثانية (الأقسام الثلاثة) -->
+  <!-- 2️⃣ الصفحة الثانية (الأقسام الثلاثة للمستخدمين العاديين) -->
   <div class="main-dashboard" id="dashboardSection">
     <div class="dashboard-header">
       <h1>مرحباً بك في VIRIX</h1>
@@ -522,15 +646,82 @@
     </div>
   </div>
 
+  <!-- 3️⃣ لوحة تحكم الأدمن (Admin Dashboard) -->
+  <div class="admin-dashboard" id="adminDashboardSection">
+    <div class="dashboard-header">
+      <h1>لوحة تحكم الأدمن <span class="stats-badge" id="userCountBadge">0 حساب</span></h1>
+      <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
+    </div>
+
+    <div class="admin-grid">
+      <!-- نموذج إضافة حساب جديد -->
+      <div class="admin-panel-card">
+        <h3><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h3>
+        <form class="admin-form" onsubmit="addNewUser(event)">
+          <div class="input-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="newEmail" placeholder="example@gmail.com" required>
+          </div>
+          <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="text" id="newPassword" placeholder="كلمة المرور" required>
+          </div>
+          <button type="submit" class="btn-add-user"><i class="fas fa-plus"></i> إضافة الحساب</button>
+        </form>
+      </div>
+
+      <!-- قائمة الحسابات المسجلة -->
+      <div class="admin-panel-card">
+        <h3><i class="fas fa-users-cog"></i> الحسابات المسجلة</h3>
+        <div class="users-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>البريد الإلكتروني</th>
+                <th>كلمة المرور</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <!-- سيتم ملء الحسابات هنا ديناميكياً -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // قاعدة البيانات المغروسة (20 حساب معتمد)
-    const validUsers = Array.from({ length: 20 }, (_, i) => {
+    // حساب الأدمن المعتمد
+    const ADMIN_CREDENTIALS = {
+      email: "admin@virix.com",
+      password: "admin123"
+    };
+
+    // إعداد الـ 20 حساب الافتراضية
+    const defaultUsers = Array.from({ length: 20 }, (_, i) => {
       const id = String(i + 1).padStart(2, '0');
       return {
         email: `user${id}.virix@gmail.com`,
         password: `VrxPass#2026_${i + 1}`
       };
     });
+
+    // استرجاع الحسابات من localStorage أو كتابة الحسابات الافتراضية
+    function getUsers() {
+      const stored = localStorage.getItem('virix_users');
+      if (stored) {
+        return JSON.parse(stored);
+      } else {
+        localStorage.setItem('virix_users', JSON.stringify(defaultUsers));
+        return defaultUsers;
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('virix_users', JSON.stringify(users));
+    }
 
     const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
 
@@ -539,7 +730,11 @@
       const now = new Date().getTime();
 
       if (session && (now - session.loginTime < FIFTEEN_DAYS)) {
-        showDashboard();
+        if (session.isAdmin) {
+          showAdminDashboard();
+        } else {
+          showDashboard();
+        }
       } else {
         setTimeout(() => {
           document.getElementById('authSection').classList.add('open');
@@ -568,17 +763,105 @@
       const pass = document.getElementById('passInput').value;
       const errorMsg = document.getElementById('errorMsg');
 
-      const user = validUsers.find(u => u.email === email && u.password === pass);
+      // 1. التحقق إذا كان المسجل هو الأدمن
+      if (email === ADMIN_CREDENTIALS.email && pass === ADMIN_CREDENTIALS.password) {
+        saveSession(email, true);
+        showAdminDashboard();
+        return;
+      }
+
+      // 2. التحقق من الحسابات العادية
+      const users = getUsers();
+      const user = users.find(u => u.email === email && u.password === pass);
 
       if (user) {
-        saveSession(user.email);
+        saveSession(user.email, false);
         showDashboard();
       } else {
         errorMsg.style.display = 'block';
       }
     }
 
-    // دوال فتح وإغلاق نافذة خدمة العملاء
+    // دوال التحكم بالواجهات
+    function showDashboard() {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('adminDashboardSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+    }
+
+    function showAdminDashboard() {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('adminDashboardSection').style.display = 'block';
+      renderUsersTable();
+    }
+
+    // إدارة جدول الحسابات في لوحة الأدمن
+    function renderUsersTable() {
+      const users = getUsers();
+      const tbody = document.getElementById('usersTableBody');
+      document.getElementById('userCountBadge').innerText = `${users.length} حساب`;
+      tbody.innerHTML = '';
+
+      users.forEach((user, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${user.email}</td>
+          <td><code>${user.password}</code></td>
+          <td>
+            <button class="action-btn edit-btn" title="تعديل كلمة المرور" onclick="editUser('${user.email}')"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn" title="حذف الحساب" onclick="deleteUser('${user.email}')"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function addNewUser(e) {
+      e.preventDefault();
+      const email = document.getElementById('newEmail').value.trim();
+      const password = document.getElementById('newPassword').value.trim();
+
+      let users = getUsers();
+      if (users.some(u => u.email === email)) {
+        alert("هذا البريد الإلكتروني مسجل بالفعل!");
+        return;
+      }
+
+      users.push({ email, password });
+      saveUsers(users);
+      renderUsersTable();
+
+      document.getElementById('newEmail').value = '';
+      document.getElementById('newPassword').value = '';
+      alert("تمت إضافة الحساب بنجاح!");
+    }
+
+    function editUser(email) {
+      const users = getUsers();
+      const user = users.find(u => u.email === email);
+      if (user) {
+        const newPass = prompt(`أدخل كلمة المرور الجديدة للحساب (${email}):`, user.password);
+        if (newPass && newPass.trim() !== "") {
+          user.password = newPass.trim();
+          saveUsers(users);
+          renderUsersTable();
+          alert("تم تعديل كلمة المرور بنجاح!");
+        }
+      }
+    }
+
+    function deleteUser(email) {
+      if (confirm(`هل أنت تأكد من رغبتك في حذف الحساب (${email})؟`)) {
+        let users = getUsers();
+        users = users.filter(u => u.email !== email);
+        saveUsers(users);
+        renderUsersTable();
+      }
+    }
+
+    // دوال النافذة المنبثقة لخدمة العملاء
     function openSupportModal() {
       document.getElementById('supportModal').classList.add('active');
     }
@@ -587,7 +870,6 @@
       document.getElementById('supportModal').classList.remove('active');
     }
 
-    // إغلاق النافذة المنبثقة عند الضغط خارجها
     window.addEventListener('click', (e) => {
       const modal = document.getElementById('supportModal');
       if (e.target === modal) {
@@ -595,17 +877,13 @@
       }
     });
 
-    function saveSession(email) {
+    function saveSession(email, isAdmin) {
       const sessionData = {
         user: email,
+        isAdmin: isAdmin,
         loginTime: new Date().getTime()
       };
       localStorage.setItem('virix_session', JSON.stringify(sessionData));
-    }
-
-    function showDashboard() {
-      document.getElementById('authSection').style.display = 'none';
-      document.getElementById('dashboardSection').style.display = 'block';
     }
 
     function logout() {
