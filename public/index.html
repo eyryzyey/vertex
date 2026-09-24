@@ -2,12 +2,24 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIRIX PLATFORM - VPS CYBER CONSOLE</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    :root {
+      --bg-main: #05050a;
+      --bg-card: rgba(15, 12, 28, 0.75);
+      --border-neon: rgba(168, 85, 247, 0.25);
+      --border-neon-hover: rgba(168, 85, 247, 0.6);
+      --primary-purple: #a855f7;
+      --secondary-pink: #ec4899;
+      --glow-purple: rgba(168, 85, 247, 0.4);
+      --text-muted: #94a3b8;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -16,23 +28,26 @@
     }
 
     body {
-      background-color: #050508;
+      background-color: var(--bg-main);
       color: #ffffff;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       overflow-x: hidden;
       perspective: 1000px;
     }
 
-    .bg-dark-glow {
+    .bg-cyber-glow {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 50% 30%, rgba(88, 28, 135, 0.25) 0%, rgba(5, 5, 8, 1) 75%);
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(126, 34, 206, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(15, 10, 30, 0.95) 0%, rgba(5, 5, 10, 1) 100%);
       z-index: -1;
     }
 
@@ -40,50 +55,20 @@
     .house-stage {
       position: relative;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       padding: 20px;
-      perspective: 1200px;
+      margin-top: 8vh;
     }
-
-    .roof-left, .roof-right {
-      position: absolute;
-      top: -15px;
-      width: 50%;
-      height: 6px;
-      background: #7e22ce;
-      box-shadow: 0 0 20px #7e22ce;
-      z-index: 10;
-      transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    .roof-left { left: 20px; transform-origin: left center; }
-    .roof-right { right: 20px; transform-origin: right center; }
 
     .login-card {
-      background: rgba(15, 15, 22, 0.85);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(126, 34, 206, 0.25);
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-neon);
       border-radius: 24px;
       padding: 35px 25px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
-      opacity: 0;
-      transform: scale(0.3) rotateX(30deg) translateY(150px);
-      transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .house-stage.open .login-card {
-      opacity: 1;
-      transform: scale(1) rotateX(0deg) translateY(0);
-    }
-
-    .house-stage.open .roof-left {
-      transform: rotate(-40deg) translateY(-25px);
-      opacity: 0;
-    }
-
-    .house-stage.open .roof-right {
-      transform: rotate(40deg) translateY(-25px);
-      opacity: 0;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.1);
+      transition: all 0.4s ease;
     }
 
     .login-header {
@@ -93,23 +78,25 @@
 
     .login-header h2 {
       font-size: 2rem;
-      font-weight: 700;
-      color: #fff;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--primary-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
     }
 
-    /* إصلاح تداخل الأيقونات */
     .input-box {
       position: relative;
       margin-bottom: 20px;
-      direction: ltr; /* ضمان ضبط الأيقونات الإنجليزية والبريد بالشكل الصحيح */
+      direction: ltr;
     }
 
     .input-box input {
       width: 100%;
       padding: 14px 45px 14px 45px;
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
       outline: none;
       color: #fff;
       font-size: 0.95rem;
@@ -118,9 +105,9 @@
     }
 
     .input-box input:focus {
-      border-color: #a855f7;
-      background: rgba(255, 255, 255, 0.07);
-      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+      border-color: var(--primary-purple);
+      background: rgba(168, 85, 247, 0.05);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
     }
 
     .input-box i.icon-main {
@@ -128,8 +115,7 @@
       right: 18px;
       top: 50%;
       transform: translateY(-50%);
-      color: rgba(255, 255, 255, 0.5);
-      pointer-events: none;
+      color: var(--text-muted);
     }
 
     .input-box i.toggle-eye {
@@ -137,294 +123,211 @@
       left: 18px;
       top: 50%;
       transform: translateY(-50%);
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--text-muted);
       cursor: pointer;
       transition: color 0.3s;
-      z-index: 5;
-    }
-
-    .input-box i.toggle-eye:hover {
-      color: #a855f7;
     }
 
     .btn-login {
       width: 100%;
-      padding: 13px;
-      background: #ffffff;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary-purple), #7e22ce);
       border: none;
-      border-radius: 30px;
-      color: #09090b;
-      font-size: 1.05rem;
-      font-weight: 800;
+      border-radius: 16px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-      margin-top: 10px;
+      box-shadow: 0 4px 20px var(--glow-purple);
     }
 
     .btn-login:hover {
-      background: #e4e4e7;
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
     }
 
     .error-msg {
-      color: #ef4444;
+      color: #f87171;
       font-size: 0.85rem;
       text-align: center;
       margin-top: 12px;
       display: none;
-      direction: rtl;
     }
 
     .support-link {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 22px;
       font-size: 0.9rem;
-      color: #a1a1aa;
-      direction: rtl;
+      color: var(--text-muted);
     }
 
     .support-link a {
-      color: #a855f7;
+      color: var(--primary-purple);
       font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       cursor: pointer;
-      transition: color 0.3s;
     }
 
-    .support-link a:hover {
-      color: #c084fc;
-      text-decoration: underline;
-    }
-
-    /* ---------------- النافذة المنبثقة لخدمة العملاء ---------------- */
+    /* ---------------- النافذة المنبثقة ---------------- */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease;
     }
 
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
 
     .modal-box {
-      background: #0f0f16;
-      border: 1px solid rgba(168, 85, 247, 0.3);
+      background: #0f0c1b;
+      border: 1px solid var(--border-neon);
       border-radius: 20px;
       padding: 25px;
-      width: 90%;
-      max-width: 360px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      position: relative;
-    }
-
-    .modal-overlay.active .modal-box {
-      transform: translateY(0);
+      width: 90%; max-width: 380px;
     }
 
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
       padding-bottom: 10px;
     }
 
-    .modal-header h3 {
-      font-size: 1.2rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .close-btn { background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
 
-    .close-btn {
-      background: none;
-      border: none;
-      color: #a1a1aa;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .close-btn:hover {
-      color: #ef4444;
-    }
-
-    .support-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
+    .support-list { display: flex; flex-direction: column; gap: 12px; }
     .support-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.04);
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 12px 15px;
-      border-radius: 12px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      padding: 12px 15px; border-radius: 12px;
+      color: #fff; text-decoration: none; font-size: 0.9rem;
     }
+    .support-item i { font-size: 1.2rem; }
+    .support-item .fa-whatsapp { color: #22c55e; }
+    .support-item .fa-instagram { color: #ec4899; }
+    .support-item .fa-bullhorn { color: var(--primary-purple); }
 
-    .support-item:hover {
-      background: rgba(168, 85, 247, 0.15);
-      border-color: #a855f7;
-      transform: translateX(-3px);
-    }
-
-    .support-item i {
-      font-size: 1.3rem;
-      width: 25px;
-      text-align: center;
-    }
-
-    .support-item .fa-whatsapp { color: #25d366; }
-    .support-item .fa-instagram { color: #e1306c; }
-    .support-item .fa-bullhorn { color: #a855f7; }
-
-    /* ---------------- 2. واجهة المستخدمين العاديين ---------------- */
+    /* ---------------- 2. واجهة المستخدمين ---------------- */
     .main-dashboard {
-      display: none;
-      width: 100%;
-      max-width: 1100px;
-      padding: 40px 20px;
-      animation: fadeIn 0.8s ease forwards;
+      display: none; width: 100%; max-width: 1100px; padding: 40px 20px;
+      animation: fadeIn 0.6s ease forwards;
     }
 
     .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .dashboard-header h1 {
       font-size: 1.8rem;
-      background: linear-gradient(to right, #a855f7, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background: linear-gradient(to right, var(--primary-purple), var(--secondary-pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
     .btn-logout {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid #ef4444;
-      color: #ef4444;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
+      background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444;
+      color: #f87171; padding: 8px 18px; border-radius: 12px;
+      cursor: pointer; font-weight: 600; transition: 0.3s;
     }
 
-    .btn-logout:hover {
-      background: #ef4444;
-      color: #fff;
-    }
+    .btn-logout:hover { background: #ef4444; color: #fff; }
 
     .sections-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
     }
 
     .section-card {
-      background: rgba(20, 20, 28, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 30px 20px;
-      text-align: center;
-      transition: all 0.4s ease;
-      position: relative;
+      background: var(--bg-card); border: 1px solid var(--border-neon);
+      border-radius: 20px; padding: 30px 20px; text-align: center; transition: 0.4s ease;
     }
 
     .section-card:hover {
-      transform: translateY(-8px);
-      border-color: #a855f7;
-      box-shadow: 0 15px 30px rgba(168, 85, 247, 0.2);
+      transform: translateY(-8px); border-color: var(--primary-purple);
+      box-shadow: 0 15px 30px var(--glow-purple);
     }
 
     .section-card .icon-box {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-    }
-
-    .anime .icon-box { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
-    .movies .icon-box { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
-    .matches .icon-box { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
-
-    .section-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-    }
-
-    .section-card p {
-      color: #a1a1aa;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 20px;
+      width: 70px; height: 70px; margin: 0 auto 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+      background: rgba(168, 85, 247, 0.15); color: #c084fc;
     }
 
     .btn-enter {
-      display: inline-block;
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
+      display: inline-block; width: 100%; padding: 10px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff; text-decoration: none; font-weight: 600; margin-top: 15px; transition: 0.3s;
     }
 
-    .section-card:hover .btn-enter {
-      background: #a855f7;
-      border-color: #a855f7;
-    }
+    .section-card:hover .btn-enter { background: var(--primary-purple); }
 
-    /* ---------------- 3. لوحة تحكم الأدمن (VPS Panel Style) ---------------- */
+    /* ---------------- 3. لوحة تحكم VPS CYBER PANEL ---------------- */
     .admin-dashboard {
       display: none;
       width: 100%;
-      max-width: 1150px;
-      padding: 30px 20px;
-      animation: fadeIn 0.8s ease forwards;
+      max-width: 1280px;
+      padding: 25px 20px;
+      animation: fadeIn 0.6s ease forwards;
     }
 
+    /* Cyber Console TopBar */
+    .server-status-bar {
+      background: rgba(10, 8, 20, 0.85);
+      border: 1px solid var(--border-neon);
+      border-radius: 16px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .server-info-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+    }
+
+    .pulse-node {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+
+    .server-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-cyber-action {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .btn-cyber-action:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--primary-purple);
+    }
+
+    /* Stats Grid */
     .stats-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -433,145 +336,182 @@
     }
 
     .stat-card {
-      background: rgba(15, 15, 25, 0.85);
-      border: 1px solid rgba(168, 85, 247, 0.2);
-      border-radius: 16px;
-      padding: 18px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-neon);
+      border-radius: 18px;
+      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
     }
 
-    .stat-card .stat-info h4 {
-      font-size: 0.85rem;
-      color: #a1a1aa;
-      margin-bottom: 5px;
+    .stat-card:hover {
+      border-color: var(--border-neon-hover);
+      transform: translateY(-3px);
     }
 
-    .stat-card .stat-info span {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #fff;
+    .stat-info h4 { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; }
+    .stat-info span { font-size: 1.6rem; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; }
+
+    .stat-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; background: rgba(168, 85, 247, 0.12); color: #c084fc;
     }
 
-    .stat-card .stat-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      background: rgba(168, 85, 247, 0.12);
-      color: #c084fc;
+    .stat-card.active-users .stat-icon { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .stat-card.blocked-users .stat-icon { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .stat-card.system-load .stat-icon { background: rgba(236, 72, 153, 0.12); color: #f472b6; }
+
+    /* Performance Progress Bar */
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-purple), var(--secondary-pink));
+      width: 32%;
     }
 
-    .stat-card.online .stat-icon {
-      background: rgba(34, 197, 94, 0.12);
-      color: #4ade80;
-    }
-
-    .stat-card.blocked .stat-icon {
-      background: rgba(239, 68, 68, 0.12);
-      color: #f87171;
-    }
-
+    /* Main Grid Structure */
     .admin-grid {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 340px 1fr;
       gap: 25px;
     }
 
-    @media (max-width: 900px) {
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 980px) {
+      .admin-grid { grid-template-columns: 1fr; }
     }
 
     .admin-panel-card {
-      background: rgba(15, 15, 22, 0.9);
-      border: 1px solid rgba(168, 85, 247, 0.3);
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-neon);
       border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      padding: 22px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
 
     .admin-panel-card h3 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       margin-bottom: 20px;
       color: #c084fc;
       display: flex;
       align-items: center;
       gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
     }
 
-    .admin-form .input-group {
-      margin-bottom: 15px;
-    }
+    /* Add Form Stylings */
+    .admin-form .input-group { margin-bottom: 14px; }
+    .admin-form label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; }
 
-    .admin-form label {
-      display: block;
-      font-size: 0.85rem;
-      color: #a1a1aa;
-      margin-bottom: 6px;
+    .input-with-action {
+      display: flex;
+      gap: 8px;
     }
 
     .admin-form input, .admin-form select {
       width: 100%;
-      padding: 12px 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 11px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 12px;
       color: #fff;
       outline: none;
-      font-size: 0.9rem;
-    }
-
-    .admin-form select option {
-      background: #0f0f16;
-      color: #fff;
+      font-size: 0.88rem;
     }
 
     .admin-form input:focus, .admin-form select:focus {
-      border-color: #a855f7;
+      border-color: var(--primary-purple);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
     }
+
+    .btn-gen-pass {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--primary-purple);
+      color: #c084fc;
+      padding: 0 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      transition: 0.3s;
+    }
+
+    .btn-gen-pass:hover { background: var(--primary-purple); color: #fff; }
 
     .btn-add-user {
       width: 100%;
       padding: 12px;
-      background: #a855f7;
+      background: linear-gradient(135deg, var(--primary-purple), #7e22ce);
       color: #fff;
       border: none;
       border-radius: 12px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 5px;
+      transition: all 0.3s;
+      margin-top: 8px;
+      box-shadow: 0 4px 15px var(--glow-purple);
     }
 
-    .btn-add-user:hover {
-      background: #9333ea;
-    }
+    .btn-add-user:hover { opacity: 0.9; transform: translateY(-1px); }
 
+    /* Table & Tools */
     .table-tools {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
-      gap: 15px;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filter-btn.active {
+      background: var(--primary-purple);
+      color: #fff;
+      font-weight: 600;
     }
 
     .search-box {
       position: relative;
+      min-width: 200px;
       flex: 1;
     }
 
     .search-box input {
       width: 100%;
-      padding: 10px 38px 10px 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 9px 38px 9px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       color: #fff;
       outline: none;
@@ -583,78 +523,101 @@
       right: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: #a1a1aa;
+      color: var(--text-muted);
     }
 
     .users-table-container {
-      max-height: 420px;
+      max-height: 440px;
       overflow-y: auto;
       overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: right;
-      min-width: 580px;
+      min-width: 650px;
     }
 
     th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       font-size: 0.85rem;
     }
 
     th {
-      color: #a1a1aa;
+      color: var(--text-muted);
       font-weight: 600;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+    }
+
+    td code {
+      font-family: 'JetBrains Mono', monospace;
+      color: #c084fc;
+      background: rgba(168, 85, 247, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
     }
 
     .badge-status {
       padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 0.75rem;
+      border-radius: 10px;
+      font-size: 0.72rem;
       font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    .badge-active { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-    .badge-blocked { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-active { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
     .action-btn {
-      background: none;
-      border: none;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.95rem;
-      margin-left: 6px;
-      transition: color 0.2s, transform 0.2s;
+      font-size: 0.85rem;
+      margin-left: 4px;
+      transition: all 0.2s;
     }
 
-    .action-btn:hover { transform: scale(1.15); }
+    .action-btn:hover { transform: scale(1.1); }
+    .edit-btn:hover { color: #fde047; border-color: #fde047; }
+    .block-btn:hover { color: #f97316; border-color: #f97316; }
+    .unblock-btn:hover { color: #4ade80; border-color: #4ade80; }
+    .delete-btn:hover { color: #f87171; border-color: #f87171; }
 
-    .edit-btn { color: #eab308; }
-    .block-btn { color: #f97316; }
-    .unblock-btn { color: #22c55e; }
-    .delete-btn { color: #ef4444; }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(50px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-dark-glow"></div>
+  <div class="bg-cyber-glow"></div>
 
-  <!-- 1️⃣ الصفحة الأولى (تسجيل الدخول) -->
-  <div class="house-stage open" id="authSection">
-    <div class="roof-left"></div>
-    <div class="roof-right"></div>
-
+  <!-- 1️⃣ واجهة تسجيل الدخول -->
+  <div class="house-stage" id="authSection">
     <div class="login-card">
       <div class="login-header">
-        <h2>Login tv</h2>
+        <h2>VIRIX CONSOLE</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">VPS & IPTV Administration Panel</p>
       </div>
 
       <form onsubmit="handleLogin(event)">
@@ -664,92 +627,101 @@
         </div>
 
         <div class="input-box">
-          <input type="password" id="passInput" placeholder="admin123" required autocomplete="off">
+          <input type="password" id="passInput" placeholder="••••••••" required autocomplete="off">
           <i class="fas fa-lock icon-main"></i>
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
-        <button type="submit" class="btn-login">Login</button>
+        <button type="submit" class="btn-login"><i class="fas fa-terminal"></i> الدخول للوحة التحكم</button>
 
         <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
 
         <div class="support-link">
-          تحتاج إلى مساعدة؟ <a onclick="openSupportModal()">خدمة العملاء <i class="fas fa-headset"></i></a>
+          المساعدة والدعم: <a onclick="openSupportModal()">خدمة العملاء <i class="fas fa-headset"></i></a>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- 📌 النافذة المنبثقة (خدمة العملاء) -->
+  <!-- 📌 النافذة المنبثقة لخدمة العملاء -->
   <div class="modal-overlay" id="supportModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3><i class="fas fa-headset" style="color: #a855f7;"></i> خدمة العملاء</h3>
+        <h3><i class="fas fa-headset" style="color: var(--primary-purple);"></i> الدعم الفني المباشر</h3>
         <button class="close-btn" onclick="closeSupportModal()"><i class="fas fa-times"></i></button>
       </div>
 
       <div class="support-list">
         <a href="https://wa.me/212621482778" target="_blank" class="support-item">
           <i class="fab fa-whatsapp"></i>
-          <span>owner 1</span>
+          <span>الدعم الفني الرئيسي 1</span>
         </a>
-
         <a href="https://wa.me/212770182095" target="_blank" class="support-item">
           <i class="fab fa-whatsapp"></i>
-          <span>owner 2</span>
+          <span>الدعم الفني الرئيسي 2</span>
         </a>
-
         <a href="https://www.instagram.com/lu_x_smos?stkn=MWgyZG9keXNnaW44Mw==" target="_blank" class="support-item">
           <i class="fab fa-instagram"></i>
-          <span>chanale instagram</span>
+          <span>قناة الانستغرام الرسمية</span>
         </a>
-
         <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="support-item">
           <i class="fas fa-bullhorn"></i>
-          <span>chanele whatsapp</span>
+          <span>مجتمع الواتساب للتحديثات</span>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- 2️⃣ الصفحة الثانية (الأقسام الثلاثة للمستخدمين العاديين) -->
+  <!-- 2️⃣ واجهة المستخدمين العاديين -->
   <div class="main-dashboard" id="dashboardSection">
     <div class="dashboard-header">
-      <h1>مرحباً بك في VIRIX</h1>
+      <h1>مرحباً بك في منصة VIRIX</h1>
       <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
     </div>
 
     <div class="sections-container">
-      <div class="section-card anime">
+      <div class="section-card">
         <div class="icon-box"><i class="fas fa-tv"></i></div>
         <h3>قسم الأنمي</h3>
-        <p>شاهد أحدث حلقات وأفلام الأنمي اليابانية المترجمة بجودة عالية HD.</p>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">شاهد أحدث حلقات وأفلام الأنمي المترجمة بجودة عالية HD.</p>
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
-      <div class="section-card movies">
+      <div class="section-card">
         <div class="icon-box"><i class="fas fa-film"></i></div>
-        <h3>قسم الأفلام</h3>
-        <p>مكتبة ضخمة تضم أحدث أفلام الأكشن والإثارة والسينما العالمية.</p>
+        <h3>قسم الأفلام والمسلسلات</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">مكتبة ضخمة تضم أحدث أفلام الأكشن والإثارة والسينما العالمية.</p>
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
-      <div class="section-card matches">
+      <div class="section-card">
         <div class="icon-box"><i class="fas fa-futbol"></i></div>
-        <h3>قسم المباريات</h3>
-        <p>بث مباشر لجميع المباريات والدوريات العالمية بدون تقطيع.</p>
+        <h3>قسم البث المباشر</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">بث مباشر لجميع المباريات والدوريات العالمية بدون تقطيع.</p>
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
     </div>
   </div>
 
-  <!-- 3️⃣ لوحة تحكم الأدمن (VPS Admin Dashboard) -->
+  <!-- 3️⃣ لوحة تحكم VPS CYBER PANEL للأدمن -->
   <div class="admin-dashboard" id="adminDashboardSection">
-    <div class="dashboard-header">
-      <h1>OneMovies tv Control Panel</h1>
-      <button class="btn-logout" onclick="logout()">Déconnexion<i class="fas fa-sign-out-alt"></i></button>
+    
+    <!-- Cyber Status TopBar -->
+    <div class="server-status-bar">
+      <div class="server-info-badge">
+        <div class="pulse-node"></div>
+        <span>SERVER: <strong style="color: #c084fc;">virix-node-01.sys</strong></span>
+        <span style="color: var(--text-muted); font-size: 0.8rem; margin-right: 10px;">UPTIME: 99.98%</span>
+      </div>
+
+      <div class="server-actions">
+        <button class="btn-cyber-action" onclick="exportUsersCSV()"><i class="fas fa-file-export"></i> تصدير البيانات (CSV)</button>
+        <button class="btn-cyber-action" onclick="clearCacheMock()"><i class="fas fa-sync-alt"></i> Clear Cache</button>
+        <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
+      </div>
     </div>
 
+    <!-- Stats Grid -->
     <div class="stats-container">
       <div class="stat-card">
         <div class="stat-info">
@@ -759,7 +731,7 @@
         <div class="stat-icon"><i class="fas fa-users"></i></div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card active-users">
         <div class="stat-info">
           <h4>الحسابات النشطة</h4>
           <span id="statActive">0</span>
@@ -767,7 +739,7 @@
         <div class="stat-icon"><i class="fas fa-user-check"></i></div>
       </div>
 
-      <div class="stat-card blocked">
+      <div class="stat-card blocked-users">
         <div class="stat-info">
           <h4>الحسابات المعطلة</h4>
           <span id="statBlocked">0</span>
@@ -775,16 +747,19 @@
         <div class="stat-icon"><i class="fas fa-user-slash"></i></div>
       </div>
 
-      <div class="stat-card online">
+      <div class="stat-card system-load">
         <div class="stat-info">
-          <h4>حالة النظام</h4>
-          <span>Online</span>
+          <h4>استهلاك السيرفر (CPU)</h4>
+          <span id="cpuUsage">24%</span>
+          <div class="progress-bar-wrap"><div class="progress-fill" id="cpuBar"></div></div>
         </div>
-        <div class="stat-icon"><i class="fas fa-server"></i></div>
+        <div class="stat-icon"><i class="fas fa-microchip"></i></div>
       </div>
     </div>
 
+    <!-- Admin Panel Grid -->
     <div class="admin-grid">
+      <!-- Create Account Form -->
       <div class="admin-panel-card">
         <h3><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h3>
         <form class="admin-form" onsubmit="addNewUser(event)">
@@ -792,28 +767,40 @@
             <label>البريد الإلكتروني</label>
             <input type="email" id="newEmail" placeholder="user@gmail.com" required>
           </div>
+
           <div class="input-group">
             <label>كلمة المرور</label>
-            <input type="text" id="newPassword" placeholder="كلمة المرور" required>
+            <div class="input-with-action">
+              <input type="text" id="newPassword" placeholder="كلمة المرور" required>
+              <button type="button" class="btn-gen-pass" onclick="generateRandomPass()"><i class="fas fa-key"></i> توليد</button>
+            </div>
           </div>
+
           <div class="input-group">
             <label>مدة الاشتراك</label>
             <select id="newDuration">
               <option value="15 يوم">15 يوم</option>
-              <option value="شهر واحد">شهر واحد</option>
+              <option value="شهر واحد" selected>شهر واحد</option>
               <option value="3 أشهر">3 أشهر</option>
               <option value="سنة كاملة">سنة كاملة</option>
             </select>
           </div>
-          <button type="submit" class="btn-add-user"><i class="fas fa-plus"></i> إضافة الحساب</button>
+
+          <button type="submit" class="btn-add-user"><i class="fas fa-plus-circle"></i> إضافة وتفعيل الحساب</button>
         </form>
       </div>
 
+      <!-- Users Table Control -->
       <div class="admin-panel-card">
         <div class="table-tools">
-          <h3><i class="fas fa-users-cog"></i> الحسابات المسجلة</h3>
+          <div class="filter-tabs">
+            <button class="filter-btn active" onclick="setFilterStatus('all', this)">الكل</button>
+            <button class="filter-btn" onclick="setFilterStatus('active', this)">النشطة</button>
+            <button class="filter-btn" onclick="setFilterStatus('blocked', this)">المعطلة</button>
+          </div>
+
           <div class="search-box">
-            <input type="text" id="searchInput" oninput="filterUsers()" placeholder="بحث بالبريد...">
+            <input type="text" id="searchInput" oninput="renderUsersTable()" placeholder="بحث بالبريد الإلكتروني...">
             <i class="fas fa-search"></i>
           </div>
         </div>
@@ -827,7 +814,7 @@
                 <th>كلمة المرور</th>
                 <th>المدة</th>
                 <th>الحالة</th>
-                <th>التاريخ</th>
+                <th>تاريخ الانتهاء</th>
                 <th>إجراءات</th>
               </tr>
             </thead>
@@ -845,25 +832,26 @@
       password: "admin123"
     };
 
-    const defaultUsers = Array.from({ length: 20 }, (_, i) => {
+    let currentFilterStatus = 'all';
+
+    // توليد بيانات وهمية أولية
+    const defaultUsers = Array.from({ length: 12 }, (_, i) => {
       const id = String(i + 1).padStart(2, '0');
       return {
-        email: `user${id}.virix@gmail.com`,
-        password: `VrxPass#2026_${i + 1}`,
+        email: `client${id}.virix@gmail.com`,
+        password: `Vrx#2026_${Math.floor(1000 + Math.random() * 9000)}`,
         duration: "شهر واحد",
-        status: "active",
-        createdDate: "2026-09-01"
+        status: i % 4 === 0 ? "blocked" : "active",
+        createdDate: "2026-09-01",
+        expiryDate: "2026-10-01"
       };
     });
 
     function getUsers() {
       const stored = localStorage.getItem('virix_users');
-      if (stored) {
-        return JSON.parse(stored);
-      } else {
-        localStorage.setItem('virix_users', JSON.stringify(defaultUsers));
-        return defaultUsers;
-      }
+      if (stored) return JSON.parse(stored);
+      localStorage.setItem('virix_users', JSON.stringify(defaultUsers));
+      return defaultUsers;
     }
 
     function saveUsers(users) {
@@ -883,22 +871,22 @@
           showDashboard();
         }
       } else {
-        document.getElementById('authSection').classList.add('open');
+        document.getElementById('authSection').style.display = 'block';
       }
+
+      // محاكاة استهلاك السيرفر التفاعلي
+      setInterval(updateSystemMetrics, 3000);
     });
 
     function togglePass() {
       const passInput = document.getElementById('passInput');
       const toggleEye = document.getElementById('togglePassword');
-
       if (passInput.type === 'password') {
         passInput.type = 'text';
-        toggleEye.classList.remove('fa-eye');
-        toggleEye.classList.add('fa-eye-slash');
+        toggleEye.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
         passInput.type = 'password';
-        toggleEye.classList.remove('fa-eye-slash');
-        toggleEye.classList.add('fa-eye');
+        toggleEye.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
@@ -910,20 +898,18 @@
 
       errorMsg.style.display = 'none';
 
-      // 1. دخول الأدمن
       if (email === ADMIN_CREDENTIALS.email.toLowerCase() && pass === ADMIN_CREDENTIALS.password) {
         saveSession(email, true);
         showAdminDashboard();
         return;
       }
 
-      // 2. دخول المستخدم العادي
       const users = getUsers();
       const user = users.find(u => u.email.toLowerCase() === email && u.password === pass);
 
       if (user) {
         if (user.status === 'blocked') {
-          alert('هذا الحساب معطل حالياً من قِبل الإدارة. يرجى التواصل مع خدمة العملاء.');
+          alert('هذا الحساب معطل حالياً من قبل الإدارة.');
           return;
         }
         saveSession(user.email, false);
@@ -957,17 +943,40 @@
       document.getElementById('statBlocked').innerText = blockedCount;
     }
 
-    function renderUsersTable(filterKeyword = '') {
+    function updateSystemMetrics() {
+      const randomCpu = Math.floor(Math.random() * (45 - 18 + 1)) + 18;
+      const cpuElem = document.getElementById('cpuUsage');
+      const barElem = document.getElementById('cpuBar');
+      if (cpuElem && barElem) {
+        cpuElem.innerText = `${randomCpu}%`;
+        barElem.style.width = `${randomCpu}%`;
+      }
+    }
+
+    function setFilterStatus(status, btnElem) {
+      currentFilterStatus = status;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      btnElem.classList.add('active');
+      renderUsersTable();
+    }
+
+    function renderUsersTable() {
       const users = getUsers();
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
       const tbody = document.getElementById('usersTableBody');
       tbody.innerHTML = '';
 
-      const filteredUsers = users.filter(u => u.email.toLowerCase().includes(filterKeyword.toLowerCase()));
+      let filtered = users.filter(u => u.email.toLowerCase().includes(keyword));
 
-      filteredUsers.forEach((user, index) => {
+      if (currentFilterStatus === 'active') {
+        filtered = filtered.filter(u => u.status !== 'blocked');
+      } else if (currentFilterStatus === 'blocked') {
+        filtered = filtered.filter(u => u.status === 'blocked');
+      }
+
+      filtered.forEach((user, index) => {
         const tr = document.createElement('tr');
         const isBlocked = user.status === 'blocked';
-        const todayDate = user.createdDate || "2026-09-24";
 
         tr.innerHTML = `
           <td>${index + 1}</td>
@@ -976,12 +985,13 @@
           <td>${user.duration || 'شهر واحد'}</td>
           <td>
             <span class="badge-status ${isBlocked ? 'badge-blocked' : 'badge-active'}">
+              <i class="fas ${isBlocked ? 'fa-times-circle' : 'fa-check-circle'}"></i>
               ${isBlocked ? 'معطل' : 'نشط'}
             </span>
           </td>
-          <td>${todayDate}</td>
+          <td style="font-family: 'JetBrains Mono', monospace; font-size:0.8rem;">${user.expiryDate || '2026-10-24'}</td>
           <td>
-            <button class="action-btn edit-btn" title="تعديل الحساب" onclick="editUser('${user.email}')"><i class="fas fa-edit"></i></button>
+            <button class="action-btn edit-btn" title="تعديل الحساب" onclick="editUser('${user.email}')"><i class="fas fa-pen"></i></button>
             <button class="action-btn ${isBlocked ? 'unblock-btn' : 'block-btn'}" title="${isBlocked ? 'تفعيل' : 'تجميد'}" onclick="toggleBlockUser('${user.email}')">
               <i class="fas ${isBlocked ? 'fa-user-check' : 'fa-user-slash'}"></i>
             </button>
@@ -992,9 +1002,22 @@
       });
     }
 
-    function filterUsers() {
-      const keyword = document.getElementById('searchInput').value;
-      renderUsersTable(keyword);
+    function calculateExpiryDate(durationStr) {
+      const now = new Date();
+      if (durationStr === '15 يوم') now.setDate(now.getDate() + 15);
+      else if (durationStr === 'شهر واحد') now.setMonth(now.getMonth() + 1);
+      else if (durationStr === '3 أشهر') now.setMonth(now.getMonth() + 3);
+      else if (durationStr === 'سنة كاملة') now.setFullYear(now.getFullYear() + 1);
+      return now.toISOString().split('T')[0];
+    }
+
+    function generateRandomPass() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#@!";
+      let pass = "Vrx#";
+      for (let i = 0; i < 6; i++) {
+        pass += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById('newPassword').value = pass;
     }
 
     function addNewUser(e) {
@@ -1010,12 +1033,15 @@
       }
 
       const today = new Date().toISOString().split('T')[0];
+      const expiry = calculateExpiryDate(duration);
+
       users.push({
         email,
         password,
         duration,
         status: 'active',
-        createdDate: today
+        createdDate: today,
+        expiryDate: expiry
       });
 
       saveUsers(users);
@@ -1024,19 +1050,19 @@
 
       document.getElementById('newEmail').value = '';
       document.getElementById('newPassword').value = '';
-      alert("تمت إضافة الحساب بنجاح!");
+      alert("تم إنشاء وتفعيل الحساب بنجاح!");
     }
 
     function editUser(email) {
       const users = getUsers();
       const user = users.find(u => u.email === email);
       if (user) {
-        const newPass = prompt(`أدخل كلمة المرور الجديدة للحساب (${email}):`, user.password);
+        const newPass = prompt(`تعديل كلمة المرور للعميل (${email}):`, user.password);
         if (newPass && newPass.trim() !== "") {
           user.password = newPass.trim();
           saveUsers(users);
           renderUsersTable();
-          alert("تم تعديل كلمة المرور بنجاح!");
+          alert("تم تحديث كلمة المرور بنجاح!");
         }
       }
     }
@@ -1053,7 +1079,7 @@
     }
 
     function deleteUser(email) {
-      if (confirm(`هل أنت تأكد من رغبتك في حذف الحساب (${email})؟`)) {
+      if (confirm(`هل أنت تأكد من رغبتك في حذف الحساب (${email}) نهائياً؟`)) {
         let users = getUsers();
         users = users.filter(u => u.email !== email);
         saveUsers(users);
@@ -1062,27 +1088,31 @@
       }
     }
 
-    function openSupportModal() {
-      document.getElementById('supportModal').classList.add('active');
+    function exportUsersCSV() {
+      const users = getUsers();
+      let csvContent = "data:text/csv;charset=utf-8,Email,Password,Duration,Status,ExpiryDate\n";
+      users.forEach(u => {
+        csvContent += `${u.email},${u.password},${u.duration},${u.status},${u.expiryDate || ''}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `virix_users_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    function closeSupportModal() {
-      document.getElementById('supportModal').classList.remove('active');
+    function clearCacheMock() {
+      alert("جاري تفريغ ذاكرة الكاش الخاصة بالسيرفر...");
+      setTimeout(() => alert("تم تنظيف الكاش بنجاح! السيرفر يعمل بسرعة ممتازة."), 800);
     }
 
-    window.addEventListener('click', (e) => {
-      const modal = document.getElementById('supportModal');
-      if (e.target === modal) {
-        closeSupportModal();
-      }
-    });
+    function openSupportModal() { document.getElementById('supportModal').classList.add('active'); }
+    function closeSupportModal() { document.getElementById('supportModal').classList.remove('active'); }
 
     function saveSession(email, isAdmin) {
-      const sessionData = {
-        user: email,
-        isAdmin: isAdmin,
-        loginTime: new Date().getTime()
-      };
+      const sessionData = { user: email, isAdmin: isAdmin, loginTime: new Date().getTime() };
       localStorage.setItem('virix_session', JSON.stringify(sessionData));
     }
 
