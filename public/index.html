@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OneMovies - vps & iptv & servers</title>
+  <title>OneMovies Tv - Ultra-Luxurious Cyber Panel</title>
   
   <!-- Fonts: Tajawal for Arabic, JetBrains Mono for Code/Stats -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -110,7 +110,7 @@
       margin-bottom: 30px;
     }
 
-    /* Title in Vertical Format (Word under Word) */
+    /* Title in Vertical Format */
     .login-header h2 {
       font-size: 2.2rem;
       font-weight: 900;
@@ -135,7 +135,7 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Fixed Input Fields Formatting */
+    /* Input Fields Formatting */
     .input-box {
       position: relative;
       margin-bottom: 22px;
@@ -208,7 +208,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       font-family: 'JetBrains Mono', monospace;
     }
 
@@ -717,6 +716,7 @@
       <div class="login-header">
         <h2>
           <span>OneMovies</span>
+          <span>Tv</span>
         </h2>
         <p>servers & iptv & OneMovies</p>
       </div>
@@ -724,21 +724,19 @@
       <form onsubmit="handleLogin(event)">
         <!-- Field 1: Email -->
         <div class="input-box">
-          <input type="email" id="emailInput" placeholder="البريد الإلكتروني (Gmail)" required autocomplete="email" dir="ltr">
+          <input type="email" id="emailInput" placeholder="admin@virix.com" required autocomplete="email" dir="ltr">
           <i class="fas fa-envelope icon-main"></i>
         </div>
 
         <!-- Field 2: Password -->
         <div class="input-box">
-          <input type="password" id="passInput" placeholder="كلمة المرور" required autocomplete="current-password" dir="ltr">
+          <input type="password" id="passInput" placeholder="••••••••" required autocomplete="current-password" dir="ltr">
           <i class="fas fa-lock icon-main"></i>
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
         <!-- Login Button -->
-        <button type="submit" class="btn-login">
-          <i class="fas fa-terminal"></i>Login
-        </button>
+        <button type="submit" class="btn-login">Login</button>
 
         <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
 
