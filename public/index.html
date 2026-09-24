@@ -122,7 +122,6 @@
       box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
     }
 
-    /* أيقونات الخانات */
     .input-box i.icon-main {
       position: absolute;
       right: 18px;
@@ -131,7 +130,6 @@
       color: rgba(255, 255, 255, 0.5);
     }
 
-    /* أيقونة العين لإظهار/إخفاء كلمة المرور */
     .input-box i.toggle-eye {
       position: absolute;
       left: 18px;
@@ -146,7 +144,6 @@
       color: #a855f7;
     }
 
-    /* زر Login الأبيض الرئيسي */
     .btn-login {
       width: 100%;
       padding: 13px;
@@ -190,6 +187,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
       transition: color 0.3s;
     }
 
@@ -197,6 +195,113 @@
       color: #c084fc;
       text-decoration: underline;
     }
+
+    /* ---------------- النافذة المنبثقة لخدمة العملاء ---------------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: #0f0f16;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 20px;
+      padding: 25px;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .modal-header h3 {
+      font-size: 1.2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #a1a1aa;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #ef4444;
+    }
+
+    .support-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .support-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 15px;
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .support-item:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: #a855f7;
+      transform: translateX(-3px);
+    }
+
+    .support-item i {
+      font-size: 1.3rem;
+      width: 25px;
+      text-align: center;
+    }
+
+    .support-item .fa-whatsapp { color: #25d366; }
+    .support-item .fa-instagram { color: #e1306c; }
+    .support-item .fa-bullhorn { color: #a855f7; }
 
     /* ---------------- 2. الصفحة الثانية: الأقسام الثلاثة ---------------- */
     .main-dashboard {
@@ -239,7 +344,6 @@
       color: #fff;
     }
 
-    /* الأقسام الثلاثة جنبًا إلى جنب */
     .sections-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -336,20 +440,54 @@
         <div class="input-box">
           <input type="password" id="passInput" placeholder="كلمة المرور" required>
           <i class="fas fa-lock icon-main"></i>
-          <!-- أيقونة العين لرؤية/إخفاء كلمة السر -->
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
-        <!-- زر Login الأبيض فقط -->
         <button type="submit" class="btn-login">Login</button>
 
         <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
 
-        <!-- خدمة العملاء بدلاً من إنشاء حساب جديد -->
+        <!-- رابط إظهار خدمة العملاء -->
         <div class="support-link">
-          تحتاج إلى مساعدة؟ <a href="#" onclick="contactSupport()">خدمة العملاء <i class="fas fa-headset"></i></a>
+          تحتاج إلى مساعدة؟ <a onclick="openSupportModal()">خدمة العملاء <i class="fas fa-headset"></i></a>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 📌 النافذة المنبثقة (خدمة العملاء) -->
+  <div class="modal-overlay" id="supportModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fas fa-headset" style="color: #a855f7;"></i> خدمة العملاء</h3>
+        <button class="close-btn" onclick="closeSupportModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="support-list">
+        <!-- المطور الأول -->
+        <a href="https://wa.me/212621482778" target="_blank" class="support-item">
+          <i class="fab fa-whatsapp"></i>
+          <span>واتساب المطور 1 (0621482778)</span>
+        </a>
+
+        <!-- المطور الثاني -->
+        <a href="https://wa.me/212770182095" target="_blank" class="support-item">
+          <i class="fab fa-whatsapp"></i>
+          <span>واتساب المطور 2 (+212 770-182095)</span>
+        </a>
+
+        <!-- إنستغرام -->
+        <a href="https://www.instagram.com/lu_x_smos?stkn=MWgyZG9keXNnaW44Mw==" target="_blank" class="support-item">
+          <i class="fab fa-instagram"></i>
+          <span>حساب الإنستغرام</span>
+        </a>
+
+        <!-- قناة الواتساب -->
+        <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="support-item">
+          <i class="fas fa-bullhorn"></i>
+          <span>قناة VIRIX AIP على الواتساب</span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -361,7 +499,6 @@
     </div>
 
     <div class="sections-container">
-      <!-- قسم الأنمي -->
       <div class="section-card anime">
         <div class="icon-box"><i class="fas fa-tv"></i></div>
         <h3>قسم الأنمي</h3>
@@ -369,7 +506,6 @@
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
-      <!-- قسم الأفلام -->
       <div class="section-card movies">
         <div class="icon-box"><i class="fas fa-film"></i></div>
         <h3>قسم الأفلام</h3>
@@ -377,7 +513,6 @@
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
-      <!-- قسم المباريات -->
       <div class="section-card matches">
         <div class="icon-box"><i class="fas fa-futbol"></i></div>
         <h3>قسم المباريات</h3>
@@ -399,7 +534,6 @@
 
     const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
 
-    // تشغيل أنيميشن الفتح والتحقق من الجلسة (15 يوم)
     window.addEventListener('load', () => {
       const session = JSON.parse(localStorage.getItem('virix_session'));
       const now = new Date().getTime();
@@ -413,7 +547,6 @@
       }
     });
 
-    // إظهار/إخفاء كلمة المرور بواسطة العين
     function togglePass() {
       const passInput = document.getElementById('passInput');
       const toggleEye = document.getElementById('togglePassword');
@@ -429,7 +562,6 @@
       }
     }
 
-    // تسجيل الدخول والانتقال للصفحة الثانية
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim();
@@ -446,12 +578,23 @@
       }
     }
 
-    // زر خدمة العملاء
-    function contactSupport() {
-      alert("جاري تحويلك إلى الدعم الفني وخدمة العملاء...");
+    // دوال فتح وإغلاق نافذة خدمة العملاء
+    function openSupportModal() {
+      document.getElementById('supportModal').classList.add('active');
     }
 
-    // حفظ الجلسة لمدة 15 يوماً
+    function closeSupportModal() {
+      document.getElementById('supportModal').classList.remove('active');
+    }
+
+    // إغلاق النافذة المنبثقة عند الضغط خارجها
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('supportModal');
+      if (e.target === modal) {
+        closeSupportModal();
+      }
+    });
+
     function saveSession(email) {
       const sessionData = {
         user: email,
@@ -460,13 +603,11 @@
       localStorage.setItem('virix_session', JSON.stringify(sessionData));
     }
 
-    // الانتقال المباشر للصفحة الثانية (الأقسام)
     function showDashboard() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'block';
     }
 
-    // تسجيل الخروج
     function logout() {
       localStorage.removeItem('virix_session');
       location.reload();
@@ -474,4 +615,3 @@
   </script>
 </body>
 </html>
-
