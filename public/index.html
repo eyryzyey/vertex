@@ -27,7 +27,6 @@
       perspective: 1000px;
     }
 
-    /* خلفية داكنة مع تدرج نيون خفيف */
     .bg-dark-glow {
       position: fixed;
       top: 0;
@@ -99,9 +98,11 @@
       color: #fff;
     }
 
+    /* إصلاح تداخل الأيقونات */
     .input-box {
       position: relative;
       margin-bottom: 20px;
+      direction: ltr; /* ضمان ضبط الأيقونات الإنجليزية والبريد بالشكل الصحيح */
     }
 
     .input-box input {
@@ -113,6 +114,7 @@
       outline: none;
       color: #fff;
       font-size: 0.95rem;
+      text-align: left;
       transition: all 0.3s ease;
     }
 
@@ -128,6 +130,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: rgba(255, 255, 255, 0.5);
+      pointer-events: none;
     }
 
     .input-box i.toggle-eye {
@@ -138,6 +141,7 @@
       color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
       transition: color 0.3s;
+      z-index: 5;
     }
 
     .input-box i.toggle-eye:hover {
@@ -171,6 +175,7 @@
       text-align: center;
       margin-top: 12px;
       display: none;
+      direction: rtl;
     }
 
     .support-link {
@@ -178,6 +183,7 @@
       margin-top: 25px;
       font-size: 0.9rem;
       color: #a1a1aa;
+      direction: rtl;
     }
 
     .support-link a {
@@ -420,7 +426,6 @@
       animation: fadeIn 0.8s ease forwards;
     }
 
-    /* بطاقات الإحصائيات (Stat Cards) */
     .stats-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -473,7 +478,6 @@
       color: #f87171;
     }
 
-    /* التنسيق الشبكي */
     .admin-grid {
       display: grid;
       grid-template-columns: 320px 1fr;
@@ -551,7 +555,6 @@
       background: #9333ea;
     }
 
-    /* شريط البحث في جدول المستخدمين */
     .table-tools {
       display: flex;
       justify-content: space-between;
@@ -646,7 +649,7 @@
   <div class="bg-dark-glow"></div>
 
   <!-- 1️⃣ الصفحة الأولى (تسجيل الدخول) -->
-  <div class="house-stage" id="authSection">
+  <div class="house-stage open" id="authSection">
     <div class="roof-left"></div>
     <div class="roof-right"></div>
 
@@ -657,12 +660,12 @@
 
       <form onsubmit="handleLogin(event)">
         <div class="input-box">
-          <input type="email" id="emailInput" placeholder="البريد الإلكتروني (Gmail)" required>
+          <input type="email" id="emailInput" placeholder="admin@virix.com" required autocomplete="off">
           <i class="fas fa-envelope icon-main"></i>
         </div>
 
         <div class="input-box">
-          <input type="password" id="passInput" placeholder="كلمة المرور" required>
+          <input type="password" id="passInput" placeholder="admin123" required autocomplete="off">
           <i class="fas fa-lock icon-main"></i>
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
@@ -671,7 +674,6 @@
 
         <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
 
-        <!-- رابط إظهار خدمة العملاء -->
         <div class="support-link">
           تحتاج إلى مساعدة؟ <a onclick="openSupportModal()">خدمة العملاء <i class="fas fa-headset"></i></a>
         </div>
@@ -688,25 +690,21 @@
       </div>
 
       <div class="support-list">
-        <!-- المطور الأول -->
         <a href="https://wa.me/212621482778" target="_blank" class="support-item">
           <i class="fab fa-whatsapp"></i>
           <span>owner 1</span>
         </a>
 
-        <!-- المطور الثاني -->
         <a href="https://wa.me/212770182095" target="_blank" class="support-item">
           <i class="fab fa-whatsapp"></i>
           <span>owner 2</span>
         </a>
 
-        <!-- إنستغرام -->
         <a href="https://www.instagram.com/lu_x_smos?stkn=MWgyZG9keXNnaW44Mw==" target="_blank" class="support-item">
           <i class="fab fa-instagram"></i>
           <span>chanale instagram</span>
         </a>
 
-        <!-- قناة الواتساب -->
         <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="support-item">
           <i class="fas fa-bullhorn"></i>
           <span>chanele whatsapp</span>
@@ -753,7 +751,6 @@
       <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
     </div>
 
-    <!-- بطاقات الإحصائيات (Stat Cards) -->
     <div class="stats-container">
       <div class="stat-card">
         <div class="stat-info">
@@ -789,7 +786,6 @@
     </div>
 
     <div class="admin-grid">
-      <!-- نموذج إضافة حساب جديد -->
       <div class="admin-panel-card">
         <h3><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h3>
         <form class="admin-form" onsubmit="addNewUser(event)">
@@ -814,7 +810,6 @@
         </form>
       </div>
 
-      <!-- قائمة الحسابات المسجلة والبحث -->
       <div class="admin-panel-card">
         <div class="table-tools">
           <h3><i class="fas fa-users-cog"></i> الحسابات المسجلة</h3>
@@ -838,7 +833,6 @@
               </tr>
             </thead>
             <tbody id="usersTableBody">
-              <!-- سيتم ملء الحسابات هنا ديناميكياً -->
             </tbody>
           </table>
         </div>
@@ -847,25 +841,22 @@
   </div>
 
   <script>
-    // حساب الأدمن المعتمد
     const ADMIN_CREDENTIALS = {
       email: "admin@virix.com",
       password: "admin123"
     };
 
-    // 20 حساب افتراضي
     const defaultUsers = Array.from({ length: 20 }, (_, i) => {
       const id = String(i + 1).padStart(2, '0');
       return {
         email: `user${id}.virix@gmail.com`,
         password: `VrxPass#2026_${i + 1}`,
         duration: "شهر واحد",
-        status: "active", // active | blocked
+        status: "active",
         createdDate: "2026-09-01"
       };
     });
 
-    // استرجاع الحسابات من localStorage
     function getUsers() {
       const stored = localStorage.getItem('virix_users');
       if (stored) {
@@ -893,9 +884,7 @@
           showDashboard();
         }
       } else {
-        setTimeout(() => {
-          document.getElementById('authSection').classList.add('open');
-        }, 200);
+        document.getElementById('authSection').classList.add('open');
       }
     });
 
@@ -916,12 +905,14 @@
 
     function handleLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('emailInput').value.trim();
-      const pass = document.getElementById('passInput').value;
+      const email = document.getElementById('emailInput').value.trim().toLowerCase();
+      const pass = document.getElementById('passInput').value.trim();
       const errorMsg = document.getElementById('errorMsg');
 
+      errorMsg.style.display = 'none';
+
       // 1. دخول الأدمن
-      if (email === ADMIN_CREDENTIALS.email && pass === ADMIN_CREDENTIALS.password) {
+      if (email === ADMIN_CREDENTIALS.email.toLowerCase() && pass === ADMIN_CREDENTIALS.password) {
         saveSession(email, true);
         showAdminDashboard();
         return;
@@ -929,7 +920,7 @@
 
       // 2. دخول المستخدم العادي
       const users = getUsers();
-      const user = users.find(u => u.email === email && u.password === pass);
+      const user = users.find(u => u.email.toLowerCase() === email && u.password === pass);
 
       if (user) {
         if (user.status === 'blocked') {
@@ -957,7 +948,6 @@
       updateStats();
     }
 
-    // تحديث الإحصائيات
     function updateStats() {
       const users = getUsers();
       const activeCount = users.filter(u => u.status !== 'blocked').length;
@@ -968,7 +958,6 @@
       document.getElementById('statBlocked').innerText = blockedCount;
     }
 
-    // عرض قائمة الحسابات
     function renderUsersTable(filterKeyword = '') {
       const users = getUsers();
       const tbody = document.getElementById('usersTableBody');
@@ -1016,7 +1005,7 @@
       const duration = document.getElementById('newDuration').value;
 
       let users = getUsers();
-      if (users.some(u => u.email === email)) {
+      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
         alert("هذا البريد الإلكتروني مسجل بالفعل!");
         return;
       }
