@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIRIX CONSOLE - Ultra-Luxurious Cyber Panel</title>
+  <title>OneMovies Tv - vps & iptv & servers</title>
   
   <!-- Fonts: Tajawal for Arabic, JetBrains Mono for Code/Stats -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -110,6 +110,7 @@
       margin-bottom: 30px;
     }
 
+    /* Title in Vertical Format (Word under Word) */
     .login-header h2 {
       font-size: 2.2rem;
       font-weight: 900;
@@ -120,15 +121,21 @@
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+      line-height: 1.25;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .login-header p {
       color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-top: 6px;
+      font-size: 0.9rem;
+      margin-top: 10px;
       letter-spacing: 0.5px;
+      font-family: 'JetBrains Mono', monospace;
     }
 
+    /* Fixed Input Fields Formatting */
     .input-box {
       position: relative;
       margin-bottom: 22px;
@@ -137,7 +144,7 @@
 
     .input-box input {
       width: 100%;
-      padding: 16px 48px 16px 48px;
+      padding: 16px 45px 16px 45px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 16px;
@@ -146,6 +153,7 @@
       font-size: 0.95rem;
       text-align: left;
       transition: all 0.3s ease;
+      direction: ltr;
     }
 
     .input-box input:focus {
@@ -162,6 +170,7 @@
       color: var(--text-muted);
       font-size: 1.1rem;
       transition: color 0.3s;
+      pointer-events: none;
     }
 
     .input-box input:focus ~ i.icon-main {
@@ -177,6 +186,7 @@
       cursor: pointer;
       font-size: 1.1rem;
       transition: color 0.3s;
+      z-index: 5;
     }
 
     .input-box i.toggle-eye:hover {
@@ -190,7 +200,7 @@
       border: none;
       border-radius: 16px;
       color: #fff;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -199,6 +209,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .btn-login:hover {
@@ -357,7 +368,6 @@
       animation: fadeIn 0.6s ease forwards;
     }
 
-    /* Cyber Console TopBar */
     .server-status-bar {
       background: rgba(10, 8, 20, 0.85);
       border: 1px solid var(--border-neon);
@@ -414,7 +424,6 @@
       border-color: var(--primary-purple);
     }
 
-    /* Stats Grid */
     .stats-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -452,7 +461,6 @@
     .stat-card.blocked-users .stat-icon { background: rgba(239, 68, 68, 0.12); color: #f87171; }
     .stat-card.system-load .stat-icon { background: rgba(236, 72, 153, 0.12); color: #f472b6; }
 
-    /* Performance Progress Bar */
     .progress-bar-wrap {
       width: 100%;
       height: 6px;
@@ -468,7 +476,6 @@
       transition: width 0.5s ease;
     }
 
-    /* Main Grid Structure */
     .admin-grid {
       display: grid;
       grid-template-columns: 340px 1fr;
@@ -499,7 +506,6 @@
       padding-bottom: 12px;
     }
 
-    /* Add Form Stylings */
     .admin-form .input-group { margin-bottom: 16px; }
     .admin-form label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
 
@@ -558,7 +564,6 @@
 
     .btn-add-user:hover { opacity: 0.95; transform: translateY(-1px); }
 
-    /* Table & Tools */
     .table-tools {
       display: flex;
       justify-content: space-between;
@@ -710,23 +715,31 @@
   <div class="house-stage" id="authSection">
     <div class="login-card">
       <div class="login-header">
-        <h2>VIRIX CONSOLE</h2>
-        <p>VPS & IPTV Administration Panel</p>
+        <h2>
+          <span>OneMovies</span>
+          <span>Tv</span>
+        </h2>
+        <p>servers & iptv & OneMovies</p>
       </div>
 
       <form onsubmit="handleLogin(event)">
+        <!-- Field 1: Email -->
         <div class="input-box">
-          <input type="email" id="emailInput" placeholder="admin@virix.com" required autocomplete="off">
+          <input type="email" id="emailInput" placeholder="admin@virix.com" required autocomplete="email" dir="ltr">
           <i class="fas fa-envelope icon-main"></i>
         </div>
 
+        <!-- Field 2: Password -->
         <div class="input-box">
-          <input type="password" id="passInput" placeholder="••••••••" required autocomplete="off">
+          <input type="password" id="passInput" placeholder="••••••••" required autocomplete="current-password" dir="ltr">
           <i class="fas fa-lock icon-main"></i>
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
-        <button type="submit" class="btn-login"><i class="fas fa-terminal"></i> تسجيل الدخول للنظام</button>
+        <!-- Login Button -->
+        <button type="submit" class="btn-login">
+          <i class="fas fa-terminal"></i> Login
+        </button>
 
         <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
 
@@ -769,7 +782,7 @@
   <!-- 2️⃣ USER DASHBOARD PORTAL -->
   <div class="main-dashboard" id="dashboardSection">
     <div class="dashboard-header">
-      <h1>مرحباً بك في منصة VIRIX</h1>
+      <h1>مرحباً بك في منصة OneMovies Tv</h1>
       <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
     </div>
 
@@ -804,7 +817,7 @@
     <div class="server-status-bar">
       <div class="server-info-badge">
         <div class="pulse-node"></div>
-        <span>SERVER: <strong style="color: #c084fc;">virix-node-01.sys</strong></span>
+        <span>SERVER: <strong style="color: #c084fc;">onemovies-node-01.sys</strong></span>
         <span style="color: var(--text-muted); font-size: 0.8rem; margin-right: 10px;">UPTIME: 99.98%</span>
       </div>
 
@@ -932,8 +945,8 @@
     const defaultUsers = Array.from({ length: 10 }, (_, i) => {
       const id = String(i + 1).padStart(2, '0');
       return {
-        email: `client${id}.virix@gmail.com`,
-        password: `Vrx#2026_${Math.floor(1000 + Math.random() * 9000)}`,
+        email: `client${id}.onemovies@gmail.com`,
+        password: `Omv#2026_${Math.floor(1000 + Math.random() * 9000)}`,
         duration: "شهر واحد",
         status: i % 4 === 0 ? "blocked" : "active",
         createdDate: "2026-09-01",
@@ -1108,7 +1121,7 @@
 
     function generateRandomPass() {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#@!";
-      let pass = "Vrx#";
+      let pass = "Omv#";
       for (let i = 0; i < 6; i++) {
         pass += chars.charAt(Math.floor(Math.random() * chars.length));
       }
@@ -1192,7 +1205,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `virix_users_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute("download", `onemovies_users_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
