@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIRIX PLATFORM</title>
+  <title>VIRIX PLATFORM - VPS ADMIN PANEL</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -38,7 +38,7 @@
       z-index: -1;
     }
 
-    /* ---------------- 1. الصفحة الأولى: واجهة تسجيل الدخول ---------------- */
+    /* ---------------- 1. واجهة تسجيل الدخول ---------------- */
     .house-stage {
       position: relative;
       width: 100%;
@@ -303,7 +303,7 @@
     .support-item .fa-instagram { color: #e1306c; }
     .support-item .fa-bullhorn { color: #a855f7; }
 
-    /* ---------------- 2. الصفحة الثانية: الأقسام الثلاثة للمستخدمين ---------------- */
+    /* ---------------- 2. واجهة المستخدمين العاديين ---------------- */
     .main-dashboard {
       display: none;
       width: 100%;
@@ -316,7 +316,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       padding-bottom: 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -411,23 +411,76 @@
       border-color: #a855f7;
     }
 
-    /* ---------------- 3. لوحة تحكم الأدمن (Admin Dashboard) ---------------- */
+    /* ---------------- 3. لوحة تحكم الأدمن (VPS Panel Style) ---------------- */
     .admin-dashboard {
       display: none;
       width: 100%;
-      max-width: 1000px;
+      max-width: 1150px;
       padding: 30px 20px;
       animation: fadeIn 0.8s ease forwards;
     }
 
-    .admin-grid {
+    /* بطاقات الإحصائيات (Stat Cards) */
+    .stats-container {
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 25px;
-      margin-top: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 25px;
     }
 
-    @media (max-width: 768px) {
+    .stat-card {
+      background: rgba(15, 15, 25, 0.85);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .stat-card .stat-info h4 {
+      font-size: 0.85rem;
+      color: #a1a1aa;
+      margin-bottom: 5px;
+    }
+
+    .stat-card .stat-info span {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-card .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(168, 85, 247, 0.12);
+      color: #c084fc;
+    }
+
+    .stat-card.online .stat-icon {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+    }
+
+    .stat-card.blocked .stat-icon {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+    }
+
+    /* التنسيق الشبكي */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 900px) {
       .admin-grid {
         grid-template-columns: 1fr;
       }
@@ -442,7 +495,7 @@
     }
 
     .admin-panel-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       margin-bottom: 20px;
       color: #c084fc;
       display: flex;
@@ -461,7 +514,7 @@
       margin-bottom: 6px;
     }
 
-    .admin-form input {
+    .admin-form input, .admin-form select {
       width: 100%;
       padding: 12px 15px;
       background: rgba(255, 255, 255, 0.05);
@@ -469,9 +522,15 @@
       border-radius: 12px;
       color: #fff;
       outline: none;
+      font-size: 0.9rem;
     }
 
-    .admin-form input:focus {
+    .admin-form select option {
+      background: #0f0f16;
+      color: #fff;
+    }
+
+    .admin-form input:focus, .admin-form select:focus {
       border-color: #a855f7;
     }
 
@@ -485,58 +544,99 @@
       font-weight: 700;
       cursor: pointer;
       transition: background 0.3s;
+      margin-top: 5px;
     }
 
     .btn-add-user:hover {
       background: #9333ea;
     }
 
+    /* شريط البحث في جدول المستخدمين */
+    .table-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 15px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 38px 10px 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: #fff;
+      outline: none;
+      font-size: 0.85rem;
+    }
+
+    .search-box i {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a1a1aa;
+    }
+
     .users-table-container {
-      max-height: 400px;
+      max-height: 420px;
       overflow-y: auto;
+      overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: right;
+      min-width: 580px;
     }
 
     th, td {
       padding: 12px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     th {
       color: #a1a1aa;
       font-weight: 600;
+      background: rgba(0, 0, 0, 0.2);
     }
+
+    .badge-status {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-active { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-blocked { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
     .action-btn {
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 1rem;
-      margin-left: 8px;
-      transition: color 0.2s;
+      font-size: 0.95rem;
+      margin-left: 6px;
+      transition: color 0.2s, transform 0.2s;
     }
+
+    .action-btn:hover { transform: scale(1.15); }
 
     .edit-btn { color: #eab308; }
-    .edit-btn:hover { color: #fde047; }
+    .block-btn { color: #f97316; }
+    .unblock-btn { color: #22c55e; }
     .delete-btn { color: #ef4444; }
-    .delete-btn:hover { color: #f87171; }
-
-    .stats-badge {
-      background: rgba(168, 85, 247, 0.2);
-      color: #c084fc;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-    }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(100px); }
+      from { opacity: 0; transform: translateY(50px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -646,11 +746,46 @@
     </div>
   </div>
 
-  <!-- 3️⃣ لوحة تحكم الأدمن (Admin Dashboard) -->
+  <!-- 3️⃣ لوحة تحكم الأدمن (VPS Admin Dashboard) -->
   <div class="admin-dashboard" id="adminDashboardSection">
     <div class="dashboard-header">
-      <h1>لوحة تحكم الأدمن <span class="stats-badge" id="userCountBadge">0 حساب</span></h1>
+      <h1>VIRIX VPS Control Panel</h1>
       <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
+    </div>
+
+    <!-- بطاقات الإحصائيات (Stat Cards) -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-info">
+          <h4>إجمالي الحسابات</h4>
+          <span id="statTotal">0</span>
+        </div>
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <h4>الحسابات النشطة</h4>
+          <span id="statActive">0</span>
+        </div>
+        <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+      </div>
+
+      <div class="stat-card blocked">
+        <div class="stat-info">
+          <h4>الحسابات المعطلة</h4>
+          <span id="statBlocked">0</span>
+        </div>
+        <div class="stat-icon"><i class="fas fa-user-slash"></i></div>
+      </div>
+
+      <div class="stat-card online">
+        <div class="stat-info">
+          <h4>حالة النظام</h4>
+          <span>Online</span>
+        </div>
+        <div class="stat-icon"><i class="fas fa-server"></i></div>
+      </div>
     </div>
 
     <div class="admin-grid">
@@ -660,19 +795,35 @@
         <form class="admin-form" onsubmit="addNewUser(event)">
           <div class="input-group">
             <label>البريد الإلكتروني</label>
-            <input type="email" id="newEmail" placeholder="example@gmail.com" required>
+            <input type="email" id="newEmail" placeholder="user@gmail.com" required>
           </div>
           <div class="input-group">
             <label>كلمة المرور</label>
             <input type="text" id="newPassword" placeholder="كلمة المرور" required>
           </div>
+          <div class="input-group">
+            <label>مدة الاشتراك</label>
+            <select id="newDuration">
+              <option value="15 يوم">15 يوم</option>
+              <option value="شهر واحد">شهر واحد</option>
+              <option value="3 أشهر">3 أشهر</option>
+              <option value="سنة كاملة">سنة كاملة</option>
+            </select>
+          </div>
           <button type="submit" class="btn-add-user"><i class="fas fa-plus"></i> إضافة الحساب</button>
         </form>
       </div>
 
-      <!-- قائمة الحسابات المسجلة -->
+      <!-- قائمة الحسابات المسجلة والبحث -->
       <div class="admin-panel-card">
-        <h3><i class="fas fa-users-cog"></i> الحسابات المسجلة</h3>
+        <div class="table-tools">
+          <h3><i class="fas fa-users-cog"></i> الحسابات المسجلة</h3>
+          <div class="search-box">
+            <input type="text" id="searchInput" oninput="filterUsers()" placeholder="بحث بالبريد...">
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+
         <div class="users-table-container">
           <table>
             <thead>
@@ -680,6 +831,9 @@
                 <th>#</th>
                 <th>البريد الإلكتروني</th>
                 <th>كلمة المرور</th>
+                <th>المدة</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
                 <th>إجراءات</th>
               </tr>
             </thead>
@@ -699,16 +853,19 @@
       password: "admin123"
     };
 
-    // إعداد الـ 20 حساب الافتراضية
+    // 20 حساب افتراضي
     const defaultUsers = Array.from({ length: 20 }, (_, i) => {
       const id = String(i + 1).padStart(2, '0');
       return {
         email: `user${id}.virix@gmail.com`,
-        password: `VrxPass#2026_${i + 1}`
+        password: `VrxPass#2026_${i + 1}`,
+        duration: "شهر واحد",
+        status: "active", // active | blocked
+        createdDate: "2026-09-01"
       };
     });
 
-    // استرجاع الحسابات من localStorage أو كتابة الحسابات الافتراضية
+    // استرجاع الحسابات من localStorage
     function getUsers() {
       const stored = localStorage.getItem('virix_users');
       if (stored) {
@@ -763,18 +920,22 @@
       const pass = document.getElementById('passInput').value;
       const errorMsg = document.getElementById('errorMsg');
 
-      // 1. التحقق إذا كان المسجل هو الأدمن
+      // 1. دخول الأدمن
       if (email === ADMIN_CREDENTIALS.email && pass === ADMIN_CREDENTIALS.password) {
         saveSession(email, true);
         showAdminDashboard();
         return;
       }
 
-      // 2. التحقق من الحسابات العادية
+      // 2. دخول المستخدم العادي
       const users = getUsers();
       const user = users.find(u => u.email === email && u.password === pass);
 
       if (user) {
+        if (user.status === 'blocked') {
+          alert('هذا الحساب معطل حالياً من قِبل الإدارة. يرجى التواصل مع خدمة العملاء.');
+          return;
+        }
         saveSession(user.email, false);
         showDashboard();
       } else {
@@ -782,7 +943,6 @@
       }
     }
 
-    // دوال التحكم بالواجهات
     function showDashboard() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'none';
@@ -794,23 +954,49 @@
       document.getElementById('dashboardSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'block';
       renderUsersTable();
+      updateStats();
     }
 
-    // إدارة جدول الحسابات في لوحة الأدمن
-    function renderUsersTable() {
+    // تحديث الإحصائيات
+    function updateStats() {
+      const users = getUsers();
+      const activeCount = users.filter(u => u.status !== 'blocked').length;
+      const blockedCount = users.filter(u => u.status === 'blocked').length;
+
+      document.getElementById('statTotal').innerText = users.length;
+      document.getElementById('statActive').innerText = activeCount;
+      document.getElementById('statBlocked').innerText = blockedCount;
+    }
+
+    // عرض قائمة الحسابات
+    function renderUsersTable(filterKeyword = '') {
       const users = getUsers();
       const tbody = document.getElementById('usersTableBody');
-      document.getElementById('userCountBadge').innerText = `${users.length} حساب`;
       tbody.innerHTML = '';
 
-      users.forEach((user, index) => {
+      const filteredUsers = users.filter(u => u.email.toLowerCase().includes(filterKeyword.toLowerCase()));
+
+      filteredUsers.forEach((user, index) => {
         const tr = document.createElement('tr');
+        const isBlocked = user.status === 'blocked';
+        const todayDate = user.createdDate || "2026-09-24";
+
         tr.innerHTML = `
           <td>${index + 1}</td>
           <td>${user.email}</td>
           <td><code>${user.password}</code></td>
+          <td>${user.duration || 'شهر واحد'}</td>
           <td>
-            <button class="action-btn edit-btn" title="تعديل كلمة المرور" onclick="editUser('${user.email}')"><i class="fas fa-edit"></i></button>
+            <span class="badge-status ${isBlocked ? 'badge-blocked' : 'badge-active'}">
+              ${isBlocked ? 'معطل' : 'نشط'}
+            </span>
+          </td>
+          <td>${todayDate}</td>
+          <td>
+            <button class="action-btn edit-btn" title="تعديل الحساب" onclick="editUser('${user.email}')"><i class="fas fa-edit"></i></button>
+            <button class="action-btn ${isBlocked ? 'unblock-btn' : 'block-btn'}" title="${isBlocked ? 'تفعيل' : 'تجميد'}" onclick="toggleBlockUser('${user.email}')">
+              <i class="fas ${isBlocked ? 'fa-user-check' : 'fa-user-slash'}"></i>
+            </button>
             <button class="action-btn delete-btn" title="حذف الحساب" onclick="deleteUser('${user.email}')"><i class="fas fa-trash-alt"></i></button>
           </td>
         `;
@@ -818,10 +1004,16 @@
       });
     }
 
+    function filterUsers() {
+      const keyword = document.getElementById('searchInput').value;
+      renderUsersTable(keyword);
+    }
+
     function addNewUser(e) {
       e.preventDefault();
       const email = document.getElementById('newEmail').value.trim();
       const password = document.getElementById('newPassword').value.trim();
+      const duration = document.getElementById('newDuration').value;
 
       let users = getUsers();
       if (users.some(u => u.email === email)) {
@@ -829,9 +1021,18 @@
         return;
       }
 
-      users.push({ email, password });
+      const today = new Date().toISOString().split('T')[0];
+      users.push({
+        email,
+        password,
+        duration,
+        status: 'active',
+        createdDate: today
+      });
+
       saveUsers(users);
       renderUsersTable();
+      updateStats();
 
       document.getElementById('newEmail').value = '';
       document.getElementById('newPassword').value = '';
@@ -852,16 +1053,27 @@
       }
     }
 
+    function toggleBlockUser(email) {
+      let users = getUsers();
+      const user = users.find(u => u.email === email);
+      if (user) {
+        user.status = (user.status === 'blocked') ? 'active' : 'blocked';
+        saveUsers(users);
+        renderUsersTable();
+        updateStats();
+      }
+    }
+
     function deleteUser(email) {
       if (confirm(`هل أنت تأكد من رغبتك في حذف الحساب (${email})؟`)) {
         let users = getUsers();
         users = users.filter(u => u.email !== email);
         saveUsers(users);
         renderUsersTable();
+        updateStats();
       }
     }
 
-    // دوال النافذة المنبثقة لخدمة العملاء
     function openSupportModal() {
       document.getElementById('supportModal').classList.add('active');
     }
