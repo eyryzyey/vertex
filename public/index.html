@@ -537,7 +537,7 @@
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
-        <button type="submit" class="btn-login">تسجيل الدخول</button>
+        <button type="submit" class="btn-login" id="loginBtn">تسجيل الدخول</button>
         
         <button type="button" class="btn-support-mini" onclick="openContactModal()">
           <i class="fas fa-headset"></i> خدمة العملاء والتواصل المباشر
@@ -609,7 +609,7 @@
           <h3><i class="fas fa-comments"></i> تعليقات المشتركين (<span id="commentCount">0</span>)</h3>
           
           <div style="margin-bottom: 15px;">
-            <input type="text" id="commentInput" placeholder="أضف تعليقك على هذا الفيلم..." style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff;" onkeypress="addMainComment(event)">
+            <input type="text" id="commentInput" placeholder="أضف تعليقك هنا..." style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff;" onkeypress="addMainComment(event)">
           </div>
 
           <div class="comments-list" id="commentsList"></div>
@@ -765,7 +765,7 @@
     <div class="nav-item" onclick="openSectionDirectly(2)"><i class="fas fa-film"></i><span>الأفلام</span></div>
     <div class="nav-item" onclick="openSectionDirectly(1)"><i class="fas fa-tv"></i><span>الأنمي</span></div>
     <div class="nav-item" onclick="openSectionDirectly(3)"><i class="fas fa-futbol"></i><span>المباريات</span></div>
-    <div class="nav-item" id="navAdminItem" onclick="showAdminDashboard()"><i class="fas fa-sliders"></i><span id="navAdminLabel">الإدارة</span></div>
+    <div class="nav-item" id="navAdminItem" onclick="showAdminDashboard()" style="display:none;"><i class="fas fa-sliders"></i><span id="navAdminLabel">الإدارة</span></div>
     <div class="nav-item" onclick="openSupport()"><i class="fas fa-headset"></i><span>الدعم</span></div>
   </nav>
 
@@ -785,7 +785,7 @@
 
     /* 🌐 إعدادات قاعدة البيانات السحابية الحقيقية التي تربط جميع الأجهزة ببعضها مباشرة */
     const firebaseConfig = {
-      databaseURL: "https://onemovies-app-default-rtdb.firebaseio.com" // خادم سحابي عالمي عام ومباشر
+      databaseURL: "https://onemovies-app-default-rtdb.firebaseio.com"
     };
 
     if (!firebase.apps.length) {
@@ -829,18 +829,14 @@
       cloudTickets = data.tickets || [];
       cloudComments = data.comments || {};
 
-      // تحديث الشاشات تلقائياً عند إضافة أو تعديل أي بيانات من الأدمن في أي متصفح
       if (currentActivePage === 'dashboardSection') renderSections();
-      if (currentActiveSection) renderMediaGrid(currentActiveSection);
-      if (currentActiveMovieId) renderMovieComments();
+      if (currentActiveSection && currentActivePage === 'sectionViewPage') renderMediaGrid(currentActiveSection);
+      if (currentActiveMovieId && currentActivePage === 'watchPage') renderMovieComments();
       if (currentActivePage === 'adminDashboardSection') {
         renderUsersTable();
         renderTicketsTable();
       }
     });
-
-    // تحويل الإيميل إلى المفتاح المناسب لترميز الويب
-    function encodeEmail(email) { return email.replace(/\./g, '_dot_').replace(/@/g, '_at_'); }
 
     function saveUsersToCloud(users) { db.ref('users').set(users); }
     function saveSectionsToCloud(sec) { db.ref('sections').set(sec); }
@@ -876,44 +872,49 @@
       }
     });
 
-    /* 🔐 التحقق من الحساب عبر السحابة العالمية المركزة */
+    /* 🔐 التحقق من الحساب المباشر عبر الخادم السحابي عالمياً */
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim().toLowerCase();
       const pass = document.getElementById('passInput').value.trim();
       const err = document.getElementById('errorMsg');
 
-      err.style.display = "none";
+      err.innerText = "جاري التحقق من الحساب...";
+      err.style.display = "block";
 
       if (HARDCODED_ADMINS.includes(email) && pass === DEFAULT_ADMIN_PASS) {
         localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: true }));
+        err.style.display = "none";
         showMainDashboard();
         return;
       }
 
-      // البحث في البيانات الجاهزة والقادمة من الخادم السحابي مباشرة
-      const u = cloudUsers.find(user => user.email === email && user.password === pass);
+      // جلب نسخة محدثة ومباشرة من قاعدة البيانات السحابية لحظة الدخول
+      db.ref('users').once('value').then((snapshot) => {
+        const users = snapshot.val() || [];
+        const u = users.find(user => user.email === email && user.password === pass);
 
-      if (u) {
-        if (u.isBanned) {
-          err.innerText = "تم تعطيل حسابك من قبل الإدارة! يُرجى التواصل مع الدعم.";
-          err.style.display = "block";
-          return;
+        if (u) {
+          if (u.isBanned) {
+            err.innerText = "تم تعطيل حسابك من قبل الإدارة! يُرجى التواصل مع الدعم.";
+            return;
+          }
+
+          const now = new Date().getTime();
+          if (now > u.expiryTimestamp) {
+            err.innerText = "لقد انتهت مدة اشتراكك! يُرجى التواصل مع الإدارة لتجديده.";
+            return;
+          }
+
+          err.style.display = "none";
+          localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: false }));
+          showMainDashboard();
+        } else {
+          err.innerText = "البريد الإلكتروني أو كلمة المرور غير صحيحة!";
         }
-
-        const now = new Date().getTime();
-        if (now > u.expiryTimestamp) {
-          err.innerText = "لقد انتهت مدة اشتراكك! يُرجى التواصل مع الإدارة لتجديده.";
-          err.style.display = "block";
-          return;
-        }
-
-        localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: false }));
-        showMainDashboard();
-      } else {
-        err.innerText = "البريد الإلكتروني أو كلمة المرور غير صحيحة!";
-        err.style.display = "block";
-      }
+      }).catch(error => {
+        err.innerText = "خطأ في الاتصال بالشبكة! يرجى المحاولة مجدداً.";
+      });
     }
 
     function handleSmartHeaderBtn() {
