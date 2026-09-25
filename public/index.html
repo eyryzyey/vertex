@@ -155,7 +155,7 @@
     .login-header p { color: var(--text-muted); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
 
     .input-box { position: relative; margin-bottom: 22px; direction: ltr; }
-    .input-box input, .input-box textarea, .admin-form textarea {
+    .input-box input, .input-box textarea, .admin-form textarea, .modal-box input, .modal-box select {
       width: 100%; padding: 16px 45px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -163,7 +163,13 @@
       font-size: 0.95rem; text-align: left; transition: all 0.3s ease;
     }
 
-    .input-box input:focus, .input-box textarea:focus {
+    .modal-box input, .modal-box select {
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      text-align: right;
+    }
+
+    .input-box input:focus, .input-box textarea:focus, .modal-box input:focus {
       border-color: var(--primary-purple);
       box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
     }
@@ -284,14 +290,18 @@
 
     .section-card:hover .btn-enter { background: var(--primary-purple); color: #fff; }
 
-    .sec-delete-btn {
-      position: absolute; top: 12px; left: 12px;
+    .sec-delete-btn, .media-admin-btn {
+      position: absolute; top: 12px;
       background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171;
       width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: none;
-      align-items: center; justify-content: center;
+      align-items: center; justify-content: center; z-index: 10;
     }
 
-    .admin-mode .sec-delete-btn { display: flex; }
+    .sec-delete-btn { left: 12px; }
+    .media-admin-btn.edit-btn { left: 48px; background: rgba(168, 85, 247, 0.2); border-color: var(--primary-purple); color: #c084fc; }
+    .media-admin-btn.delete-btn { left: 12px; }
+
+    .admin-mode .sec-delete-btn, .admin-mode .media-admin-btn { display: flex; }
 
     /* ---------------- ⚽ بطاقات المباريات والبث المباشر ---------------- */
     .matches-grid {
@@ -443,7 +453,7 @@
     .badge-active { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
     .badge-banned { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-    /* ---------------- 📞 النافذة المنبثقة لخدمة العملاء ---------------- */
+    /* ---------------- 📞 النافذة المنبثقة لخدمة العملاء والتعديل ---------------- */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
@@ -560,13 +570,8 @@
     <div class="admin-card" id="adminAddMediaCard" style="display: none; margin-bottom: 25px;">
       <h3><i class="fas fa-plus-circle"></i> إضافة محتوى/مباراة جديدة للقسم</h3>
       <form class="admin-form" onsubmit="handleAdminAddMedia(event)">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
-          <input type="text" id="mTitle" placeholder="العنوان / اسم المباراة" required>
-          <input type="text" id="mBadge" placeholder="التقييم / الجودة (مثال: 4K VIP)" required>
-          <input type="url" id="mThumbUrl" placeholder="رابط صورة الغلاف (URL)">
-          <input type="file" id="mThumbFile" accept="image/*" title="أو اختر غلاف من الهاتف">
-          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو">
-          <input type="file" id="mVideoFile" accept="video/*" title="أو رفع فيديو من ذاكرة الهاتف">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;" id="addFormFields">
+          <!-- الحقول تتغير تلقائياً بحسب القسم -->
         </div>
         <button type="submit" class="btn-submit-admin" style="margin-top: 10px;"><i class="fas fa-upload"></i> نشر العرض فوراً</button>
       </form>
@@ -744,6 +749,23 @@
     </div>
   </div>
 
+  <!-- ✏️ نافذة تعديل المحتوى والمباريات Modal -->
+  <div class="modal-overlay" id="editMediaModal">
+    <div class="modal-box" style="max-width: 450px;">
+      <i class="fas fa-times modal-close" onclick="closeEditMediaModal()"></i>
+      <h3 style="font-size: 1.2rem; color: #c084fc; margin-bottom: 15px;"><i class="fas fa-edit"></i> تعديل البيانات</h3>
+      <form onsubmit="handleSaveEditedMedia(event)" style="text-align: right;">
+        <input type="hidden" id="editMediaId">
+        
+        <div id="editFormFields">
+          <!-- يملأ بالJS بحسب نوع العنصر -->
+        </div>
+
+        <button type="submit" class="btn-submit-admin" style="margin-top: 10px;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
+
   <!-- 📱 شريط الملاحة السفلي للهواتف -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="goHome()"><i class="fas fa-home"></i><span>الرئيسية</span></div>
@@ -789,7 +811,7 @@
 
     let currentActivePage = 'authSection';
     let currentActiveSection = null;
-    let currentActiveMovieId = null; // المعرف الفريد للفيلم الشغال حالياً
+    let currentActiveMovieId = null;
 
     function getStoredUsers() { return JSON.parse(localStorage.getItem('sys_users')) || []; }
     function saveUsers(users) { localStorage.setItem('sys_users', JSON.stringify(users)); }
@@ -803,7 +825,6 @@
     function getStoredTickets() { return JSON.parse(localStorage.getItem('sys_tickets')) || []; }
     function saveTickets(tickets) { localStorage.setItem('sys_tickets', JSON.stringify(tickets)); }
 
-    // مخزن التعليقات بحسب إما إيد الفيلم أو العنوان
     function getAllComments() { return JSON.parse(localStorage.getItem('sys_movie_comments')) || {}; }
     function saveAllComments(cmts) { localStorage.setItem('sys_movie_comments', JSON.stringify(cmts)); }
 
@@ -814,11 +835,12 @@
       return sess && (sess.isAdmin || HARDCODED_ADMINS.includes(sess.email));
     }
 
-    // فتح وإغلاق modal الدعم
     function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
 
-    // تحديث الشاشة عند التعديلات
+    function openEditMediaModal() { document.getElementById('editMediaModal').style.display = 'flex'; }
+    function closeEditMediaModal() { document.getElementById('editMediaModal').style.display = 'none'; }
+
     window.addEventListener('storage', () => {
       renderSections();
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
@@ -843,7 +865,6 @@
       }
     });
 
-    // تسجيل الدخول
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim().toLowerCase();
@@ -993,11 +1014,40 @@
 
       if (isCurrentAdmin()) {
         document.getElementById('adminAddMediaCard').style.display = 'block';
+        renderAddMediaFormFields(id);
       } else {
         document.getElementById('adminAddMediaCard').style.display = 'none';
       }
 
       renderMediaGrid(id);
+    }
+
+    /* تغيير ديناميكي لحقول الإضافة بحسب القسم */
+    function renderAddMediaFormFields(secId) {
+      const fieldsContainer = document.getElementById('addFormFields');
+      if (secId === 3) {
+        fieldsContainer.innerHTML = `
+          <input type="text" id="mTeam1" placeholder="الفريق الأول" required>
+          <input type="text" id="mTeam2" placeholder="الفريق الثاني" required>
+          <input type="url" id="mFlag1" placeholder="رابط شعار الفريق الأول (URL)">
+          <input type="url" id="mFlag2" placeholder="رابط شعار الفريق الثاني (URL)">
+          <input type="text" id="mTime" placeholder="توقيت المباراة (مثال: 20:00)" required>
+          <select id="mStatus">
+            <option value="LIVE">🔴 جارية حالياً</option>
+            <option value="UPCOMING">⏰ قادمة</option>
+          </select>
+          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث المباشر" required>
+        `;
+      } else {
+        fieldsContainer.innerHTML = `
+          <input type="text" id="mTitle" placeholder="العنوان / اسم الفيلم أو الأنمي" required>
+          <input type="text" id="mBadge" placeholder="التقييم / الجودة (مثال: 4K VIP)" required>
+          <input type="url" id="mThumbUrl" placeholder="رابط صورة الغلاف (URL)">
+          <input type="file" id="mThumbFile" accept="image/*" title="أو اختر غلاف من الهاتف">
+          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو">
+          <input type="file" id="mVideoFile" accept="video/*" title="أو رفع فيديو من ذاكرة الهاتف">
+        `;
+      }
     }
 
     function renderMediaGrid(secId) {
@@ -1014,6 +1064,8 @@
         media.forEach(m => {
           html += `
             <div class="match-card">
+              <button class="media-admin-btn edit-btn" onclick="openEditMedia(${m.id})" title="تعديل المباراة"><i class="fas fa-edit"></i></button>
+              <button class="media-admin-btn delete-btn" onclick="deleteMedia(${m.id})" title="حذف المباراة"><i class="fas fa-trash"></i></button>
               <span class="match-status-badge ${m.status === 'LIVE' ? 'status-live' : 'status-upcoming'}">${m.status === 'LIVE' ? '🔴 جارية حالياً' : '⏰ قادمة'} - ${m.time}</span>
               <div class="match-teams">
                 <div class="team-box"><img src="${m.flag1}"><span>${m.team1}</span></div>
@@ -1030,7 +1082,9 @@
         let html = `<div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:20px;">`;
         media.forEach(m => {
           html += `
-            <div class="section-card" style="text-align:right; padding:12px;">
+            <div class="section-card" style="text-align:right; padding:12px; position:relative;">
+              <button class="media-admin-btn edit-btn" onclick="openEditMedia(${m.id})" title="تعديل"><i class="fas fa-edit"></i></button>
+              <button class="media-admin-btn delete-btn" onclick="deleteMedia(${m.id})" title="حذف"><i class="fas fa-trash"></i></button>
               <img src="${m.thumb}" style="width:100%; height:240px; object-fit:cover; border-radius:14px; margin-bottom:10px;">
               <h4 style="font-size:0.95rem; margin-bottom:8px;">${m.title}</h4>
               <button class="btn-enter" onclick="openWatchPage(${m.id}, '${m.title}', '${m.streamUrl}', '${m.badge}')"><i class="fas fa-play"></i> مشاهدة العرض</button>
@@ -1044,32 +1098,136 @@
 
     function handleAdminAddMedia(e) {
       e.preventDefault();
-      const title = document.getElementById('mTitle').value.trim();
-      const badge = document.getElementById('mBadge').value.trim();
-      let streamUrl = document.getElementById('mStreamUrl').value.trim();
-      let thumbUrl = document.getElementById('mThumbUrl').value.trim();
-
-      const videoFile = document.getElementById('mVideoFile').files[0];
-      const thumbFile = document.getElementById('mThumbFile').files[0];
-
-      if (videoFile) streamUrl = URL.createObjectURL(videoFile);
-      if (thumbFile) thumbUrl = URL.createObjectURL(thumbFile);
-
-      if (!thumbUrl) thumbUrl = "https://via.placeholder.com/300x450?text=OneMovies";
-
       const media = getStoredMedia();
       if (!media[currentActiveSection]) media[currentActiveSection] = [];
 
-      media[currentActiveSection].push({
-        id: Date.now(),
-        title, badge,
-        thumb: thumbUrl,
-        streamUrl: streamUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ"
-      });
+      if (currentActiveSection === 3) {
+        const team1 = document.getElementById('mTeam1').value.trim();
+        const team2 = document.getElementById('mTeam2').value.trim();
+        let flag1 = document.getElementById('mFlag1').value.trim();
+        let flag2 = document.getElementById('mFlag2').value.trim();
+        const time = document.getElementById('mTime').value.trim();
+        const status = document.getElementById('mStatus').value;
+        const streamUrl = document.getElementById('mStreamUrl').value.trim();
+
+        if (!flag1) flag1 = "https://via.placeholder.com/50/111/fff?text=T1";
+        if (!flag2) flag2 = "https://via.placeholder.com/50/111/fff?text=T2";
+
+        media[currentActiveSection].push({
+          id: Date.now(),
+          isMatch: true,
+          team1, team2, flag1, flag2, time, status,
+          streamUrl: streamUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        });
+      } else {
+        const title = document.getElementById('mTitle').value.trim();
+        const badge = document.getElementById('mBadge').value.trim();
+        let streamUrl = document.getElementById('mStreamUrl').value.trim();
+        let thumbUrl = document.getElementById('mThumbUrl').value.trim();
+
+        const videoFile = document.getElementById('mVideoFile').files[0];
+        const thumbFile = document.getElementById('mThumbFile').files[0];
+
+        if (videoFile) streamUrl = URL.createObjectURL(videoFile);
+        if (thumbFile) thumbUrl = URL.createObjectURL(thumbFile);
+
+        if (!thumbUrl) thumbUrl = "https://via.placeholder.com/300x450?text=OneMovies";
+
+        media[currentActiveSection].push({
+          id: Date.now(),
+          title, badge,
+          thumb: thumbUrl,
+          streamUrl: streamUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        });
+      }
 
       saveMedia(media);
       renderMediaGrid(currentActiveSection);
       e.target.reset();
+    }
+
+    /* ✏️ وظائف التعديل والحذف الجديدة للمحتوى والمباريات */
+    function deleteMedia(id) {
+      if (!confirm("هل أنت تأكد من مسح هذا العنصر نهائياً؟")) return;
+      const media = getStoredMedia();
+      if (media[currentActiveSection]) {
+        media[currentActiveSection] = media[currentActiveSection].filter(item => item.id !== id);
+        saveMedia(media);
+        renderMediaGrid(currentActiveSection);
+      }
+    }
+
+    function openEditMedia(id) {
+      const mediaList = getStoredMedia()[currentActiveSection] || [];
+      const item = mediaList.find(m => m.id === id);
+      if (!item) return;
+
+      document.getElementById('editMediaId').value = id;
+      const fieldsContainer = document.getElementById('editFormFields');
+
+      if (currentActiveSection === 3) {
+        fieldsContainer.innerHTML = `
+          <label style="font-size:0.8rem; color:var(--text-muted);">الفريق الأول:</label>
+          <input type="text" id="eTeam1" value="${item.team1}" required>
+          <label style="font-size:0.8rem; color:var(--text-muted);">الفريق الثاني:</label>
+          <input type="text" id="eTeam2" value="${item.team2}" required>
+          <label style="font-size:0.8rem; color:var(--text-muted);">صورة الفريق الأول (URL):</label>
+          <input type="url" id="eFlag1" value="${item.flag1}">
+          <label style="font-size:0.8rem; color:var(--text-muted);">صورة الفريق الثاني (URL):</label>
+          <input type="url" id="eFlag2" value="${item.flag2}">
+          <label style="font-size:0.8rem; color:var(--text-muted);">التوقيت:</label>
+          <input type="text" id="eTime" value="${item.time}" required>
+          <label style="font-size:0.8rem; color:var(--text-muted);">حالة المباراة:</label>
+          <select id="eStatus">
+            <option value="LIVE" ${item.status === 'LIVE' ? 'selected' : ''}>🔴 جارية حالياً</option>
+            <option value="UPCOMING" ${item.status === 'UPCOMING' ? 'selected' : ''}>⏰ قادمة</option>
+          </select>
+          <label style="font-size:0.8rem; color:var(--text-muted);">رابط البث الحي:</label>
+          <input type="url" id="eStreamUrl" value="${item.streamUrl}" required>
+        `;
+      } else {
+        fieldsContainer.innerHTML = `
+          <label style="font-size:0.8rem; color:var(--text-muted);">العنوان / الاسم:</label>
+          <input type="text" id="eTitle" value="${item.title}" required>
+          <label style="font-size:0.8rem; color:var(--text-muted);">التقييم / الجودة:</label>
+          <input type="text" id="eBadge" value="${item.badge}" required>
+          <label style="font-size:0.8rem; color:var(--text-muted);">رابط الغلاف (URL):</label>
+          <input type="url" id="eThumb" value="${item.thumb}">
+          <label style="font-size:0.8rem; color:var(--text-muted);">رابط الفيديو / Stream:</label>
+          <input type="url" id="eStreamUrl" value="${item.streamUrl}">
+        `;
+      }
+
+      openEditMediaModal();
+    }
+
+    function handleSaveEditedMedia(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('editMediaId').value);
+      const media = getStoredMedia();
+      const list = media[currentActiveSection] || [];
+      const itemIndex = list.findIndex(m => m.id === id);
+
+      if (itemIndex !== -1) {
+        if (currentActiveSection === 3) {
+          list[itemIndex].team1 = document.getElementById('eTeam1').value.trim();
+          list[itemIndex].team2 = document.getElementById('eTeam2').value.trim();
+          list[itemIndex].flag1 = document.getElementById('eFlag1').value.trim() || list[itemIndex].flag1;
+          list[itemIndex].flag2 = document.getElementById('eFlag2').value.trim() || list[itemIndex].flag2;
+          list[itemIndex].time = document.getElementById('eTime').value.trim();
+          list[itemIndex].status = document.getElementById('eStatus').value;
+          list[itemIndex].streamUrl = document.getElementById('eStreamUrl').value.trim();
+        } else {
+          list[itemIndex].title = document.getElementById('eTitle').value.trim();
+          list[itemIndex].badge = document.getElementById('eBadge').value.trim();
+          list[itemIndex].thumb = document.getElementById('eThumb').value.trim() || list[itemIndex].thumb;
+          list[itemIndex].streamUrl = document.getElementById('eStreamUrl').value.trim() || list[itemIndex].streamUrl;
+        }
+
+        saveMedia(media);
+        renderMediaGrid(currentActiveSection);
+        closeEditMediaModal();
+      }
     }
 
     /* 🎬 صفحة المشاهدة واللاعب المتقدم */
@@ -1085,7 +1243,6 @@
 
       const playerBox = document.getElementById('videoPlayerContainer');
       
-      // إذا كان فيديو مباشر MP4 أو Blob بتم إنشاء المشغل المتطور مع خيارات 10 ثوانٍ
       if (url.endsWith('.mp4') || url.startsWith('blob:')) {
         playerBox.className = "";
         playerBox.innerHTML = `
@@ -1109,7 +1266,6 @@
       renderMovieComments();
     }
 
-    // التحكم بالتقديم والتأخير بالثواني المخصصة
     function initVidControls() {
       const vid = document.getElementById('mainVidPlayer');
       if (!vid) return;
