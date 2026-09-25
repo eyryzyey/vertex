@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>OneMovies - Cyberpunk Cinema & Sports</title>
+  <title>OneMovies TV - Cyberpunk Cinema & Sports</title>
   
   <!-- الخطوط والأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
       padding-bottom: 75px;
     }
 
-    /* 🌌 خلفية ضبابية ضوئية سينمائية فائقة الجمال (Foggy Cinematic Glowing Background) */
+    /* 🌌 خلفية ضبابية ضوئية سينمائية فائقة الجمال */
     .bg-cyber-glow {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -66,26 +66,54 @@
       pointer-events: none;
     }
 
-    /* ---------------- الشريط العلوي الذكي للأدمن وشعار OneMovies ---------------- */
+    /* 🌟 شعار OneMovies TV المضيء والضبابي في خلفية المنتصف */
+    .hero-glow-brand {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 35px rgba(168, 85, 247, 0.3), 0 0 60px rgba(236, 72, 153, 0.2);
+      filter: blur(0.5px);
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      animation: pulseGlow 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.4; filter: blur(2px) drop-shadow(0 0 15px rgba(168,85,247,0.2)); }
+      100% { opacity: 0.85; filter: blur(0px) drop-shadow(0 0 35px rgba(236,72,153,0.5)); }
+    }
+
+    /* ---------------- الشريط العلوي المنتظم ---------------- */
     .top-bar {
       position: absolute;
       top: 15px; left: 20px; right: 20px;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
       z-index: 100;
     }
 
-    .app-brand-logo {
-      font-size: 1.5rem; font-weight: 900;
-      background: linear-gradient(135deg, var(--primary-purple), var(--secondary-pink));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      display: flex; align-items: center; gap: 8px;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 20px var(--glow-purple);
+    .top-center-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .admin-smart-gear {
       display: none;
-      background: rgba(168, 85, 247, 0.2);
+      background: rgba(168, 85, 247, 0.25);
       border: 1px solid var(--primary-purple);
       color: #c084fc;
       width: 42px; height: 42px;
@@ -93,12 +121,12 @@
       align-items: center; justify-content: center;
       cursor: pointer; font-size: 1.2rem;
       backdrop-filter: blur(15px);
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       box-shadow: 0 0 20px var(--glow-purple);
     }
 
     .admin-smart-gear:hover {
-      transform: scale(1.1) rotate(15deg);
+      transform: scale(1.15) rotate(45deg);
       background: var(--primary-purple);
       color: #fff;
     }
@@ -187,7 +215,8 @@
     /* ---------------- الأقسام والصفحات ---------------- */
     .main-dashboard, .section-view-page, .admin-dashboard, .watch-page {
       display: none; width: 100%; max-width: 1200px; padding: 30px 20px 0 20px;
-      animation: fadeIn 0.4s ease forwards;
+      animation: fadeIn 0.3s ease forwards;
+      position: relative; z-index: 5;
     }
 
     .dashboard-header {
@@ -277,7 +306,7 @@
 
     .match-vs { font-size: 1.1rem; font-weight: 900; color: var(--secondary-pink); }
 
-    /* ---------------- 🎬 صفحة المشاهدة المستقلة والفاخرة ---------------- */
+    /* ---------------- 🎬 صفحة المشاهدة المستقلة ---------------- */
     .watch-container {
       display: grid; grid-template-columns: 1fr 340px; gap: 25px; margin-top: 10px;
     }
@@ -314,7 +343,7 @@
     .comment-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; font-size: 0.82rem; }
     .comment-item strong { color: var(--primary-purple); display: block; margin-bottom: 3px; }
 
-    /* ---------------- ⚙️ لوحة تحكم الأدمن (VPS Control Panel) ---------------- */
+    /* ---------------- ⚙️ لوحة تحكم الأدمن ---------------- */
     .admin-grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
     @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
 
@@ -346,7 +375,7 @@
     .action-icon.delete { color: #f87171; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -357,20 +386,29 @@
   <div class="bg-cyber-glow"></div>
   <div class="bg-grid-overlay"></div>
 
-  <!-- الشريط العلوي مع شعار OneMovies وأيقونة الأدمن السينمائية -->
+  <!-- 🌟 الشعار الخلفي الضبابي المنور بمنتصف الشاشة -->
+  <div class="hero-glow-brand">OneMovies TV</div>
+
+  <!-- الشريط العلوي المنتظم -->
   <div class="top-bar">
-    <div class="app-brand-logo"><i class="fas fa-film"></i> OneMovies</div>
-    <!-- أيقونة سينمائية للإعدادات تظهر للأدمن فقط -->
-    <div class="admin-smart-gear" onclick="showAdminDashboard()" id="adminGear" title="لوحة تحكم الأدمن والملفات">
-      <i class="fas fa-sliders"></i>
+    <div></div> <!-- عنصر فارغ للحفاظ على توازن الـ Flex -->
+
+    <!-- أيقونة الإعدادات في المنتصف تماماً علوياً وتظهر للأدمن فقط -->
+    <div class="top-center-container">
+      <div class="admin-smart-gear" onclick="showAdminDashboard()" id="adminGear" title="لوحة تحكم الأدمن">
+        <i class="fas fa-sliders"></i>
+      </div>
     </div>
+
+    <!-- زر تسجيل الخروج متناسق بالسطر العلوي -->
+    <button class="btn-logout" id="topLogoutBtn" onclick="logout()" style="display:none;"><i class="fas fa-sign-out-alt"></i> خروج</button>
   </div>
 
   <!-- 1️⃣ شاشة تسجيل الدخول -->
   <div class="house-stage" id="authSection">
     <div class="login-card">
       <div class="login-header">
-        <h2>OneMovies</h2>
+        <h2>OneMovies TV</h2>
         <p>Dynamic Streaming Network</p>
       </div>
 
@@ -396,7 +434,6 @@
   <div class="main-dashboard" id="dashboardSection">
     <div class="dashboard-header">
       <h1>الرئيسية - الأقسام المتاحة</h1>
-      <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
     </div>
     <div class="sections-container" id="sectionsContainer"></div>
   </div>
@@ -447,11 +484,11 @@
             <span>2026</span>
             <span>سيرفر سريع HD</span>
           </div>
-          <p class="watch-desc" id="wDesc">قصة وتفاصيل العرض تظهر هنا بتنسيق احترافي يناسب منصات البث العالمية وتطبيق OneMovies...</p>
+          <p class="watch-desc" id="wDesc">قصة وتفاصيل العرض تظهر هنا بتنسيق احترافي يناسب منصات البث العالمية وتطبيق OneMovies TV...</p>
         </div>
       </div>
 
-      <!-- القائمة الجانبية (السيرفرات والتعليقات) -->
+      <!-- القائمة الجانبية -->
       <div class="watch-sidebar">
         <div class="sidebar-card">
           <h3><i class="fas fa-server"></i> سيرفرات البث المتاحة</h3>
@@ -470,7 +507,7 @@
     </div>
   </div>
 
-  <!-- 5️⃣ لوحة تحكم الأدمن (Admins VPS Control Panel) -->
+  <!-- 5️⃣ لوحة تحكم الأدمن -->
   <div class="admin-dashboard" id="adminDashboardSection">
     <div class="dashboard-header">
       <h1>لوحة التحكم الشاملة (Admins Control)</h1>
@@ -478,7 +515,6 @@
     </div>
 
     <div class="admin-grid">
-      <!-- إنشاء وتمديد حسابات المشتركين -->
       <div class="admin-card">
         <h3><i class="fas fa-user-plus"></i> إضافة / تمديد اشتراك مشترك</h3>
         <form class="admin-form" onsubmit="handleCreateUser(event)">
@@ -493,7 +529,6 @@
         </form>
       </div>
 
-      <!-- جدول المشتركين وإدارة الحسابات -->
       <div class="admin-card">
         <h3><i class="fas fa-users-cog"></i> المشتركين الحاليين وإلغاء الحسابات</h3>
         <div style="overflow-x: auto;">
@@ -534,18 +569,15 @@
   </nav>
 
   <script>
-    // 🔐 الحسابين الأساسيين للأدمن
     const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
     const DEFAULT_ADMIN_PASS = "admin123";
 
-    // الأقسام الافتراضية
     const defaultSections = [
       { id: 1, title: "قسم الأنمي (Anime)", desc: "أحدث حلقات وأفلام الأنمي المترجمة HD", icon: "fa-tv" },
       { id: 2, title: "الأفلام والمسلسلات", desc: "مكتبة السينما العالمية والأكشن", icon: "fa-film" },
       { id: 3, title: "البث المباشر للمباريات (Live Sports)", desc: "بث حي ومباشر للمباريات والدوريات العالمية", icon: "fa-futbol" }
     ];
 
-    // المحتوى الرياضي المبدئي
     const defaultMediaData = {
       3: [
         { 
@@ -564,7 +596,6 @@
 
     let currentActiveSection = null;
 
-    // إدارة التخزين والتزامن الفوري
     function getStoredUsers() { return JSON.parse(localStorage.getItem('sys_users')) || []; }
     function saveUsers(users) { localStorage.setItem('sys_users', JSON.stringify(users)); }
 
@@ -581,8 +612,7 @@
       return sess && HARDCODED_ADMINS.includes(sess.email);
     }
 
-    // المتابعة اللحظية للتغيرات بين الجهازين أو المتصفحين
-    window.addEventListener('storage', (e) => {
+    window.addEventListener('storage', () => {
       renderSections();
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
       if (document.getElementById('adminDashboardSection').style.display === 'block') renderUsersTable();
@@ -594,24 +624,22 @@
         showMainDashboard();
       } else {
         document.getElementById('authSection').style.display = 'block';
+        document.getElementById('topLogoutBtn').style.display = 'none';
       }
     });
 
-    // نظام تسجيل الدخول والتحقق من صلاحية المشترك
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim().toLowerCase();
       const pass = document.getElementById('passInput').value.trim();
       const err = document.getElementById('errorMsg');
 
-      // التحقق من حسابات الأدمن
       if (HARDCODED_ADMINS.includes(email) && pass === DEFAULT_ADMIN_PASS) {
         localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: true }));
         showMainDashboard();
         return;
       }
 
-      // التحقق من المشتركين والمدة المتبقية
       const users = getStoredUsers();
       const u = users.find(user => user.email === email && user.password === pass);
 
@@ -635,6 +663,7 @@
       localStorage.removeItem('sys_session');
       document.body.classList.remove('admin-mode');
       hideAllPages();
+      document.getElementById('topLogoutBtn').style.display = 'none';
       document.getElementById('authSection').style.display = 'block';
     }
 
@@ -655,6 +684,7 @@
     function showMainDashboard() {
       hideAllPages();
       document.getElementById('dashboardSection').style.display = 'block';
+      document.getElementById('topLogoutBtn').style.display = 'block';
 
       if (isCurrentAdmin()) {
         document.body.classList.add('admin-mode');
@@ -665,7 +695,6 @@
       renderSections();
     }
 
-    // عرض الأقسام الرئيسية
     function renderSections() {
       const container = document.getElementById('sectionsContainer');
       const sections = getStoredSections();
@@ -712,7 +741,6 @@
       renderMediaGrid(id);
     }
 
-    // عرض بطاقات الأفلام والأنمي والمباريات
     function renderMediaGrid(secId) {
       const container = document.getElementById('mediaGridContainer');
       const media = getStoredMedia()[secId] || [];
@@ -722,7 +750,6 @@
         return;
       }
 
-      // إذا كان قسم المباريات البث المباشر
       if (secId === 3) {
         let html = `<div class="matches-grid">`;
         media.forEach(m => {
@@ -756,7 +783,6 @@
       }
     }
 
-    // إضافة محتوى جديد من قبل الأدمن
     function handleAdminAddMedia(e) {
       e.preventDefault();
       const title = document.getElementById('mTitle').value.trim();
@@ -787,7 +813,6 @@
       e.target.reset();
     }
 
-    // فتح صفحة المشاهدة المستقلة
     function openWatchPage(title, url, badge) {
       hideAllPages();
       document.getElementById('watchPage').style.display = 'block';
@@ -816,7 +841,6 @@
       }
     }
 
-    // لوحة تحكم الأدمن للـ VPS وإدارة المشتركين
     function showAdminDashboard() {
       hideAllPages();
       document.getElementById('adminDashboardSection').style.display = 'block';
