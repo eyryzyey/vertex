@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -304,6 +305,92 @@
     .support-item .fa-instagram { color: #ec4899; }
     .support-item .fa-bullhorn { color: var(--primary-purple); }
 
+    /* ---------------- DEV TOOL BAR (ADMIN OVERLAY) ---------------- */
+    .dev-top-bar {
+      display: none;
+      width: 100%;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--primary-purple);
+      border-radius: 16px;
+      padding: 12px 20px;
+      margin-bottom: 25px;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+    }
+
+    .dev-top-bar.active {
+      display: flex;
+    }
+
+    .dev-bar-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: #e9d5ff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-vps-panel {
+      background: linear-gradient(135deg, #ec4899, #a855f7);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+    }
+
+    .btn-vps-panel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(236, 72, 153, 0.7);
+    }
+
+    /* ---------------- DEV CONTROLS IN CARDS ---------------- */
+    .dev-card-tools {
+      display: none;
+      gap: 6px;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed var(--border-neon);
+      padding: 8px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .admin-mode .dev-card-tools {
+      display: flex;
+    }
+
+    .dev-tool-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #c084fc;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dev-tool-btn:hover {
+      background: var(--primary-purple);
+      color: #fff;
+      transform: scale(1.1);
+    }
+
     /* ---------------- 2. USER DASHBOARD PORTAL ---------------- */
     .main-dashboard {
       display: none; width: 100%; max-width: 1200px; padding: 40px 20px 0 20px;
@@ -337,7 +424,8 @@
 
     .section-card {
       background: var(--bg-card); border: 1px solid var(--border-neon);
-      border-radius: 20px; padding: 35px 25px; text-align: center; transition: 0.4s ease;
+      border-radius: 20px; padding: 25px 20px; text-align: center; transition: 0.4s ease;
+      position: relative;
     }
 
     .section-card:hover {
@@ -968,29 +1056,68 @@
     </div>
   </div>
 
-  <!-- 2️⃣ USER DASHBOARD PORTAL -->
+  <!-- 2️⃣ USER & ADMIN MAIN DASHBOARD -->
   <div class="main-dashboard" id="dashboardSection">
+    
+    <!-- 👑 ADMIN TOP DEV TOOL BAR (يظهر للأدمن فقط) -->
+    <div class="dev-top-bar" id="devTopBar">
+      <div class="dev-bar-info">
+        <i class="fas fa-user-shield" style="color: #ec4899; font-size: 1.2rem;"></i>
+        <span>وضع المطورين والأدمن مُفعل (Developer Mode)</span>
+      </div>
+      <button class="btn-vps-panel" onclick="showAdminDashboard()">
+        <i class="fas fa-server"></i> لوحة إدارة الحسابات والسيرفر (VPS)
+      </button>
+    </div>
+
     <div class="dashboard-header">
       <h1>مرحباً بك في منصة OneMovies Tv</h1>
       <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
     </div>
 
-    <div class="sections-container">
+    <div class="sections-container" id="sectionsContainer">
+      <!-- Section 1 -->
       <div class="section-card">
+        <!-- ⚙️ أدوات المطورين فوق البطاقة (تظهر للأدمن فقط) -->
+        <div class="dev-card-tools">
+          <button class="dev-tool-btn" title="تعديل الاسم/الوصف ✏️" onclick="devEditCard('Anime Corner')"><i class="fas fa-pen"></i></button>
+          <button class="dev-tool-btn" title="تعطيل/إخفاء القسم 👁️" onclick="devToggleCard(this)"><i class="fas fa-eye"></i></button>
+          <button class="dev-tool-btn" title="إحصائيات المشاهدات 📊" onclick="devShowStats('Anime Corner')"><i class="fas fa-chart-bar"></i></button>
+          <button class="dev-tool-btn" title="إدارة المحتوى ⚙️" onclick="devManageContent('Anime Corner')"><i class="fas fa-cog"></i></button>
+        </div>
+
         <div class="icon-box"><i class="fas fa-tv"></i></div>
         <h3>Anime Corner</h3>
         <p style="color: var(--text-muted); font-size: 0.88rem;">شاهد أحدث حلقات وأفلام الأنمي المترجمة بجودة عالية HD.</p>
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
+      <!-- Section 2 -->
       <div class="section-card">
+        <!-- ⚙️ أدوات المطورين فوق البطاقة (تظهر للأدمن فقط) -->
+        <div class="dev-card-tools">
+          <button class="dev-tool-btn" title="تعديل الاسم/الوصف ✏️" onclick="devEditCard('Movies & Series')"><i class="fas fa-pen"></i></button>
+          <button class="dev-tool-btn" title="تعطيل/إخفاء القسم 👁️" onclick="devToggleCard(this)"><i class="fas fa-eye"></i></button>
+          <button class="dev-tool-btn" title="إحصائيات المشاهدات 📊" onclick="devShowStats('Movies & Series')"><i class="fas fa-chart-bar"></i></button>
+          <button class="dev-tool-btn" title="إدارة المحتوى ⚙️" onclick="devManageContent('Movies & Series')"><i class="fas fa-cog"></i></button>
+        </div>
+
         <div class="icon-box"><i class="fas fa-film"></i></div>
         <h3>Movies & Series</h3>
         <p style="color: var(--text-muted); font-size: 0.88rem;">مكتبة ضخمة تضم أحدث أفلام الأكشن والإثارة والسينما العالمية.</p>
         <a href="#" class="btn-enter">دخول القسم</a>
       </div>
 
+      <!-- Section 3 -->
       <div class="section-card">
+        <!-- ⚙️ أدوات المطورين فوق البطاقة (تظهر للأدمن فقط) -->
+        <div class="dev-card-tools">
+          <button class="dev-tool-btn" title="تعديل الاسم/الوصف ✏️" onclick="devEditCard('Live Sports IPTV')"><i class="fas fa-pen"></i></button>
+          <button class="dev-tool-btn" title="تعطيل/إخفاء القسم 👁️" onclick="devToggleCard(this)"><i class="fas fa-eye"></i></button>
+          <button class="dev-tool-btn" title="إحصائيات المشاهدات 📊" onclick="devShowStats('Live Sports IPTV')"><i class="fas fa-chart-bar"></i></button>
+          <button class="dev-tool-btn" title="إدارة المحتوى ⚙️" onclick="devManageContent('Live Sports IPTV')"><i class="fas fa-cog"></i></button>
+        </div>
+
         <div class="icon-box"><i class="fas fa-futbol"></i></div>
         <h3>Live Sports IPTV</h3>
         <p style="color: var(--text-muted); font-size: 0.88rem;">بث مباشر لجميع المباريات والدوريات العالمية بدون تقطيع.</p>
@@ -1073,6 +1200,7 @@
       </div>
 
       <div class="server-actions">
+        <button class="btn-cyber-action" onclick="showDashboard(true)"><i class="fas fa-th-large"></i> العودة لصفحة الأقسام</button>
         <button class="btn-cyber-action" onclick="exportUsersCSV()"><i class="fas fa-file-export"></i> تصدير البيانات (CSV)</button>
         <button class="btn-cyber-action" onclick="clearCacheMock()"><i class="fas fa-sync-alt"></i> Clear Cache</button>
         <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
@@ -1223,11 +1351,7 @@
       const now = new Date().getTime();
 
       if (session && (now - session.loginTime < FIFTEEN_DAYS)) {
-        if (session.isAdmin) {
-          showAdminDashboard();
-        } else {
-          showDashboard();
-        }
+        showDashboard(session.isAdmin);
       } else {
         document.getElementById('authSection').style.display = 'block';
       }
@@ -1258,7 +1382,7 @@
       // Admin Auth
       if (email === ADMIN_CREDENTIALS.email.toLowerCase() && pass === ADMIN_CREDENTIALS.password) {
         saveSession(email, true);
-        showAdminDashboard();
+        showDashboard(true);
         return;
       }
 
@@ -1272,24 +1396,63 @@
           return;
         }
         saveSession(user.email, false);
-        showDashboard();
+        showDashboard(false);
       } else {
         errorMsg.style.display = 'block';
       }
     }
 
-    function showDashboard() {
+    // عرض صفحة الأقسام (تتفعل أدوات الأدمن إن كان الحساب admin)
+    function showDashboard(isAdmin = false) {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'block';
+
+      const devTopBar = document.getElementById('devTopBar');
+      const sectionsContainer = document.getElementById('sectionsContainer');
+
+      if (isAdmin) {
+        devTopBar.classList.add('active');
+        sectionsContainer.classList.add('admin-mode');
+      } else {
+        devTopBar.classList.remove('active');
+        sectionsContainer.classList.remove('admin-mode');
+      }
     }
 
+    // الانتقال للوحة التحكم والسيرفر الـ VPS للأدمن
     function showAdminDashboard() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'block';
       renderUsersTable();
       updateStats();
+    }
+
+    /* 🛠️ أدوات المطورين داخل الكروت */
+    function devEditCard(sectionName) {
+      alert(`[Dev Tool] تعديل معلومات وتفاصيل قسم (${sectionName})`);
+    }
+
+    function devToggleCard(btnElem) {
+      const card = btnElem.closest('.section-card');
+      if (card.style.opacity === '0.4') {
+        card.style.opacity = '1';
+        btnElem.innerHTML = '<i class="fas fa-eye"></i>';
+        alert('تم إظهار وتفعيل القسم للمستخدمين.');
+      } else {
+        card.style.opacity = '0.4';
+        btnElem.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        alert('تم إخفاء/تعطيل القسم عن المستخدمين العاديين.');
+      }
+    }
+
+    function devShowStats(sectionName) {
+      alert(`[Dev Stats] قسم (${sectionName}):\n- عدد المشاهدات اليوم: 1,420\n- البث النشط: 98.4%\n- متوسط الباندويث: 12.4 Mbps`);
+    }
+
+    function devManageContent(sectionName) {
+      alert(`[Dev Tool] فتح لوحة إدارة وإضافة المحتوى والسيرفرات الخاصة بقسم (${sectionName}).`);
     }
 
     function updateStats() {
