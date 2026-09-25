@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1232,6 +1231,25 @@
     .unblock-btn:hover { color: #4ade80; border-color: #4ade80; }
     .delete-btn:hover { color: #f87171; border-color: #f87171; }
 
+    /* 🎬 CYBER MOVIE PLAYER MODAL */
+    .player-modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(15px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s ease;
+    }
+    .player-modal-overlay.active { opacity: 1; pointer-events: all; }
+    .player-container {
+      width: 90%; max-width: 900px; background: #0c0a1a; border: 1px solid var(--primary-purple);
+      border-radius: 20px; overflow: hidden; box-shadow: 0 0 50px var(--glow-purple);
+    }
+    .player-header {
+      padding: 15px 20px; background: rgba(168, 85, 247, 0.1); display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border-neon);
+    }
+    .player-iframe-box { position: relative; padding-bottom: 56.25%; height: 0; }
+    .player-iframe-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
       70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
@@ -1311,6 +1329,19 @@
           <i class="fas fa-bullhorn"></i>
           <span>مجتمع التحديثات (واتساب)</span>
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎬 STREAMING PLAYER MODAL -->
+  <div class="player-modal-overlay" id="playerModal">
+    <div class="player-container">
+      <div class="player-header">
+        <h3 id="playerTitle" style="color: #fff; font-size: 1.1rem;"><i class="fas fa-play-circle" style="color: var(--secondary-pink);"></i> تشغيل العرض</h3>
+        <button class="close-btn" onclick="closePlayerModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="player-iframe-box">
+        <iframe id="videoIframe" src="" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -1555,6 +1586,11 @@
   </div>
 
   <script>
+    // 🔑 TMDB API KEY integration
+    const TMDB_API_KEY = "3fd2be6f0cd057014fe7744d73ce13d3"; 
+    const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+    const TMDB_IMG_URL = "https://image.tmdb.org/t/p/w500";
+
     const ADMIN_CREDENTIALS = {
       email: "admin@virix.com",
       password: "admin123"
@@ -1591,19 +1627,11 @@
       }
     ];
 
-    // Default Media Content for Default Sections
+    // Default Media Content
     const defaultMediaData = {
-      1: [
-        { id: 101, title: "Attack on Titan: Final Season", thumb: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60", badge: "⭐ 9.1" },
-        { id: 102, title: "Demon Slayer: Kimetsu no Yaiba", thumb: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", badge: "⭐ 8.9" }
-      ],
-      2: [
-        { id: 201, title: "Cyberpunk 2077: Edgerunners", thumb: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&auto=format&fit=crop&q=60", badge: "4K ULTRA HD" },
-        { id: 202, title: "Interstellar Movie VIP", thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60", badge: "⭐ 8.7" }
-      ],
       3: [
-        { id: 301, title: "Real Madrid vs Barcelona - Live Stream", thumb: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", badge: "BEIN SPORTS VIP" },
-        { id: 302, title: "UEFA Champions League - Final", thumb: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&auto=format&fit=crop&q=60", badge: "SERVER 1 60FPS" }
+        { id: 301, title: "Real Madrid vs Barcelona - Live Stream", thumb: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", badge: "BEIN SPORTS VIP", embedUrl: "https://www.youtube.com/embed/live_stream?channel=UC4i_9WvfPxxV-6aG9_zB91g" },
+        { id: 302, title: "UEFA Champions League - Final", thumb: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&auto=format&fit=crop&q=60", badge: "SERVER 1 60FPS", embedUrl: "https://www.youtube.com/embed/live_stream?channel=UC4i_9WvfPxxV-6aG9_zB91g" }
       ]
     };
 
@@ -1620,7 +1648,7 @@
       };
     });
 
-    // Handle LocalStorage for Sections, Users & Media
+    // Handle LocalStorage
     function getSections() {
       const stored = localStorage.getItem('virix_sections');
       if (stored) return JSON.parse(stored);
@@ -1698,14 +1726,12 @@
 
       errorMsg.style.display = 'none';
 
-      // Admin Auth
       if (email === ADMIN_CREDENTIALS.email.toLowerCase() && pass === ADMIN_CREDENTIALS.password) {
         saveSession(email, true);
         showDashboard(true);
         return;
       }
 
-      // User Auth
       const users = getUsers();
       const user = users.find(u => u.email.toLowerCase() === email && u.password === pass);
 
@@ -1721,7 +1747,6 @@
       }
     }
 
-    // عرض صفحة الأقسام الرئيسية
     function showDashboard(isAdmin = false) {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'none';
@@ -1742,7 +1767,6 @@
       renderSections(isAdmin);
     }
 
-    // 🌐 عرض الأقسام الحقيقية
     function renderSections(isAdmin) {
       const container = document.getElementById('sectionsContainer');
       const sections = getSections();
@@ -1773,7 +1797,6 @@
         container.appendChild(card);
       });
 
-      // زر إضافة قسم جديد للأدمن
       if (isAdmin) {
         const addBtnCard = document.createElement('div');
         addBtnCard.className = 'add-section-card';
@@ -1787,7 +1810,7 @@
     }
 
     /* ---------------- ⚡ Dynamic Page Router / SPA View ---------------- */
-    function openSectionPage(sectionId) {
+    async function openSectionPage(sectionId) {
       const sections = getSections();
       const sec = sections.find(s => s.id === sectionId);
       if (!sec) return;
@@ -1803,13 +1826,9 @@
 
       const isAdmin = isCurrentAdmin();
       const formCard = document.getElementById('adminItemFormCard');
-      if (isAdmin) {
-        formCard.style.display = 'block';
-      } else {
-        formCard.style.display = 'none';
-      }
+      formCard.style.display = isAdmin ? 'block' : 'none';
 
-      renderSectionMediaItems(sectionId);
+      await renderSectionMediaItems(sectionId);
     }
 
     function openSectionDirectly(secId) {
@@ -1826,13 +1845,47 @@
       showDashboard(isAdmin);
     }
 
-    function renderSectionMediaItems(sectionId) {
+    // 🌐 Fetch Dynamic Content using TMDB API
+    async function fetchMoviesFromAPI(type) {
+      let endpoint = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=ar-SA&page=1`;
+      if (type === 'anime') {
+        endpoint = `${TMDB_BASE_URL}/discover/tv?api_key=${TMDB_API_KEY}&with_genres=16&language=ar-SA&page=1`;
+      }
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        return data.results ? data.results.map(item => ({
+          id: item.id,
+          title: item.title || item.name,
+          thumb: item.poster_path ? (TMDB_IMG_URL + item.poster_path) : "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500",
+          badge: `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : '8.5'}`,
+          tmdbId: item.id,
+          mediaType: type === 'anime' ? 'tv' : 'movie'
+        })) : [];
+      } catch (err) {
+        console.error("TMDB API Error:", err);
+        return [];
+      }
+    }
+
+    async function renderSectionMediaItems(sectionId) {
       const grid = document.getElementById('mediaCardsGrid');
-      grid.innerHTML = '';
+      grid.innerHTML = '<div class="empty-content-box"><i class="fas fa-spinner fa-spin"></i><h3>جاري جلب الأفلام والعروض...</h3></div>';
 
       const mediaData = getMediaData();
-      const items = mediaData[sectionId] || [];
+      let items = mediaData[sectionId] || [];
+
+      // Fetch from API for Anime (1) & Movies (2)
+      if (sectionId === 1) {
+        const apiAnime = await fetchMoviesFromAPI('anime');
+        items = [...items, ...apiAnime];
+      } else if (sectionId === 2) {
+        const apiMovies = await fetchMoviesFromAPI('movie');
+        items = [...items, ...apiMovies];
+      }
+
       const isAdmin = isCurrentAdmin();
+      grid.innerHTML = '';
 
       if (items.length === 0) {
         grid.innerHTML = `
@@ -1856,8 +1909,8 @@
           </div>
           <div class="card-body-content">
             <h4 class="card-title">${item.title}</h4>
-            ${isAdmin ? `<button onclick="deleteMediaItem(${sectionId},${item.id})" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; padding: 6px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-trash"></i> حذف العنصر</button>` : ''}
-            <button class="btn-watch-neon" onclick="playMedia('${item.title}')"><i class="fas fa-play"></i> Watch Now / Play</button>
+            ${isAdmin && !item.tmdbId ? `<button onclick="deleteMediaItem(${sectionId},${item.id})" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; padding: 6px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-trash"></i> حذف العنصر</button>` : ''}
+            <button class="btn-watch-neon" onclick="playMedia('${item.title}', '${item.tmdbId || ''}', '${item.mediaType || 'movie'}', '${item.embedUrl || ''}')"><i class="fas fa-play"></i> Watch Now / Play</button>
           </div>
         `;
         grid.appendChild(card);
@@ -1912,8 +1965,28 @@
       }
     }
 
-    function playMedia(title) {
-      alert(`جاري تشغيل: [ ${title} ] عبر سيرفرات OneMovies Tv فائقة السرعة! 🚀`);
+    // 🎬 Video Player Integration
+    function playMedia(title, tmdbId, type, customEmbed) {
+      const modal = document.getElementById('playerModal');
+      const iframe = document.getElementById('videoIframe');
+      document.getElementById('playerTitle').innerText = `جاري مشاهدة: ${title}`;
+
+      let src = customEmbed;
+      if (tmdbId) {
+        src = `https://vidsrc.me/embed/${type}?tmdb=${tmdbId}`;
+      } else if (!src) {
+        src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+      }
+
+      iframe.src = src;
+      modal.classList.add('active');
+    }
+
+    function closePlayerModal() {
+      const modal = document.getElementById('playerModal');
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = '';
+      modal.classList.remove('active');
     }
 
     /* 🛠️ أدوات المطورين للأقسام */
@@ -1977,7 +2050,6 @@
         sections.push(newSec);
         saveSections(sections);
 
-        // إنشاء مساحة محتوى جديدة للقسم في mediaData
         let mediaData = getMediaData();
         mediaData[newSecId] = [];
         saveMediaData(mediaData);
@@ -1995,7 +2067,6 @@
       }
     }
 
-    // الانتقال للوحة التحكم والسيرفر الـ VPS للأدمن
     function showAdminDashboard() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'none';
