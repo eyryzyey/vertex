@@ -188,6 +188,22 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
+    .btn-support-mini {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      transition: 0.3s;
+    }
+    .btn-support-mini:hover { color: var(--primary-purple); }
+
     .error-msg {
       color: #f87171; background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;
@@ -308,9 +324,9 @@
 
     .match-vs { font-size: 1.1rem; font-weight: 900; color: var(--secondary-pink); }
 
-    /* ---------------- 🎬 صفحة المشاهدة المستقلة ---------------- */
+    /* ---------------- 🎬 صفحة المشاهدة واللاعب ---------------- */
     .watch-container {
-      display: grid; grid-template-columns: 1fr 340px; gap: 25px; margin-top: 10px;
+      display: grid; grid-template-columns: 1fr 360px; gap: 25px; margin-top: 10px;
     }
 
     @media (max-width: 900px) { .watch-container { grid-template-columns: 1fr; } }
@@ -321,9 +337,26 @@
     }
 
     .video-iframe-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
-    .video-iframe-wrap iframe, .video-iframe-wrap video {
+    .video-iframe-wrap iframe {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
     }
+
+    /* مشغل الفيديو المحلي المخصص مع التحكم بالقيمة والتقديم/التأخير */
+    .custom-video-container { position: relative; width: 100%; background: #000; }
+    .custom-video-container video { width: 100%; display: block; max-height: 500px; }
+    .video-controls-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 10px 15px; display: flex; align-items: center; gap: 12px;
+      z-index: 10; opacity: 0.95;
+    }
+    .vid-btn {
+      background: rgba(168, 85, 247, 0.2); border: 1px solid var(--primary-purple);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; transition: 0.2s;
+    }
+    .vid-btn:hover { background: var(--primary-purple); }
 
     .watch-details { padding: 20px 0; }
     .watch-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
@@ -340,9 +373,30 @@
 
     .sidebar-card h3 { font-size: 1rem; color: #c084fc; margin-bottom: 12px; }
 
-    .comments-list { display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; }
-    .comment-item { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; font-size: 0.82rem; }
-    .comment-item strong { color: var(--primary-purple); display: block; margin-bottom: 3px; }
+    /* 💬 نظام التعليقات والردود المتقدم بحسابات يوتيوب */
+    .comments-list { display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; padding-left: 5px; }
+    .comment-item {
+      background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px;
+      font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .comment-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .comment-author { font-weight: bold; color: var(--primary-purple); display: flex; align-items: center; gap: 4px; }
+    .verify-badge { color: #38bdf8; font-size: 0.75rem; }
+    .comment-text { color: #e2e8f0; font-size: 0.85rem; line-height: 1.4; }
+    .comment-actions { margin-top: 6px; display: flex; gap: 12px; font-size: 0.75rem; color: var(--text-muted); }
+    .comment-actions span { cursor: pointer; transition: 0.2s; }
+    .comment-actions span:hover { color: var(--primary-purple); }
+
+    .replies-list { margin-top: 8px; padding-right: 15px; border-right: 2px solid var(--primary-purple); display: flex; flex-direction: column; gap: 8px; }
+    .reply-item { background: rgba(0,0,0,0.2); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; }
+
+    .reply-box-input {
+      display: none; margin-top: 8px; gap: 6px;
+    }
+    .reply-box-input input {
+      flex: 1; padding: 6px 10px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.8rem;
+    }
 
     /* ---------------- ⚙️ لوحة تحكم الأدمن ---------------- */
     .admin-grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; margin-bottom: 30px; }
@@ -388,6 +442,37 @@
     }
     .badge-active { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
     .badge-banned { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    /* ---------------- 📞 النافذة المنبثقة لخدمة العملاء ---------------- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
+      z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+
+    .modal-box {
+      background: #0f0a21; border: 1px solid var(--border-neon-hover);
+      border-radius: 24px; padding: 25px; width: 100%; max-width: 400px;
+      box-shadow: 0 0 40px var(--glow-purple); text-align: center;
+      position: relative; animation: fadeIn 0.3s ease;
+    }
+
+    .modal-close {
+      position: absolute; top: 15px; left: 15px; color: var(--text-muted);
+      cursor: pointer; font-size: 1.2rem; transition: 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+
+    .contact-link-card {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 15px; border-radius: 14px; margin-bottom: 10px;
+      text-decoration: none; color: #fff; transition: 0.3s;
+    }
+    .contact-link-card:hover {
+      background: rgba(168, 85, 247, 0.15); border-color: var(--primary-purple);
+      transform: translateX(-3px);
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -442,6 +527,12 @@
         </div>
 
         <button type="submit" class="btn-login">تسجيل الدخول</button>
+        
+        <!-- زر خدمة العملاء المصغر تحت زر الدخول مباشرة -->
+        <button type="button" class="btn-support-mini" onclick="openContactModal()">
+          <i class="fas fa-headset"></i> خدمة العملاء والتواصل المباشر
+        </button>
+
         <div class="error-msg" id="errorMsg">خطأ في بيانات الدخول أو انتهت مدة اشتراكك!</div>
       </form>
     </div>
@@ -491,7 +582,7 @@
     <div class="watch-container">
       <div>
         <div class="video-player-box">
-          <div class="video-iframe-wrap" id="videoPlayerContainer"></div>
+          <div id="videoPlayerContainer"></div>
         </div>
 
         <div class="watch-details">
@@ -512,12 +603,13 @@
         </div>
 
         <div class="sidebar-card">
-          <h3><i class="fas fa-comments"></i> تعليقات المشتركين</h3>
-          <div class="comments-list" id="commentsList">
-            <div class="comment-item"><strong>أحمد</strong>جودة عالية بدون تقطيع، شكرًا!</div>
-            <div class="comment-item"><strong>كريم</strong>سيرفر ممتاز جداً.</div>
+          <h3><i class="fas fa-comments"></i> تعليقات المشتركين (<span id="commentCount">0</span>)</h3>
+          
+          <div style="margin-bottom: 15px;">
+            <input type="text" id="commentInput" placeholder="أضف تعليقك على هذا الفيلم..." style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff;" onkeypress="addMainComment(event)">
           </div>
-          <input type="text" id="commentInput" placeholder="أضف تعليقك..." style="width:100%; padding:8px; margin-top:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff;" onkeypress="addComment(event)">
+
+          <div class="comments-list" id="commentsList"></div>
         </div>
       </div>
     </div>
@@ -611,6 +703,47 @@
     </div>
   </div>
 
+  <!-- 📞 نافذة خدمة العملاء المنبثقة Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-box">
+      <i class="fas fa-times modal-close" onclick="closeContactModal()"></i>
+      <h3 style="font-size: 1.2rem; color: #c084fc; margin-bottom: 5px;"><i class="fas fa-headset"></i> خدمة العملاء والدعم</h3>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px;">يمكنك التواصل المباشر معنا عبر الوسائل التالية:</p>
+
+      <a href="https://wa.me/212621482778" target="_blank" class="contact-link-card">
+        <i class="fab fa-whatsapp" style="color: #22c55e; font-size: 1.4rem;"></i>
+        <div style="text-align: right;">
+          <div style="font-weight: bold; font-size: 0.85rem;">owner 1</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); direction: ltr;">+212 621482778</div>
+        </div>
+      </a>
+
+      <a href="https://wa.me/212770182095" target="_blank" class="contact-link-card">
+        <i class="fab fa-whatsapp" style="color: #22c55e; font-size: 1.4rem;"></i>
+        <div style="text-align: right;">
+          <div style="font-weight: bold; font-size: 0.85rem;">owner 2</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); direction: ltr;">+212 770-182095</div>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/lu_x_smos?stkn=MWgyZG9keXNnaW44Mw==" target="_blank" class="contact-link-card">
+        <i class="fab fa-instagram" style="color: #ec4899; font-size: 1.4rem;"></i>
+        <div style="text-align: right;">
+          <div style="font-weight: bold; font-size: 0.85rem;">chanele instagram</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">@lu_x_smos</div>
+        </div>
+      </a>
+
+      <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="contact-link-card">
+        <i class="fas fa-bullhorn" style="color: #38bdf8; font-size: 1.4rem;"></i>
+        <div style="text-align: right;">
+          <div style="font-weight: bold; font-size: 0.85rem;">chanele whatsaap</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">انضم لقناتنا على الواتساب</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
   <!-- 📱 شريط الملاحة السفلي للهواتف -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="goHome()"><i class="fas fa-home"></i><span>الرئيسية</span></div>
@@ -622,9 +755,7 @@
   </nav>
 
   <script>
-    // ⚙️ اسم متغير لوحة الأدمن القابل للتعديل بسهولة مستقبلية
     const ADMIN_SECTION_TITLE = "لوحة الإدارة";
-
     const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
     const DEFAULT_ADMIN_PASS = "admin123";
 
@@ -658,6 +789,7 @@
 
     let currentActivePage = 'authSection';
     let currentActiveSection = null;
+    let currentActiveMovieId = null; // المعرف الفريد للفيلم الشغال حالياً
 
     function getStoredUsers() { return JSON.parse(localStorage.getItem('sys_users')) || []; }
     function saveUsers(users) { localStorage.setItem('sys_users', JSON.stringify(users)); }
@@ -671,6 +803,10 @@
     function getStoredTickets() { return JSON.parse(localStorage.getItem('sys_tickets')) || []; }
     function saveTickets(tickets) { localStorage.setItem('sys_tickets', JSON.stringify(tickets)); }
 
+    // مخزن التعليقات بحسب إما إيد الفيلم أو العنوان
+    function getAllComments() { return JSON.parse(localStorage.getItem('sys_movie_comments')) || {}; }
+    function saveAllComments(cmts) { localStorage.setItem('sys_movie_comments', JSON.stringify(cmts)); }
+
     function getSession() { return JSON.parse(localStorage.getItem('sys_session')); }
 
     function isCurrentAdmin() {
@@ -678,10 +814,15 @@
       return sess && (sess.isAdmin || HARDCODED_ADMINS.includes(sess.email));
     }
 
+    // فتح وإغلاق modal الدعم
+    function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
+    function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+
     // تحديث الشاشة عند التعديلات
     window.addEventListener('storage', () => {
       renderSections();
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
+      if (currentActiveMovieId) renderMovieComments();
       if (document.getElementById('adminDashboardSection').style.display === 'block') {
         renderUsersTable();
         renderTicketsTable();
@@ -689,7 +830,6 @@
     });
 
     window.addEventListener('load', () => {
-      // تطبيق اسم قسم الأدمن المخصص
       document.getElementById('navAdminLabel').innerText = ADMIN_SECTION_TITLE;
       document.getElementById('adminPanelTitle').innerText = `${ADMIN_SECTION_TITLE} الشاملة`;
 
@@ -741,7 +881,6 @@
       }
     }
 
-    // 🔄 الزر الذكي الموحد أعلى الشاشة (تسجيل خروج أو عودة)
     function handleSmartHeaderBtn() {
       if (currentActivePage === 'dashboardSection') {
         logout();
@@ -881,7 +1020,7 @@
                 <div class="match-vs">VS</div>
                 <div class="team-box"><img src="${m.flag2}"><span>${m.team2}</span></div>
               </div>
-              <button class="btn-enter" style="background: var(--primary-purple); color:#fff; margin-top:5px;" onclick="openWatchPage('${m.team1} ضد ${m.team2}', '${m.streamUrl}', 'LIVE MATCH')"><i class="fas fa-play"></i> مشاهدة البث الحي</button>
+              <button class="btn-enter" style="background: var(--primary-purple); color:#fff; margin-top:5px;" onclick="openWatchPage(${m.id}, '${m.team1} ضد ${m.team2}', '${m.streamUrl}', 'LIVE MATCH')"><i class="fas fa-play"></i> مشاهدة البث الحي</button>
             </div>
           `;
         });
@@ -894,7 +1033,7 @@
             <div class="section-card" style="text-align:right; padding:12px;">
               <img src="${m.thumb}" style="width:100%; height:240px; object-fit:cover; border-radius:14px; margin-bottom:10px;">
               <h4 style="font-size:0.95rem; margin-bottom:8px;">${m.title}</h4>
-              <button class="btn-enter" onclick="openWatchPage('${m.title}', '${m.streamUrl}', '${m.badge}')"><i class="fas fa-play"></i> مشاهدة العرض</button>
+              <button class="btn-enter" onclick="openWatchPage(${m.id}, '${m.title}', '${m.streamUrl}', '${m.badge}')"><i class="fas fa-play"></i> مشاهدة العرض</button>
             </div>
           `;
         });
@@ -933,7 +1072,9 @@
       e.target.reset();
     }
 
-    function openWatchPage(title, url, badge) {
+    /* 🎬 صفحة المشاهدة واللاعب المتقدم */
+    function openWatchPage(id, title, url, badge) {
+      currentActiveMovieId = id;
       hideAllPages();
       currentActivePage = 'watchPage';
       document.getElementById('watchPage').style.display = 'block';
@@ -943,23 +1084,187 @@
       document.getElementById('wBadge').innerText = badge || "4K VIP";
 
       const playerBox = document.getElementById('videoPlayerContainer');
+      
+      // إذا كان فيديو مباشر MP4 أو Blob بتم إنشاء المشغل المتطور مع خيارات 10 ثوانٍ
       if (url.endsWith('.mp4') || url.startsWith('blob:')) {
-        playerBox.innerHTML = `<video src="${url}" controls autoplay style="width:100%; height:100%;"></video>`;
+        playerBox.className = "";
+        playerBox.innerHTML = `
+          <div class="custom-video-container">
+            <video id="mainVidPlayer" src="${url}" autoplay></video>
+            <div class="video-controls-overlay">
+              <button class="vid-btn" onclick="togglePlayVid()"><i class="fas fa-play" id="playIcon"></i></button>
+              <button class="vid-btn" onclick="skipVid(-10)" title="-10s"><i class="fas fa-undo"></i></button>
+              <button class="vid-btn" onclick="skipVid(10)" title="+10s"><i class="fas fa-redo"></i></button>
+              <span style="font-size:0.75rem; color:#fff;" id="vidTimeText">00:00</span>
+              <button class="vid-btn" style="margin-right:auto;" onclick="fullscreenVid()"><i class="fas fa-expand"></i></button>
+            </div>
+          </div>
+        `;
+        initVidControls();
       } else {
+        playerBox.className = "video-iframe-wrap";
         playerBox.innerHTML = `<iframe src="${url}" allowfullscreen></iframe>`;
+      }
+
+      renderMovieComments();
+    }
+
+    // التحكم بالتقديم والتأخير بالثواني المخصصة
+    function initVidControls() {
+      const vid = document.getElementById('mainVidPlayer');
+      if (!vid) return;
+      const icon = document.getElementById('playIcon');
+      const timeTxt = document.getElementById('vidTimeText');
+
+      vid.ontimeupdate = () => {
+        let curSec = Math.floor(vid.currentTime);
+        let mins = Math.floor(curSec / 60);
+        let secs = curSec % 60;
+        timeTxt.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      };
+
+      vid.onplay = () => { icon.className = "fas fa-pause"; };
+      vid.onpause = () => { icon.className = "fas fa-play"; };
+    }
+
+    function togglePlayVid() {
+      const vid = document.getElementById('mainVidPlayer');
+      if (vid) {
+        if (vid.paused) vid.play();
+        else vid.pause();
       }
     }
 
-    function addComment(e) {
+    function skipVid(sec) {
+      const vid = document.getElementById('mainVidPlayer');
+      if (vid) vid.currentTime += sec;
+    }
+
+    function fullscreenVid() {
+      const vid = document.getElementById('mainVidPlayer');
+      if (vid) {
+        if (vid.requestFullscreen) vid.requestFullscreen();
+        else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
+      }
+    }
+
+    /* 💬 نظام التعليقات والردود وتوثيق الحسابات المتقدم */
+    function renderMovieComments() {
+      const allCmts = getAllComments();
+      const movieCmts = allCmts[currentActiveMovieId] || [];
+      const listContainer = document.getElementById('commentsList');
+      document.getElementById('commentCount').innerText = movieCmts.length;
+
+      if (movieCmts.length === 0) {
+        listContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; text-align:center; padding:15px;">لا توجد تعليقات بعد، كن أول من يعلق!</div>`;
+        return;
+      }
+
+      let html = '';
+      movieCmts.forEach((c, idx) => {
+        const isVerified = c.isAdmin || HARDCODED_ADMINS.includes(c.email);
+        const userBadge = isVerified ? `<i class="fas fa-check-circle verify-badge" title="حساب موثق / إدارة"></i>` : '';
+
+        let repliesHtml = '';
+        if (c.replies && c.replies.length > 0) {
+          repliesHtml = `<div class="replies-list">`;
+          c.replies.forEach(r => {
+            const rVerified = r.isAdmin || HARDCODED_ADMINS.includes(r.email);
+            repliesHtml += `
+              <div class="reply-item">
+                <div class="comment-author">${r.userName} ${rVerified ? '<i class="fas fa-check-circle verify-badge"></i>' : ''}</div>
+                <div class="comment-text">${r.text}</div>
+              </div>
+            `;
+          });
+          repliesHtml += `</div>`;
+        }
+
+        html += `
+          <div class="comment-item">
+            <div class="comment-header">
+              <div class="comment-author">${c.userName} ${userBadge}</div>
+              <span style="font-size:0.7rem; color:var(--text-muted);">${c.date || ''}</span>
+            </div>
+            <div class="comment-text">${c.text}</div>
+            <div class="comment-actions">
+              <span onclick="toggleReplyBox(${idx})"><i class="fas fa-reply"></i> رد</span>
+            </div>
+
+            <!-- صندوق إضافة رد -->
+            <div class="reply-box-input" id="replyBox_${idx}">
+              <input type="text" placeholder="اكتب ردك..." onkeypress="addReplyComment(event, ${idx})">
+            </div>
+
+            ${repliesHtml}
+          </div>
+        `;
+      });
+
+      listContainer.innerHTML = html;
+    }
+
+    function addMainComment(e) {
       if (e.key === 'Enter') {
         const val = e.target.value.trim();
         if (!val) return;
-        const list = document.getElementById('commentsList');
-        const item = document.createElement('div');
-        item.className = 'comment-item';
-        item.innerHTML = `<strong>مشترك</strong>${val}`;
-        list.appendChild(item);
+
+        const sess = getSession();
+        const email = sess ? sess.email : "زائر";
+        const userName = email.split('@')[0];
+        const isAdmin = isCurrentAdmin();
+
+        const allCmts = getAllComments();
+        if (!allCmts[currentActiveMovieId]) allCmts[currentActiveMovieId] = [];
+
+        allCmts[currentActiveMovieId].unshift({
+          id: Date.now(),
+          email,
+          userName,
+          text: val,
+          isAdmin,
+          date: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+          replies: []
+        });
+
+        saveAllComments(allCmts);
         e.target.value = '';
+        renderMovieComments();
+      }
+    }
+
+    function toggleReplyBox(idx) {
+      const el = document.getElementById(`replyBox_${idx}`);
+      if (el) el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function addReplyComment(e, parentIdx) {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim();
+        if (!val) return;
+
+        const sess = getSession();
+        const email = sess ? sess.email : "زائر";
+        const userName = email.split('@')[0];
+        const isAdmin = isCurrentAdmin();
+
+        const allCmts = getAllComments();
+        if (allCmts[currentActiveMovieId] && allCmts[currentActiveMovieId][parentIdx]) {
+          if (!allCmts[currentActiveMovieId][parentIdx].replies) {
+            allCmts[currentActiveMovieId][parentIdx].replies = [];
+          }
+
+          allCmts[currentActiveMovieId][parentIdx].replies.push({
+            id: Date.now(),
+            email,
+            userName,
+            text: val,
+            isAdmin
+          });
+
+          saveAllComments(allCmts);
+          renderMovieComments();
+        }
       }
     }
 
@@ -1026,7 +1331,6 @@
       });
     }
 
-    // 🔨 تعطيل وتفعيل الحساب
     function toggleBanUser(email) {
       let users = getStoredUsers();
       const u = users.find(x => x.email === email);
@@ -1037,14 +1341,12 @@
       }
     }
 
-    // ⏱️ زيادة/تنقيص أيام الاشتراك مباشرة
     function adjustUserDays(email, daysToAdd) {
       let users = getStoredUsers();
       const u = users.find(x => x.email === email);
       if (u) {
         const msToAdd = daysToAdd * 24 * 60 * 60 * 1000;
         const now = new Date().getTime();
-        // إذا كان التاريخ قديماً، نبدأ الحساب من الآن
         let baseTime = u.expiryTimestamp > now ? u.expiryTimestamp : now;
         u.expiryTimestamp = baseTime + msToAdd;
         saveUsers(users);
@@ -1060,7 +1362,6 @@
       renderUsersTable();
     }
 
-    // 📩 نظام البلاغات والمقترحات
     function openSupport() {
       hideAllPages();
       currentActivePage = 'supportPage';
