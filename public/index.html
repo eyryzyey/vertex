@@ -9,6 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- مكتبات Firebase للربط السحابي الحقيقي والشامل -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
   <style>
     :root {
       --bg-main: #030308;
@@ -539,7 +543,7 @@
           <i class="fas fa-headset"></i> خدمة العملاء والتواصل المباشر
         </button>
 
-        <div class="error-msg" id="errorMsg">خطأ في بيانات الدخول أو انتهت مدة اشتراكك!</div>
+        <div class="error-msg" id="errorMsg">جاري التحقق من الحساب...</div>
       </form>
     </div>
   </div>
@@ -765,19 +769,29 @@
     <div class="nav-item" onclick="openSupport()"><i class="fas fa-headset"></i><span>الدعم</span></div>
   </nav>
 
-  <!-- JS Cloud Sync Framework -->
+  <!-- JS Cloud Sync Framework (Firebase Cloud Database Integration) -->
   <script>
     /* 🔒 تعطيل أدوات المطور (Developer Tools Protection) */
     document.addEventListener('keydown', function(e) {
       if (
-        e.keyCode === 123 || // F12
-        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I, J, C
-        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+        e.keyCode === 123 || 
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
+        (e.ctrlKey && e.keyCode === 85)
       ) {
         e.preventDefault();
         return false;
       }
     });
+
+    /* 🌐 إعدادات قاعدة البيانات السحابية الحقيقية التي تربط جميع الأجهزة ببعضها مباشرة */
+    const firebaseConfig = {
+      databaseURL: "https://onemovies-app-default-rtdb.firebaseio.com" // خادم سحابي عالمي عام ومباشر
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
 
     const ADMIN_SECTION_TITLE = "لوحة الإدارة";
     const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
@@ -795,35 +809,44 @@
       3: [{ id: 301, isMatch: true, team1: "ريال مدريد", team2: "برشلونة", flag1: "https://via.placeholder.com/50/111/fff?text=RM", flag2: "https://via.placeholder.com/50/111/fff?text=FCB", time: "20:00", status: "LIVE", streamUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" }]
     };
 
+    let cloudUsers = [];
+    let cloudSections = defaultSections;
+    let cloudMedia = defaultMediaData;
+    let cloudTickets = [];
+    let cloudComments = {};
+
     let currentActivePage = 'authSection';
     let currentActiveSection = null;
     let currentActiveMovieId = null;
 
-    /* --------- محرك المزامنة السحابية اللحظي --------- */
-    function syncGet(key, fallback) {
-      const cloudData = localStorage.getItem('sys_cloud_' + key);
-      return cloudData ? JSON.parse(cloudData) : fallback;
-    }
+    /* 🔄 ربط التزامن اللحظي المباشر عبر جميع الأجهزة من الـ Database */
+    db.ref().on('value', (snapshot) => {
+      const data = snapshot.val() || {};
+      
+      cloudUsers = data.users || [];
+      cloudSections = data.sections || defaultSections;
+      cloudMedia = data.media || defaultMediaData;
+      cloudTickets = data.tickets || [];
+      cloudComments = data.comments || {};
 
-    function syncSet(key, val) {
-      localStorage.setItem('sys_cloud_' + key, JSON.stringify(val));
-      window.dispatchEvent(new Event('storage'));
-    }
+      // تحديث الشاشات تلقائياً عند إضافة أو تعديل أي بيانات من الأدمن في أي متصفح
+      if (currentActivePage === 'dashboardSection') renderSections();
+      if (currentActiveSection) renderMediaGrid(currentActiveSection);
+      if (currentActiveMovieId) renderMovieComments();
+      if (currentActivePage === 'adminDashboardSection') {
+        renderUsersTable();
+        renderTicketsTable();
+      }
+    });
 
-    function getStoredUsers() { return syncGet('users', []); }
-    function saveUsers(users) { syncSet('users', users); }
+    // تحويل الإيميل إلى المفتاح المناسب لترميز الويب
+    function encodeEmail(email) { return email.replace(/\./g, '_dot_').replace(/@/g, '_at_'); }
 
-    function getStoredSections() { return syncGet('sections', defaultSections); }
-    function saveSections(sec) { syncSet('sections', sec); }
-
-    function getStoredMedia() { return syncGet('media', defaultMediaData); }
-    function saveMedia(med) { syncSet('media', med); }
-
-    function getStoredTickets() { return syncGet('tickets', []); }
-    function saveTickets(tickets) { syncSet('tickets', tickets); }
-
-    function getAllComments() { return syncGet('comments', {}); }
-    function saveAllComments(cmts) { syncSet('comments', cmts); }
+    function saveUsersToCloud(users) { db.ref('users').set(users); }
+    function saveSectionsToCloud(sec) { db.ref('sections').set(sec); }
+    function saveMediaToCloud(med) { db.ref('media').set(med); }
+    function saveTicketsToCloud(t) { db.ref('tickets').set(t); }
+    function saveCommentsToCloud(c) { db.ref('comments').set(c); }
 
     function getSession() { return JSON.parse(localStorage.getItem('sys_session')); }
 
@@ -837,22 +860,6 @@
 
     function openEditMediaModal() { document.getElementById('editMediaModal').style.display = 'flex'; }
     function closeEditMediaModal() { document.getElementById('editMediaModal').style.display = 'none'; }
-
-    // التزامن التلقائي الفوري
-    window.addEventListener('storage', () => {
-      renderSections();
-      if (currentActiveSection) renderMediaGrid(currentActiveSection);
-      if (currentActiveMovieId) renderMovieComments();
-      if (document.getElementById('adminDashboardSection').style.display === 'block') {
-        renderUsersTable();
-        renderTicketsTable();
-      }
-    });
-
-    setInterval(() => {
-      if (currentActiveSection) renderMediaGrid(currentActiveSection);
-      if (currentActiveMovieId) renderMovieComments();
-    }, 2000);
 
     window.addEventListener('load', () => {
       document.getElementById('navAdminLabel').innerText = ADMIN_SECTION_TITLE;
@@ -869,11 +876,14 @@
       }
     });
 
+    /* 🔐 التحقق من الحساب عبر السحابة العالمية المركزة */
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim().toLowerCase();
       const pass = document.getElementById('passInput').value.trim();
       const err = document.getElementById('errorMsg');
+
+      err.style.display = "none";
 
       if (HARDCODED_ADMINS.includes(email) && pass === DEFAULT_ADMIN_PASS) {
         localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: true }));
@@ -881,8 +891,8 @@
         return;
       }
 
-      const users = getStoredUsers();
-      const u = users.find(user => user.email === email && user.password === pass);
+      // البحث في البيانات الجاهزة والقادمة من الخادم السحابي مباشرة
+      const u = cloudUsers.find(user => user.email === email && user.password === pass);
 
       if (u) {
         if (u.isBanned) {
@@ -906,7 +916,6 @@
       }
     }
 
-    /* 🧠 نظام التنقل الذكي عبر زر الشريط العلوي */
     function handleSmartHeaderBtn() {
       if (currentActivePage === 'watchPage') {
         closeWatchView();
@@ -964,7 +973,6 @@
       document.getElementById('supportPage').style.display = 'none';
     }
 
-    /* 🎬 إيقاف مشغل الفيديو فوراً وإزالة البث للحفاظ على موارد الجهاز والتوقف عن التشغيل */
     function stopVideoPlayer() {
       const playerContainer = document.getElementById('videoPlayerContainer');
       if (playerContainer) {
@@ -973,7 +981,6 @@
       currentActiveMovieId = null;
     }
 
-    /* 🚪 إغلاق شاشة المشاهدة والعودة الفورية للقسم */
     function closeWatchView() {
       stopVideoPlayer();
       if (currentActiveSection) {
@@ -1009,10 +1016,9 @@
 
     function renderSections() {
       const container = document.getElementById('sectionsContainer');
-      const sections = getStoredSections();
       container.innerHTML = '';
 
-      sections.forEach(sec => {
+      cloudSections.forEach(sec => {
         const card = document.createElement('div');
         card.className = 'section-card';
         card.innerHTML = `
@@ -1028,10 +1034,8 @@
 
     function deleteSection(id) {
       if (!confirm("هل أنت تأكد من حذف هذا القسم بجميع محتوياته فوراً؟")) return;
-      let sections = getStoredSections();
-      sections = sections.filter(s => s.id !== id);
-      saveSections(sections);
-      renderSections();
+      cloudSections = cloudSections.filter(s => s.id !== id);
+      saveSectionsToCloud(cloudSections);
     }
 
     function openSectionDirectly(id) {
@@ -1043,7 +1047,7 @@
       document.getElementById('sectionViewPage').style.display = 'block';
       updateTopBarButton();
 
-      const sec = getStoredSections().find(s => s.id === id);
+      const sec = cloudSections.find(s => s.id === id);
       document.getElementById('viewPageTitle').innerText = sec ? sec.title : 'القسم';
       document.getElementById('viewPageDesc').innerText = sec ? sec.desc : '';
 
@@ -1077,16 +1081,14 @@
           <input type="text" id="mTitle" placeholder="العنوان / اسم الفيلم أو الأنمي" required>
           <input type="text" id="mBadge" placeholder="التقييم / الجودة (مثال: 4K VIP)" required>
           <input type="url" id="mThumbUrl" placeholder="رابط صورة الغلاف (URL)">
-          <input type="file" id="mThumbFile" accept="image/*" title="أو اختر غلاف من الهاتف">
-          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو">
-          <input type="file" id="mVideoFile" accept="video/*" title="أو رفع فيديو من ذاكرة الهاتف">
+          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو" required>
         `;
       }
     }
 
     function renderMediaGrid(secId) {
       const container = document.getElementById('mediaGridContainer');
-      const media = getStoredMedia()[secId] || [];
+      const media = cloudMedia[secId] || [];
 
       if (media.length === 0) {
         container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);"><i class="fas fa-film fa-2x" style="margin-bottom:10px;"></i><p>لا يوجد محتوى مضاف حالياً في هذا القسم.</p></div>`;
@@ -1132,8 +1134,7 @@
 
     function handleAdminAddMedia(e) {
       e.preventDefault();
-      const media = getStoredMedia();
-      if (!media[currentActiveSection]) media[currentActiveSection] = [];
+      if (!cloudMedia[currentActiveSection]) cloudMedia[currentActiveSection] = [];
 
       if (currentActiveSection === 3) {
         const team1 = document.getElementById('mTeam1').value.trim();
@@ -1147,7 +1148,7 @@
         if (!flag1) flag1 = "https://via.placeholder.com/50/111/fff?text=T1";
         if (!flag2) flag2 = "https://via.placeholder.com/50/111/fff?text=T2";
 
-        media[currentActiveSection].push({
+        cloudMedia[currentActiveSection].push({
           id: Date.now(),
           isMatch: true,
           team1, team2, flag1, flag2, time, status,
@@ -1159,15 +1160,9 @@
         let streamUrl = document.getElementById('mStreamUrl').value.trim();
         let thumbUrl = document.getElementById('mThumbUrl').value.trim();
 
-        const videoFile = document.getElementById('mVideoFile').files[0];
-        const thumbFile = document.getElementById('mThumbFile').files[0];
-
-        if (videoFile) streamUrl = URL.createObjectURL(videoFile);
-        if (thumbFile) thumbUrl = URL.createObjectURL(thumbFile);
-
         if (!thumbUrl) thumbUrl = "https://via.placeholder.com/300x450?text=OneMovies";
 
-        media[currentActiveSection].push({
+        cloudMedia[currentActiveSection].push({
           id: Date.now(),
           title, badge,
           thumb: thumbUrl,
@@ -1175,23 +1170,20 @@
         });
       }
 
-      saveMedia(media);
-      renderMediaGrid(currentActiveSection);
+      saveMediaToCloud(cloudMedia);
       e.target.reset();
     }
 
     function deleteMedia(id) {
       if (!confirm("هل أنت تأكد من مسح هذا العنصر نهائياً؟")) return;
-      const media = getStoredMedia();
-      if (media[currentActiveSection]) {
-        media[currentActiveSection] = media[currentActiveSection].filter(item => item.id !== id);
-        saveMedia(media);
-        renderMediaGrid(currentActiveSection);
+      if (cloudMedia[currentActiveSection]) {
+        cloudMedia[currentActiveSection] = cloudMedia[currentActiveSection].filter(item => item.id !== id);
+        saveMediaToCloud(cloudMedia);
       }
     }
 
     function openEditMedia(id) {
-      const mediaList = getStoredMedia()[currentActiveSection] || [];
+      const mediaList = cloudMedia[currentActiveSection] || [];
       const item = mediaList.find(m => m.id === id);
       if (!item) return;
 
@@ -1237,8 +1229,7 @@
     function handleSaveEditedMedia(e) {
       e.preventDefault();
       const id = parseInt(document.getElementById('editMediaId').value);
-      const media = getStoredMedia();
-      const list = media[currentActiveSection] || [];
+      const list = cloudMedia[currentActiveSection] || [];
       const itemIndex = list.findIndex(m => m.id === id);
 
       if (itemIndex !== -1) {
@@ -1257,8 +1248,7 @@
           list[itemIndex].streamUrl = document.getElementById('eStreamUrl').value.trim() || list[itemIndex].streamUrl;
         }
 
-        saveMedia(media);
-        renderMediaGrid(currentActiveSection);
+        saveMediaToCloud(cloudMedia);
         closeEditMediaModal();
       }
     }
@@ -1337,8 +1327,7 @@
     }
 
     function renderMovieComments() {
-      const allCmts = getAllComments();
-      const movieCmts = allCmts[currentActiveMovieId] || [];
+      const movieCmts = cloudComments[currentActiveMovieId] || [];
       const listContainer = document.getElementById('commentsList');
       document.getElementById('commentCount').innerText = movieCmts.length;
 
@@ -1400,10 +1389,9 @@
         const userName = email.split('@')[0];
         const isAdmin = isCurrentAdmin();
 
-        const allCmts = getAllComments();
-        if (!allCmts[currentActiveMovieId]) allCmts[currentActiveMovieId] = [];
+        if (!cloudComments[currentActiveMovieId]) cloudComments[currentActiveMovieId] = [];
 
-        allCmts[currentActiveMovieId].unshift({
+        cloudComments[currentActiveMovieId].unshift({
           id: Date.now(),
           email,
           userName,
@@ -1413,9 +1401,8 @@
           replies: []
         });
 
-        saveAllComments(allCmts);
+        saveCommentsToCloud(cloudComments);
         e.target.value = '';
-        renderMovieComments();
       }
     }
 
@@ -1434,13 +1421,12 @@
         const userName = email.split('@')[0];
         const isAdmin = isCurrentAdmin();
 
-        const allCmts = getAllComments();
-        if (allCmts[currentActiveMovieId] && allCmts[currentActiveMovieId][parentIdx]) {
-          if (!allCmts[currentActiveMovieId][parentIdx].replies) {
-            allCmts[currentActiveMovieId][parentIdx].replies = [];
+        if (cloudComments[currentActiveMovieId] && cloudComments[currentActiveMovieId][parentIdx]) {
+          if (!cloudComments[currentActiveMovieId][parentIdx].replies) {
+            cloudComments[currentActiveMovieId][parentIdx].replies = [];
           }
 
-          allCmts[currentActiveMovieId][parentIdx].replies.push({
+          cloudComments[currentActiveMovieId][parentIdx].replies.push({
             id: Date.now(),
             email,
             userName,
@@ -1448,8 +1434,7 @@
             isAdmin
           });
 
-          saveAllComments(allCmts);
-          renderMovieComments();
+          saveCommentsToCloud(cloudComments);
         }
       }
     }
@@ -1465,29 +1450,33 @@
       renderTicketsTable();
     }
 
+    /* ☁️ إضافة وتثبيت المشترك في الخادم السحابي العام */
     function handleCreateUser(e) {
       e.preventDefault();
       const email = document.getElementById('uEmail').value.trim().toLowerCase();
       const password = document.getElementById('uPass').value.trim();
       const days = parseInt(document.getElementById('uDuration').value);
 
-      const users = getStoredUsers();
       const expiryTimestamp = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
 
-      users.push({ email, password, days, expiryTimestamp, isBanned: false });
-      saveUsers(users);
-      renderUsersTable();
+      const existingIndex = cloudUsers.findIndex(u => u.email === email);
+      if (existingIndex !== -1) {
+        cloudUsers[existingIndex] = { email, password, days, expiryTimestamp, isBanned: false };
+      } else {
+        cloudUsers.push({ email, password, days, expiryTimestamp, isBanned: false });
+      }
+
+      saveUsersToCloud(cloudUsers);
       e.target.reset();
-      alert("تمت إضافة الحساب السحابي بنجاح، أصبح بإمكان المشترك الآن تسجيل الدخول من أي هاتف وجهاز!");
+      alert("تمت إضافة الحساب السحابي بنجاح! أصبح بإمكان المشترك الآن تسجيل الدخول فوراً من أي متصفح أو جهاز.");
     }
 
     function renderUsersTable() {
       const tbody = document.getElementById('usersTableBody');
-      const users = getStoredUsers();
       const now = new Date().getTime();
 
       tbody.innerHTML = '';
-      users.forEach((u, i) => {
+      cloudUsers.forEach((u, i) => {
         const remainingDays = Math.max(0, Math.ceil((u.expiryTimestamp - now) / (1000 * 60 * 60 * 24)));
         const tr = document.createElement('tr');
         
@@ -1520,34 +1509,28 @@
     }
 
     function toggleBanUser(email) {
-      let users = getStoredUsers();
-      const u = users.find(x => x.email === email);
+      const u = cloudUsers.find(x => x.email === email);
       if (u) {
         u.isBanned = !u.isBanned;
-        saveUsers(users);
-        renderUsersTable();
+        saveUsersToCloud(cloudUsers);
       }
     }
 
     function adjustUserDays(email, daysToAdd) {
-      let users = getStoredUsers();
-      const u = users.find(x => x.email === email);
+      const u = cloudUsers.find(x => x.email === email);
       if (u) {
         const msToAdd = daysToAdd * 24 * 60 * 60 * 1000;
         const now = new Date().getTime();
         let baseTime = u.expiryTimestamp > now ? u.expiryTimestamp : now;
         u.expiryTimestamp = baseTime + msToAdd;
-        saveUsers(users);
-        renderUsersTable();
+        saveUsersToCloud(cloudUsers);
       }
     }
 
     function deleteUser(email) {
       if (!confirm("هل أنت تأكد من إلغاء وحذف حساب هذا المشترك نهائياً؟")) return;
-      let users = getStoredUsers();
-      users = users.filter(u => u.email !== email);
-      saveUsers(users);
-      renderUsersTable();
+      cloudUsers = cloudUsers.filter(u => u.email !== email);
+      saveUsersToCloud(cloudUsers);
     }
 
     function openSupport() {
@@ -1565,8 +1548,7 @@
       const type = document.getElementById('ticketType').value;
       const message = document.getElementById('ticketMessage').value.trim();
 
-      const tickets = getStoredTickets();
-      tickets.unshift({
+      cloudTickets.unshift({
         id: Date.now(),
         sender,
         type,
@@ -1575,7 +1557,7 @@
         date: new Date().toLocaleDateString('ar-EG')
       });
 
-      saveTickets(tickets);
+      saveTicketsToCloud(cloudTickets);
       alert("تم إرسال بلاغك/اقتراحك بنجاح للإدارة! شكرًا لتواصلك.");
       e.target.reset();
       goHome();
@@ -1583,15 +1565,14 @@
 
     function renderTicketsTable() {
       const tbody = document.getElementById('supportTableBody');
-      const tickets = getStoredTickets();
       tbody.innerHTML = '';
 
-      if (tickets.length === 0) {
+      if (cloudTickets.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد بلاغات أو أفكار حالياً.</td></tr>`;
         return;
       }
 
-      tickets.forEach((t, i) => {
+      cloudTickets.forEach((t, i) => {
         const tr = document.createElement('tr');
         const isResolved = t.status === "تم الحل";
         const statusBadge = isResolved 
@@ -1614,20 +1595,16 @@
     }
 
     function toggleTicketStatus(id) {
-      let tickets = getStoredTickets();
-      const t = tickets.find(x => x.id === id);
+      const t = cloudTickets.find(x => x.id === id);
       if (t) {
         t.status = t.status === "تم الحل" ? "قيد المراجعة" : "تم الحل";
-        saveTickets(tickets);
-        renderTicketsTable();
+        saveTicketsToCloud(cloudTickets);
       }
     }
 
     function deleteTicket(id) {
-      let tickets = getStoredTickets();
-      tickets = tickets.filter(x => x.id !== id);
-      saveTickets(tickets);
-      renderTicketsTable();
+      cloudTickets = cloudTickets.filter(x => x.id !== id);
+      saveTicketsToCloud(cloudTickets);
     }
 
     function togglePass() {
