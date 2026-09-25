@@ -768,11 +768,31 @@
   <!-- JS Cloud Sync Framework -->
   <script>
     const ADMIN_SECTION_TITLE = "لوحة الإدارة";
-    const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
-    const DEFAULT_ADMIN_PASS = "admin123";
+    const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com", "owner@onemovies.tv"];
 
-    // محاكاة الاتصال برابط السحابة المركزية (يمكن ربطه بـ Firebase / JSONBin API)
-    const API_CLOUD_SERVER = "https://api.jsonbin.io/v3/b/cloud_onemovies_tv";
+    // 🌟 قائمة الـ 20 إيميل المغروسة مع كلمات مرور افتراضية وصلاحيات جاهزة
+    const EMBEDDED_EMAILS = [
+      { email: "admin1@app.com", pass: "admin123", isAdmin: true },
+      { email: "admin2@app.com", pass: "admin123", isAdmin: true },
+      { email: "user1@onemovies.tv", pass: "pass1234", days: 30 },
+      { email: "user2@onemovies.tv", pass: "pass1234", days: 30 },
+      { email: "user3@onemovies.tv", pass: "pass1234", days: 60 },
+      { email: "user4@onemovies.tv", pass: "pass1234", days: 15 },
+      { email: "user5@onemovies.tv", pass: "pass1234", days: 90 },
+      { email: "vip1@onemovies.tv", pass: "vip2026", days: 180 },
+      { email: "vip2@onemovies.tv", pass: "vip2026", days: 180 },
+      { email: "streamer1@onemovies.tv", pass: "stream123", days: 45 },
+      { email: "streamer2@onemovies.tv", pass: "stream123", days: 45 },
+      { email: "cinema_fan@onemovies.tv", pass: "fan2026", days: 30 },
+      { email: "anime_lord@onemovies.tv", pass: "anime123", days: 60 },
+      { email: "football_live@onemovies.tv", pass: "goal2026", days: 30 },
+      { email: "tester1@onemovies.tv", pass: "test1234", days: 7 },
+      { email: "tester2@onemovies.tv", pass: "test1234", days: 7 },
+      { email: "member10@onemovies.tv", pass: "mem12345", days: 30 },
+      { email: "member11@onemovies.tv", pass: "mem12345", days: 30 },
+      { email: "member12@onemovies.tv", pass: "mem12345", days: 30 },
+      { email: "guest_vip@onemovies.tv", pass: "guest2026", days: 10 }
+    ];
 
     const defaultSections = [
       { id: 1, title: "قسم الأنمي (Anime)", desc: "أحدث حلقات وأفلام الأنمي المترجمة HD", icon: "fa-tv" },
@@ -798,22 +818,32 @@
 
     function syncSet(key, val) {
       localStorage.setItem('sys_cloud_' + key, JSON.stringify(val));
-      // إرسال الإشعار لجميع الأجهزة والمتصفحات المفتوحة حالياً
       window.dispatchEvent(new Event('storage'));
     }
 
-    function getStoredUsers() { return syncGet('users', []); }
-    function saveUsers(users) { syncSet('users', users); }
+    function getStoredUsers() {
+      let users = syncGet('users', null);
+      if (!users) {
+        // تهيئة الـ 20 إيميل تلقائياً في التخزين المحلي أول مرة
+        const now = new Date().getTime();
+        users = EMBEDDED_EMAILS.map(item => ({
+          email: item.email,
+          password: item.pass,
+          expiryTimestamp: now + (item.days || 30) * 24 * 60 * 60 * 1000,
+          isBanned: false
+        }));
+        syncSet('users', users);
+      }
+      return users;
+    }
 
+    function saveUsers(users) { syncSet('users', users); }
     function getStoredSections() { return syncGet('sections', defaultSections); }
     function saveSections(sec) { syncSet('sections', sec); }
-
     function getStoredMedia() { return syncGet('media', defaultMediaData); }
     function saveMedia(med) { syncSet('media', med); }
-
     function getStoredTickets() { return syncGet('tickets', []); }
     function saveTickets(tickets) { syncSet('tickets', tickets); }
-
     function getAllComments() { return syncGet('comments', {}); }
     function saveAllComments(cmts) { syncSet('comments', cmts); }
 
@@ -826,11 +856,9 @@
 
     function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
-
     function openEditMediaModal() { document.getElementById('editMediaModal').style.display = 'flex'; }
     function closeEditMediaModal() { document.getElementById('editMediaModal').style.display = 'none'; }
 
-    // التزامن التلقائي الفوري لدى كافة المستخدمين والمشتركين
     window.addEventListener('storage', () => {
       renderSections();
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
@@ -841,13 +869,13 @@
       }
     });
 
-    // المزامنة الدورية الأوتوماتيكية كل ثانية لضمان ظهور البث والتعديلات لحظياً
     setInterval(() => {
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
       if (currentActiveMovieId) renderMovieComments();
     }, 2000);
 
     window.addEventListener('load', () => {
+      getStoredUsers(); // تهيئة الـ 20 إيميل فوراً
       document.getElementById('navAdminLabel').innerText = ADMIN_SECTION_TITLE;
       document.getElementById('adminPanelTitle').innerText = `${ADMIN_SECTION_TITLE} الشاملة`;
 
@@ -867,7 +895,7 @@
       const pass = document.getElementById('passInput').value.trim();
       const err = document.getElementById('errorMsg');
 
-      if (HARDCODED_ADMINS.includes(email) && pass === DEFAULT_ADMIN_PASS) {
+      if (HARDCODED_ADMINS.includes(email) && pass === "admin123") {
         localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: true }));
         showMainDashboard();
         return;
@@ -890,7 +918,8 @@
           return;
         }
 
-        localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: false }));
+        const isAdminEmail = HARDCODED_ADMINS.includes(email);
+        localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: isAdminEmail }));
         showMainDashboard();
       } else {
         err.innerText = "البريد الإلكتروني أو كلمة المرور غير صحيحة!";
@@ -1338,85 +1367,81 @@
             <div class="comment-actions">
               <span onclick="toggleReplyBox(${idx})"><i class="fas fa-reply"></i> رد</span>
             </div>
-
             <div class="reply-box-input" id="replyBox_${idx}">
-              <input type="text" placeholder="اكتب ردك..." onkeypress="addReplyComment(event, ${idx})">
+              <input type="text" id="replyInput_${idx}" placeholder="اكتب ردك..." onkeypress="addReply(event, ${idx})">
             </div>
-
             ${repliesHtml}
           </div>
         `;
       });
-
       listContainer.innerHTML = html;
     }
 
     function addMainComment(e) {
       if (e.key === 'Enter') {
-        const val = e.target.value.trim();
-        if (!val) return;
+        const input = document.getElementById('commentInput');
+        const text = input.value.trim();
+        if (!text) return;
 
         const sess = getSession();
-        const email = sess ? sess.email : "زائر";
-        const userName = email.split('@')[0];
-        const isAdmin = isCurrentAdmin();
+        if (!sess) return alert("الرجاء تسجيل الدخول");
 
         const allCmts = getAllComments();
         if (!allCmts[currentActiveMovieId]) allCmts[currentActiveMovieId] = [];
 
+        const now = new Date();
+        const dateStr = `${now.getHours()}:${now.getMinutes()} - ${now.getDate()}/${now.getMonth()+1}`;
+
         allCmts[currentActiveMovieId].unshift({
-          id: Date.now(),
-          email,
-          userName,
-          text: val,
-          isAdmin,
-          date: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+          email: sess.email,
+          userName: sess.email.split('@')[0],
+          isAdmin: sess.isAdmin,
+          text: text,
+          date: dateStr,
           replies: []
         });
 
         saveAllComments(allCmts);
-        e.target.value = '';
+        input.value = '';
         renderMovieComments();
       }
     }
 
     function toggleReplyBox(idx) {
-      const el = document.getElementById(`replyBox_${idx}`);
-      if (el) el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+      const box = document.getElementById(`replyBox_${idx}`);
+      box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    function addReplyComment(e, parentIdx) {
+    function addReply(e, commentIdx) {
       if (e.key === 'Enter') {
-        const val = e.target.value.trim();
-        if (!val) return;
+        const input = document.getElementById(`replyInput_${commentIdx}`);
+        const text = input.value.trim();
+        if (!text) return;
 
         const sess = getSession();
-        const email = sess ? sess.email : "زائر";
-        const userName = email.split('@')[0];
-        const isAdmin = isCurrentAdmin();
+        if (!sess) return;
 
         const allCmts = getAllComments();
-        if (allCmts[currentActiveMovieId] && allCmts[currentActiveMovieId][parentIdx]) {
-          if (!allCmts[currentActiveMovieId][parentIdx].replies) {
-            allCmts[currentActiveMovieId][parentIdx].replies = [];
-          }
+        if (!allCmts[currentActiveMovieId] || !allCmts[currentActiveMovieId][commentIdx]) return;
 
-          allCmts[currentActiveMovieId][parentIdx].replies.push({
-            id: Date.now(),
-            email,
-            userName,
-            text: val,
-            isAdmin
-          });
-
-          saveAllComments(allCmts);
-          renderMovieComments();
+        if (!allCmts[currentActiveMovieId][commentIdx].replies) {
+          allCmts[currentActiveMovieId][commentIdx].replies = [];
         }
+
+        allCmts[currentActiveMovieId][commentIdx].replies.push({
+          email: sess.email,
+          userName: sess.email.split('@')[0],
+          isAdmin: sess.isAdmin,
+          text: text
+        });
+
+        saveAllComments(allCmts);
+        renderMovieComments();
       }
     }
 
     function showAdminDashboard() {
-      if (!isCurrentAdmin()) return alert("غير مسموح لك بالدخول هنا");
+      if (!isCurrentAdmin()) return alert("عذراً، هذه الصفحة مخصصة للأدمن فقط!");
       hideAllPages();
       currentActivePage = 'adminDashboardSection';
       document.getElementById('adminDashboardSection').style.display = 'block';
@@ -1425,92 +1450,89 @@
       renderTicketsTable();
     }
 
+    function renderUsersTable() {
+      const users = getStoredUsers();
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+
+      const now = new Date().getTime();
+
+      users.forEach((u, i) => {
+        const leftDays = Math.ceil((u.expiryTimestamp - now) / (1000 * 60 * 60 * 24));
+        const statusBadge = u.isBanned 
+          ? `<span class="badge-status badge-banned">محظور</span>` 
+          : (leftDays > 0 ? `<span class="badge-status badge-active">نشط (${leftDays} يوم)</span>` : `<span class="badge-status badge-banned">منتهي</span>`);
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td style="direction:ltr; text-align:right;">${u.email}</td>
+            <td style="direction:ltr; text-align:right;">${u.password}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <button class="btn-days" onclick="changeDays(${i}, 7)" title="إضافة 7 أيام">+7</button>
+              <button class="btn-days" onclick="changeDays(${i}, 30)" title="إضافة 30 يوم">+30</button>
+            </td>
+            <td>
+              <i class="fas ${u.isBanned ? 'fa-check action-icon enable' : 'fa-ban action-icon ban'}" onclick="toggleBanUser(${i})" title="${u.isBanned ? 'تفعيل' : 'حظر'}"></i>
+              <i class="fas fa-trash action-icon delete" onclick="deleteUser(${i})" title="حذف"></i>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
     function handleCreateUser(e) {
       e.preventDefault();
       const email = document.getElementById('uEmail').value.trim().toLowerCase();
       const password = document.getElementById('uPass').value.trim();
-      const days = parseInt(document.getElementById('uDuration').value);
+      const durationDays = parseInt(document.getElementById('uDuration').value);
 
-      const users = getStoredUsers();
-      const expiryTimestamp = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
+      let users = getStoredUsers();
+      const existing = users.find(u => u.email === email);
+      const expiryTimestamp = new Date().getTime() + (durationDays * 24 * 60 * 60 * 1000);
 
-      users.push({ email, password, days, expiryTimestamp, isBanned: false });
+      if (existing) {
+        existing.password = password;
+        existing.expiryTimestamp = expiryTimestamp;
+        existing.isBanned = false;
+        alert("تم تحديث وتمديد اشتراك المشترك بنجاح!");
+      } else {
+        users.push({ email, password, expiryTimestamp, isBanned: false });
+        alert("تم إنشاء الحساب وتفعيل الاشتراك بنجاح!");
+      }
+
       saveUsers(users);
       renderUsersTable();
       e.target.reset();
-      alert("تمت إضافة الحساب السحابي بنجاح، أصبح بإمكان المشترك الآن تسجيل الدخول من أي هاتف وجهاز!");
     }
 
-    function renderUsersTable() {
-      const tbody = document.getElementById('usersTableBody');
-      const users = getStoredUsers();
+    function changeDays(index, days) {
+      let users = getStoredUsers();
       const now = new Date().getTime();
-
-      tbody.innerHTML = '';
-      users.forEach((u, i) => {
-        const remainingDays = Math.max(0, Math.ceil((u.expiryTimestamp - now) / (1000 * 60 * 60 * 24)));
-        const tr = document.createElement('tr');
-        
-        const isBanned = u.isBanned || false;
-        const statusBadge = isBanned 
-          ? `<span class="badge-status badge-banned">معطل</span>` 
-          : `<span class="badge-status badge-active">نشط</span>`;
-
-        const toggleBanBtn = isBanned
-          ? `<i class="fas fa-check-circle action-icon enable" onclick="toggleBanUser('${u.email}')" title="تفعيل الحساب"></i>`
-          : `<i class="fas fa-ban action-icon ban" onclick="toggleBanUser('${u.email}')" title="تعطيل الحساب"></i>`;
-
-        tr.innerHTML = `
-          <td>${i + 1}</td>
-          <td>${u.email}</td>
-          <td><code>${u.password}</code></td>
-          <td>${statusBadge}</td>
-          <td>
-            <button class="btn-days" onclick="adjustUserDays('${u.email}', -1)">-</button>
-            <span style="font-weight:bold; margin:0 4px;">${remainingDays} يوم</span>
-            <button class="btn-days" onclick="adjustUserDays('${u.email}', 1)">+</button>
-          </td>
-          <td>
-            ${toggleBanBtn}
-            <i class="fas fa-trash action-icon delete" onclick="deleteUser('${u.email}')" title="حذف الاشتراك"></i>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      let currentExpiry = users[index].expiryTimestamp > now ? users[index].expiryTimestamp : now;
+      users[index].expiryTimestamp = currentExpiry + (days * 24 * 60 * 60 * 1000);
+      saveUsers(users);
+      renderUsersTable();
     }
 
-    function toggleBanUser(email) {
+    function toggleBanUser(index) {
       let users = getStoredUsers();
-      const u = users.find(x => x.email === email);
-      if (u) {
-        u.isBanned = !u.isBanned;
-        saveUsers(users);
-        renderUsersTable();
-      }
+      users[index].isBanned = !users[index].isBanned;
+      saveUsers(users);
+      renderUsersTable();
     }
 
-    function adjustUserDays(email, daysToAdd) {
+    function deleteUser(index) {
+      if (!confirm("هل أنت متأكد من حذف هذا المشترك نهائياً؟")) return;
       let users = getStoredUsers();
-      const u = users.find(x => x.email === email);
-      if (u) {
-        const msToAdd = daysToAdd * 24 * 60 * 60 * 1000;
-        const now = new Date().getTime();
-        let baseTime = u.expiryTimestamp > now ? u.expiryTimestamp : now;
-        u.expiryTimestamp = baseTime + msToAdd;
-        saveUsers(users);
-        renderUsersTable();
-      }
-    }
-
-    function deleteUser(email) {
-      if (!confirm("هل أنت تأكد من إلغاء وحذف حساب هذا المشترك نهائياً؟")) return;
-      let users = getStoredUsers();
-      users = users.filter(u => u.email !== email);
+      users.splice(index, 1);
       saveUsers(users);
       renderUsersTable();
     }
 
     function openSupport() {
+      if (!getSession()) return alert("الرجاء تسجيل الدخول أولاً");
       hideAllPages();
       currentActivePage = 'supportPage';
       document.getElementById('supportPage').style.display = 'block';
@@ -1519,64 +1541,57 @@
 
     function handleSendSupportTicket(e) {
       e.preventDefault();
-      const sess = getSession();
-      const sender = sess ? sess.email : "زائر/مستخدم";
       const type = document.getElementById('ticketType').value;
       const message = document.getElementById('ticketMessage').value.trim();
+      const sess = getSession();
 
       const tickets = getStoredTickets();
       tickets.unshift({
         id: Date.now(),
-        sender,
-        type,
-        message,
-        status: "قيد المراجعة",
-        date: new Date().toLocaleDateString('ar-EG')
+        email: sess.email,
+        type: type,
+        message: message,
+        status: "قيد المراجعة"
       });
 
       saveTickets(tickets);
-      alert("تم إرسال بلاغك/اقتراحك بنجاح للإدارة! شكرًا لتواصلك.");
+      alert("تم إرسال رسالتك بنجاح إلى الإدارة وسيتم الرد عليك قريباً!");
       e.target.reset();
       goHome();
     }
 
     function renderTicketsTable() {
-      const tbody = document.getElementById('supportTableBody');
       const tickets = getStoredTickets();
+      const tbody = document.getElementById('supportTableBody');
       tbody.innerHTML = '';
 
       if (tickets.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد بلاغات أو أفكار حالياً.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد بلاغات أو مقترحات جديدة.</td></tr>`;
         return;
       }
 
       tickets.forEach((t, i) => {
-        const tr = document.createElement('tr');
-        const isResolved = t.status === "تم الحل";
-        const statusBadge = isResolved 
-          ? `<span class="badge-status badge-active">تم الحل</span>`
-          : `<span class="badge-status badge-banned">قيد المراجعة</span>`;
-
-        tr.innerHTML = `
-          <td>${i + 1}</td>
-          <td>${t.sender}</td>
-          <td><strong>${t.type}</strong></td>
-          <td style="max-width:250px; text-wrap:wrap;">${t.message}</td>
-          <td>${statusBadge}</td>
-          <td>
-            <button class="btn-days" onclick="toggleTicketStatus(${t.id})">${isResolved ? 'إعادة فتح' : 'تم الحل'}</button>
-            <i class="fas fa-trash action-icon delete" onclick="deleteTicket(${t.id})" title="حذف البلاغ"></i>
-          </td>
+        tbody.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td style="direction:ltr; text-align:right;">${t.email}</td>
+            <td>${t.type}</td>
+            <td style="max-width:300px; word-break:break-word;">${t.message}</td>
+            <td><span class="badge-status badge-active">${t.status}</span></td>
+            <td>
+              <i class="fas fa-check action-icon enable" onclick="resolveTicket(${t.id})" title="تمت المعالجة"></i>
+              <i class="fas fa-trash action-icon delete" onclick="deleteTicket(${t.id})" title="حذف"></i>
+            </td>
+          </tr>
         `;
-        tbody.appendChild(tr);
       });
     }
 
-    function toggleTicketStatus(id) {
+    function resolveTicket(id) {
       let tickets = getStoredTickets();
-      const t = tickets.find(x => x.id === id);
+      const t = tickets.find(item => item.id === id);
       if (t) {
-        t.status = t.status === "تم الحل" ? "قيد المراجعة" : "تم الحل";
+        t.status = "تمت المعالجة ✅";
         saveTickets(tickets);
         renderTicketsTable();
       }
@@ -1584,18 +1599,20 @@
 
     function deleteTicket(id) {
       let tickets = getStoredTickets();
-      tickets = tickets.filter(x => x.id !== id);
+      tickets = tickets.filter(item => item.id !== id);
       saveTickets(tickets);
       renderTicketsTable();
     }
 
     function togglePass() {
-      const p = document.getElementById('passInput');
-      const eye = document.getElementById('togglePassword');
-      if (p.type === 'password') {
-        p.type = 'text'; eye.classList.replace('fa-eye', 'fa-eye-slash');
+      const passInput = document.getElementById('passInput');
+      const eyeIcon = document.getElementById('togglePassword');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.className = "fas fa-eye-slash toggle-eye";
       } else {
-        p.type = 'password'; eye.classList.replace('fa-eye-slash', 'fa-eye');
+        passInput.type = 'password';
+        eyeIcon.className = "fas fa-eye toggle-eye";
       }
     }
   </script>
