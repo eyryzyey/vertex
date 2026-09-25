@@ -22,21 +22,6 @@
       --text-muted: #94a3b8;
     }
 
-    /* Light Theme Overrides */
-    body.light-theme {
-      --bg-main: #f1f5f9;
-      --bg-card: rgba(255, 255, 255, 0.85);
-      --border-neon: rgba(168, 85, 247, 0.4);
-      --border-neon-hover: rgba(168, 85, 247, 0.9);
-      --text-muted: #64748b;
-      color: #0f172a;
-    }
-
-    /* Desktop/Net Mode Layout Adjustments */
-    body.desktop-mode .house-stage {
-      max-width: 750px;
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -72,10 +57,6 @@
       transition: opacity 0.3s ease;
     }
 
-    body.light-theme .bg-cyber-glow {
-      opacity: 0.15;
-    }
-
     .bg-grid-overlay {
       position: fixed;
       top: 0;
@@ -87,43 +68,6 @@
       background-size: 30px 30px;
       z-index: -1;
       pointer-events: none;
-    }
-
-    /* ---------------- HEADER CONTROLS (THEME & DESKTOP TOGGLES) ---------------- */
-    .top-controls {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      pointer-events: none;
-    }
-
-    .top-controls button {
-      pointer-events: auto;
-      background: var(--bg-card);
-      border: 1px solid var(--border-neon);
-      color: inherit;
-      padding: 10px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .top-controls button:hover {
-      border-color: var(--primary-purple);
-      box-shadow: 0 0 15px var(--glow-purple);
-      transform: translateY(-2px);
     }
 
     /* ---------------- 1. LOGIN INTERFACE ---------------- */
@@ -196,11 +140,6 @@
       text-align: left;
       transition: all 0.3s ease;
       direction: ltr;
-    }
-
-    body.light-theme .input-box input {
-      background: rgba(0, 0, 0, 0.03);
-      border-color: rgba(0, 0, 0, 0.15);
     }
 
     .input-box input:focus {
@@ -766,10 +705,6 @@
       border-radius: 24px 24px 0 0;
     }
 
-    body.light-theme .cyber-footer {
-      background: rgba(255, 255, 255, 0.85);
-    }
-
     .cyber-footer::before {
       content: '';
       position: absolute;
@@ -971,10 +906,6 @@
       flex-wrap: wrap;
       gap: 15px;
       backdrop-filter: blur(10px);
-    }
-
-    body.light-theme .server-status-bar {
-      background: rgba(255, 255, 255, 0.85);
     }
 
     .server-info-badge {
@@ -1325,18 +1256,6 @@
   <div class="bg-cyber-glow"></div>
   <div class="bg-grid-overlay"></div>
 
-  <!-- 🌐 TOP CONTROLS (THEME & DESKTOP TOGGLES) -->
-  <div class="top-controls">
-    <!-- Dark/Light Theme Toggle (Top Right) -->
-    <button onclick="toggleTheme()" id="themeToggleBtn">
-      <i class="fas fa-moon"></i> <span>الوضع الداكن</span>
-    </button>
-    <!-- Version Ordinateur / Desktop Mode Toggle (Top Left) -->
-    <button onclick="toggleDesktopMode()" id="desktopToggleBtn">
-      <i class="fas fa-desktop"></i> <span>إصدار الكمبيوتر</span>
-    </button>
-  </div>
-
   <!-- 1️⃣ LOGIN INTERFACE -->
   <div class="house-stage" id="authSection">
     <div class="login-card">
@@ -1652,41 +1571,6 @@
   </div>
 
   <script>
-    // Theme & Desktop Mode Management
-    function toggleTheme() {
-      document.body.classList.toggle('light-theme');
-      const btn = document.getElementById('themeToggleBtn');
-      if (document.body.classList.contains('light-theme')) {
-        btn.innerHTML = '<i class="fas fa-sun"></i> <span>الوضع الفاتح</span>';
-        localStorage.setItem('theme_mode', 'light');
-      } else {
-        btn.innerHTML = '<i class="fas fa-moon"></i> <span>الوضع الداكن</span>';
-        localStorage.setItem('theme_mode', 'dark');
-      }
-    }
-
-    function toggleDesktopMode() {
-      document.body.classList.toggle('desktop-mode');
-      const btn = document.getElementById('desktopToggleBtn');
-      if (document.body.classList.contains('desktop-mode')) {
-        btn.style.borderColor = 'var(--secondary-pink)';
-        btn.style.color = 'var(--secondary-pink)';
-        localStorage.setItem('desktop_mode', 'true');
-      } else {
-        btn.style.borderColor = 'var(--border-neon)';
-        btn.style.color = 'inherit';
-        localStorage.setItem('desktop_mode', 'false');
-      }
-    }
-
-    // Restore user preferences on load
-    if (localStorage.getItem('theme_mode') === 'light') {
-      toggleTheme();
-    }
-    if (localStorage.getItem('desktop_mode') === 'true') {
-      toggleDesktopMode();
-    }
-
     // 🔑 TMDB API KEY integration
     const TMDB_API_KEY = "3fd2be6f0cd057014fe7744d73ce13d3"; 
     const TMDB_BASE_URL = "https://api.themoviedb.org/3";
