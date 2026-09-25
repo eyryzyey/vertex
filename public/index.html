@@ -219,7 +219,7 @@
       background: rgba(8, 6, 18, 0.85); backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border-top: 1px solid var(--border-neon);
-      display: flex; justify-space: around; align-items: center;
+      display: flex; justify-content: space-around; align-items: center;
       padding: 12px 5px; z-index: 999;
     }
 
@@ -1405,7 +1405,6 @@
       renderTicketsTable();
     }
 
-    // 🔄 الحفظ المباشر في Firebase بحسابه السحابي
     function handleCreateUser(e) {
       e.preventDefault();
       const email = document.getElementById('uEmail').value.trim().toLowerCase();
@@ -1421,7 +1420,6 @@
         cloudUsers.push({ email, password, days, expiryTimestamp, isBanned: false });
       }
 
-      // حفظ معالجة الخطأ
       db.ref('users').set(cloudUsers, (error) => {
         if (error) {
           alert("خطأ في الحفظ! تأكد من إعدادات Security Rules في Firebase Console.");
@@ -1502,7 +1500,6 @@
       updateTopBarButton();
     }
 
-    // 🔄 الحفظ المباشر للبلاغات والمقترحات
     function handleSendSupportTicket(e) {
       e.preventDefault();
       const sess = getSession();
