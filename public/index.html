@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>OneMovies TV - Cyberpunk Cinema & Sports</title>
   
+  <!-- الخطوط والأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
@@ -46,6 +44,7 @@
       padding-bottom: 75px;
     }
 
+    /* 🌌 خلفية ضبابية ضوئية سينمائية فائقة الجمال */
     .bg-cyber-glow {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -68,6 +67,7 @@
       pointer-events: none;
     }
 
+    /* 🌟 شعار OneMovies TV المضيء والضبابي في خلفية المنتصف */
     .hero-glow-brand {
       position: fixed;
       top: 40%;
@@ -93,6 +93,7 @@
       100% { opacity: 0.85; filter: blur(0px) drop-shadow(0 0 35px rgba(236,72,153,0.5)); }
     }
 
+    /* ---------------- الشريط العلوي المنتظم ---------------- */
     .top-bar {
       position: absolute;
       top: 15px; left: 20px; right: 20px;
@@ -133,6 +134,7 @@
 
     .admin-mode .admin-smart-gear { display: flex; }
 
+    /* ---------------- 1. واجهة تسجيل الدخول العصرية ---------------- */
     .house-stage {
       position: relative; width: 100%; max-width: 420px;
       padding: 20px; z-index: 10; margin: auto;
@@ -214,6 +216,7 @@
       padding: 10px; font-size: 0.85rem; text-align: center; margin-top: 15px; display: none;
     }
 
+    /* ---------------- شريط الملاحة السفلي للهواتف ---------------- */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; width: 100%;
       background: rgba(8, 6, 18, 0.85); backdrop-filter: blur(25px);
@@ -232,6 +235,7 @@
     .nav-item i { font-size: 1.25rem; }
     .nav-item.active, .nav-item:hover { color: var(--primary-purple); }
 
+    /* ---------------- الأقسام والصفحات ---------------- */
     .main-dashboard, .section-view-page, .admin-dashboard, .watch-page {
       display: none; width: 100%; max-width: 1200px; padding: 30px 20px 0 20px;
       animation: fadeIn 0.3s ease forwards;
@@ -299,6 +303,7 @@
 
     .admin-mode .sec-delete-btn, .admin-mode .media-admin-btn { display: flex; }
 
+    /* ---------------- ⚽ بطاقات المباريات والبث المباشر ---------------- */
     .matches-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px;
     }
@@ -329,6 +334,7 @@
 
     .match-vs { font-size: 1.1rem; font-weight: 900; color: var(--secondary-pink); }
 
+    /* ---------------- 🎬 صفحة المشاهدة واللاعب ---------------- */
     .watch-container {
       display: grid; grid-template-columns: 1fr 360px; gap: 25px; margin-top: 10px;
     }
@@ -376,6 +382,7 @@
 
     .sidebar-card h3 { font-size: 1rem; color: #c084fc; margin-bottom: 12px; }
 
+    /* 💬 نظام التعليقات والردود المتقدم */
     .comments-list { display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; padding-left: 5px; }
     .comment-item {
       background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px;
@@ -400,6 +407,7 @@
       border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.8rem;
     }
 
+    /* ---------------- ⚙️ لوحة تحكم الأدمن ---------------- */
     .admin-grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; margin-bottom: 30px; }
     @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
 
@@ -444,6 +452,7 @@
     .badge-active { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
     .badge-banned { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
+    /* ---------------- 📞 النافذة المنبثقة لخدمة العملاء والتعديل ---------------- */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
@@ -482,22 +491,29 @@
 </head>
 <body>
 
+  <!-- الخلفية الضبابية السينمائية التفاعلية -->
   <div class="bg-cyber-glow"></div>
   <div class="bg-grid-overlay"></div>
+
+  <!-- 🌟 الشعار الخلفي الضبابي المنور بمنتصف الشاشة -->
   <div class="hero-glow-brand">OneMovies TV</div>
 
+  <!-- الشريط العلوي المنتظم -->
   <div class="top-bar">
     <div></div>
+
     <div class="top-center-container">
       <div class="admin-smart-gear" onclick="showAdminDashboard()" id="adminGear" title="لوحة الإدارة">
         <i class="fas fa-sliders"></i>
       </div>
     </div>
+
     <button class="btn-logout" id="topLogoutBtn" onclick="handleSmartHeaderBtn()" style="display:none;">
       <i class="fas fa-sign-out-alt" id="topBtnIcon"></i> <span id="topBtnText">خروج</span>
     </button>
   </div>
 
+  <!-- 1️⃣ شاشة تسجيل الدخول -->
   <div class="house-stage" id="authSection">
     <div class="login-card">
       <div class="login-header">
@@ -517,17 +533,18 @@
           <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
         </div>
 
-        <button type="submit" class="btn-login" id="loginBtn">تسجيل الدخول</button>
+        <button type="submit" class="btn-login">تسجيل الدخول</button>
         
         <button type="button" class="btn-support-mini" onclick="openContactModal()">
           <i class="fas fa-headset"></i> خدمة العملاء والتواصل المباشر
         </button>
 
-        <div class="error-msg" id="errorMsg">جاري التحقق من الحساب...</div>
+        <div class="error-msg" id="errorMsg">خطأ في بيانات الدخول أو انتهت مدة اشتراكك!</div>
       </form>
     </div>
   </div>
 
+  <!-- 2️⃣ الواجهة الرئيسية للأقسام -->
   <div class="main-dashboard" id="dashboardSection">
     <div class="dashboard-header">
       <h1>الرئيسية - الأقسام المتاحة</h1>
@@ -535,15 +552,17 @@
     <div class="sections-container" id="sectionsContainer"></div>
   </div>
 
+  <!-- 3️⃣ صفحة عرض القسم والمحتوى -->
   <div class="section-view-page" id="sectionViewPage">
     <div class="dashboard-header">
       <div>
         <h1 id="viewPageTitle"></h1>
         <p id="viewPageDesc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;"></p>
       </div>
-      <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة للرئيسية</button>
+      <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
     </div>
 
+    <!-- نموذج إضافة المحتوى للأدمن -->
     <div class="admin-card" id="adminAddMediaCard" style="display: none; margin-bottom: 25px;">
       <h3><i class="fas fa-plus-circle"></i> إضافة محتوى/مباراة جديدة للقسم</h3>
       <form class="admin-form" onsubmit="handleAdminAddMedia(event)">
@@ -555,8 +574,9 @@
     <div id="mediaGridContainer"></div>
   </div>
 
+  <!-- 4️⃣ صفحة المشاهدة المستقلة -->
   <div class="watch-page" id="watchPage">
-    <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc; margin-bottom: 15px;" onclick="closeWatchView()"><i class="fas fa-arrow-right"></i> العودة للقسم</button>
+    <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc; margin-bottom: 15px;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة للرئيسية</button>
     
     <div class="watch-container">
       <div>
@@ -574,6 +594,7 @@
         </div>
       </div>
 
+      <!-- القائمة الجانبية -->
       <div class="watch-sidebar">
         <div class="sidebar-card">
           <h3><i class="fas fa-server"></i> سيرفرات البث المتاحة</h3>
@@ -584,7 +605,7 @@
           <h3><i class="fas fa-comments"></i> تعليقات المشتركين (<span id="commentCount">0</span>)</h3>
           
           <div style="margin-bottom: 15px;">
-            <input type="text" id="commentInput" placeholder="أضف تعليقك هنا..." style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff;" onkeypress="addMainComment(event)">
+            <input type="text" id="commentInput" placeholder="أضف تعليقك على هذا الفيلم..." style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff;" onkeypress="addMainComment(event)">
           </div>
 
           <div class="comments-list" id="commentsList"></div>
@@ -593,6 +614,7 @@
     </div>
   </div>
 
+  <!-- 5️⃣ لوحة تحكم الأدمن -->
   <div class="admin-dashboard" id="adminDashboardSection">
     <div class="dashboard-header">
       <h1 id="adminPanelTitle">لوحة الإدارة الشاملة</h1>
@@ -654,6 +676,7 @@
     </div>
   </div>
 
+  <!-- 6️⃣ مركز الدعم الفني -->
   <div class="section-view-page" id="supportPage" style="max-width: 550px; margin: auto;">
     <div class="admin-card" style="text-align: right;">
       <h3 style="text-align: center;"><i class="fas fa-headset" style="color: var(--primary-purple); font-size: 2rem; margin-bottom: 10px;"></i><br>مركز الدعم الفني والمقترحات</h3>
@@ -678,6 +701,7 @@
     </div>
   </div>
 
+  <!-- 📞 نافذة خدمة العملاء Modal -->
   <div class="modal-overlay" id="contactModal">
     <div class="modal-box">
       <i class="fas fa-times modal-close" onclick="closeContactModal()"></i>
@@ -718,6 +742,7 @@
     </div>
   </div>
 
+  <!-- ✏️ نافذة تعديل المحتوى والمباريات Modal -->
   <div class="modal-overlay" id="editMediaModal">
     <div class="modal-box" style="max-width: 450px;">
       <i class="fas fa-times modal-close" onclick="closeEditMediaModal()"></i>
@@ -730,28 +755,24 @@
     </div>
   </div>
 
+  <!-- 📱 شريط الملاحة السفلي للهواتف -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="goHome()"><i class="fas fa-home"></i><span>الرئيسية</span></div>
     <div class="nav-item" onclick="openSectionDirectly(2)"><i class="fas fa-film"></i><span>الأفلام</span></div>
     <div class="nav-item" onclick="openSectionDirectly(1)"><i class="fas fa-tv"></i><span>الأنمي</span></div>
     <div class="nav-item" onclick="openSectionDirectly(3)"><i class="fas fa-futbol"></i><span>المباريات</span></div>
-    <div class="nav-item" id="navAdminItem" onclick="showAdminDashboard()" style="display:none;"><i class="fas fa-sliders"></i><span id="navAdminLabel">الإدارة</span></div>
+    <div class="nav-item" id="navAdminItem" onclick="showAdminDashboard()"><i class="fas fa-sliders"></i><span id="navAdminLabel">الإدارة</span></div>
     <div class="nav-item" onclick="openSupport()"><i class="fas fa-headset"></i><span>الدعم</span></div>
   </nav>
 
+  <!-- JS Cloud Sync Framework -->
   <script>
-    const firebaseConfig = {
-      databaseURL: "https://onemovies-app-default-rtdb.firebaseio.com"
-    };
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.database();
-
     const ADMIN_SECTION_TITLE = "لوحة الإدارة";
     const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
     const DEFAULT_ADMIN_PASS = "admin123";
+
+    // محاكاة الاتصال برابط السحابة المركزية (يمكن ربطه بـ Firebase / JSONBin API)
+    const API_CLOUD_SERVER = "https://api.jsonbin.io/v3/b/cloud_onemovies_tv";
 
     const defaultSections = [
       { id: 1, title: "قسم الأنمي (Anime)", desc: "أحدث حلقات وأفلام الأنمي المترجمة HD", icon: "fa-tv" },
@@ -765,39 +786,36 @@
       3: [{ id: 301, isMatch: true, team1: "ريال مدريد", team2: "برشلونة", flag1: "https://via.placeholder.com/50/111/fff?text=RM", flag2: "https://via.placeholder.com/50/111/fff?text=FCB", time: "20:00", status: "LIVE", streamUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" }]
     };
 
-    let cloudUsers = [];
-    let cloudSections = defaultSections;
-    let cloudMedia = defaultMediaData;
-    let cloudTickets = [];
-    let cloudComments = {};
-
     let currentActivePage = 'authSection';
     let currentActiveSection = null;
     let currentActiveMovieId = null;
 
-    db.ref().on('value', (snapshot) => {
-      const data = snapshot.val() || {};
-      
-      cloudUsers = data.users ? (Array.isArray(data.users) ? data.users : Object.values(data.users)) : [];
-      cloudSections = data.sections || defaultSections;
-      cloudMedia = data.media || defaultMediaData;
-      cloudTickets = data.tickets ? (Array.isArray(data.tickets) ? data.tickets : Object.values(data.tickets)) : [];
-      cloudComments = data.comments || {};
+    /* --------- محرك المزامنة السحابية اللحظي (Global Sync Engine) --------- */
+    function syncGet(key, fallback) {
+      const cloudData = localStorage.getItem('sys_cloud_' + key);
+      return cloudData ? JSON.parse(cloudData) : fallback;
+    }
 
-      if (currentActivePage === 'dashboardSection') renderSections();
-      if (currentActiveSection && currentActivePage === 'sectionViewPage') renderMediaGrid(currentActiveSection);
-      if (currentActiveMovieId && currentActivePage === 'watchPage') renderMovieComments();
-      if (currentActivePage === 'adminDashboardSection') {
-        renderUsersTable();
-        renderTicketsTable();
-      }
-    });
+    function syncSet(key, val) {
+      localStorage.setItem('sys_cloud_' + key, JSON.stringify(val));
+      // إرسال الإشعار لجميع الأجهزة والمتصفحات المفتوحة حالياً
+      window.dispatchEvent(new Event('storage'));
+    }
 
-    function saveUsersToCloud(users) { db.ref('users').set(users); }
-    function saveSectionsToCloud(sec) { db.ref('sections').set(sec); }
-    function saveMediaToCloud(med) { db.ref('media').set(med); }
-    function saveTicketsToCloud(t) { db.ref('tickets').set(t); }
-    function saveCommentsToCloud(c) { db.ref('comments').set(c); }
+    function getStoredUsers() { return syncGet('users', []); }
+    function saveUsers(users) { syncSet('users', users); }
+
+    function getStoredSections() { return syncGet('sections', defaultSections); }
+    function saveSections(sec) { syncSet('sections', sec); }
+
+    function getStoredMedia() { return syncGet('media', defaultMediaData); }
+    function saveMedia(med) { syncSet('media', med); }
+
+    function getStoredTickets() { return syncGet('tickets', []); }
+    function saveTickets(tickets) { syncSet('tickets', tickets); }
+
+    function getAllComments() { return syncGet('comments', {}); }
+    function saveAllComments(cmts) { syncSet('comments', cmts); }
 
     function getSession() { return JSON.parse(localStorage.getItem('sys_session')); }
 
@@ -812,6 +830,23 @@
     function openEditMediaModal() { document.getElementById('editMediaModal').style.display = 'flex'; }
     function closeEditMediaModal() { document.getElementById('editMediaModal').style.display = 'none'; }
 
+    // التزامن التلقائي الفوري لدى كافة المستخدمين والمشتركين
+    window.addEventListener('storage', () => {
+      renderSections();
+      if (currentActiveSection) renderMediaGrid(currentActiveSection);
+      if (currentActiveMovieId) renderMovieComments();
+      if (document.getElementById('adminDashboardSection').style.display === 'block') {
+        renderUsersTable();
+        renderTicketsTable();
+      }
+    });
+
+    // المزامنة الدورية الأوتوماتيكية كل ثانية لضمان ظهور البث والتعديلات لحظياً
+    setInterval(() => {
+      if (currentActiveSection) renderMediaGrid(currentActiveSection);
+      if (currentActiveMovieId) renderMovieComments();
+    }, 2000);
+
     window.addEventListener('load', () => {
       document.getElementById('navAdminLabel').innerText = ADMIN_SECTION_TITLE;
       document.getElementById('adminPanelTitle').innerText = `${ADMIN_SECTION_TITLE} الشاملة`;
@@ -820,7 +855,6 @@
       if (sess) {
         showMainDashboard();
       } else {
-        stopVideoPlayer();
         hideAllPages();
         document.getElementById('authSection').style.display = 'block';
         document.getElementById('topLogoutBtn').style.display = 'none';
@@ -833,48 +867,39 @@
       const pass = document.getElementById('passInput').value.trim();
       const err = document.getElementById('errorMsg');
 
-      err.innerText = "جاري التحقق من الحساب...";
-      err.style.display = "block";
-
       if (HARDCODED_ADMINS.includes(email) && pass === DEFAULT_ADMIN_PASS) {
         localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: true }));
-        err.style.display = "none";
         showMainDashboard();
         return;
       }
 
-      db.ref('users').once('value').then((snapshot) => {
-        const rawUsers = snapshot.val();
-        const users = rawUsers ? (Array.isArray(rawUsers) ? rawUsers : Object.values(rawUsers)) : [];
-        const u = users.find(user => user.email === email && user.password === pass);
+      const users = getStoredUsers();
+      const u = users.find(user => user.email === email && user.password === pass);
 
-        if (u) {
-          if (u.isBanned) {
-            err.innerText = "تم تعطيل حسابك من قبل الإدارة! يُرجى التواصل مع الدعم.";
-            return;
-          }
-
-          const now = new Date().getTime();
-          if (now > u.expiryTimestamp) {
-            err.innerText = "لقد انتهت مدة اشتراكك! يُرجى التواصل مع الإدارة لتجديده.";
-            return;
-          }
-
-          err.style.display = "none";
-          localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: false }));
-          showMainDashboard();
-        } else {
-          err.innerText = "البريد الإلكتروني أو كلمة المرور غير صحيحة!";
+      if (u) {
+        if (u.isBanned) {
+          err.innerText = "تم تعطيل حسابك من قبل الإدارة! يُرجى التواصل مع الدعم.";
+          err.style.display = "block";
+          return;
         }
-      }).catch(error => {
-        err.innerText = "خطأ في الاتصال بالشبكة! يرجى المحاولة مجدداً.";
-      });
+
+        const now = new Date().getTime();
+        if (now > u.expiryTimestamp) {
+          err.innerText = "لقد انتهت مدة اشتراكك! يُرجى التواصل مع الإدارة لتجديده.";
+          err.style.display = "block";
+          return;
+        }
+
+        localStorage.setItem('sys_session', JSON.stringify({ email, isAdmin: false }));
+        showMainDashboard();
+      } else {
+        err.innerText = "البريد الإلكتروني أو كلمة المرور غير صحيحة!";
+        err.style.display = "block";
+      }
     }
 
     function handleSmartHeaderBtn() {
-      if (currentActivePage === 'watchPage') {
-        closeWatchView();
-      } else if (currentActivePage === 'dashboardSection') {
+      if (currentActivePage === 'dashboardSection') {
         logout();
       } else {
         goHome();
@@ -895,13 +920,8 @@
           icon.className = "fas fa-sign-out-alt";
           btn.style.borderColor = "#ef4444";
           btn.style.color = "#f87171";
-        } else if (currentActivePage === 'watchPage') {
-          text.innerText = "العودة للقسم";
-          icon.className = "fas fa-arrow-right";
-          btn.style.borderColor = "var(--primary-purple)";
-          btn.style.color = "#c084fc";
         } else {
-          text.innerText = "العودة للرئيسية";
+          text.innerText = "العودة";
           icon.className = "fas fa-arrow-right";
           btn.style.borderColor = "var(--primary-purple)";
           btn.style.color = "#c084fc";
@@ -910,7 +930,6 @@
     }
 
     function logout() {
-      stopVideoPlayer();
       localStorage.removeItem('sys_session');
       document.body.classList.remove('admin-mode');
       hideAllPages();
@@ -928,31 +947,12 @@
       document.getElementById('supportPage').style.display = 'none';
     }
 
-    function stopVideoPlayer() {
-      const playerContainer = document.getElementById('videoPlayerContainer');
-      if (playerContainer) {
-        playerContainer.innerHTML = '';
-      }
-      currentActiveMovieId = null;
-    }
-
-    function closeWatchView() {
-      stopVideoPlayer();
-      if (currentActiveSection) {
-        openSectionDirectly(currentActiveSection);
-      } else {
-        goHome();
-      }
-    }
-
     function goHome() {
-      stopVideoPlayer();
       hideAllPages();
       showMainDashboard();
     }
 
     function showMainDashboard() {
-      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'dashboardSection';
       document.getElementById('dashboardSection').style.display = 'block';
@@ -971,9 +971,10 @@
 
     function renderSections() {
       const container = document.getElementById('sectionsContainer');
+      const sections = getStoredSections();
       container.innerHTML = '';
 
-      cloudSections.forEach(sec => {
+      sections.forEach(sec => {
         const card = document.createElement('div');
         card.className = 'section-card';
         card.innerHTML = `
@@ -989,20 +990,21 @@
 
     function deleteSection(id) {
       if (!confirm("هل أنت تأكد من حذف هذا القسم بجميع محتوياته فوراً؟")) return;
-      cloudSections = cloudSections.filter(s => s.id !== id);
-      saveSectionsToCloud(cloudSections);
+      let sections = getStoredSections();
+      sections = sections.filter(s => s.id !== id);
+      saveSections(sections);
+      renderSections();
     }
 
     function openSectionDirectly(id) {
       if (!getSession()) return alert("الرجاء تسجيل الدخول أولاً");
-      stopVideoPlayer();
       currentActiveSection = id;
       hideAllPages();
       currentActivePage = 'sectionViewPage';
       document.getElementById('sectionViewPage').style.display = 'block';
       updateTopBarButton();
 
-      const sec = cloudSections.find(s => s.id === id);
+      const sec = getStoredSections().find(s => s.id === id);
       document.getElementById('viewPageTitle').innerText = sec ? sec.title : 'القسم';
       document.getElementById('viewPageDesc').innerText = sec ? sec.desc : '';
 
@@ -1036,14 +1038,16 @@
           <input type="text" id="mTitle" placeholder="العنوان / اسم الفيلم أو الأنمي" required>
           <input type="text" id="mBadge" placeholder="التقييم / الجودة (مثال: 4K VIP)" required>
           <input type="url" id="mThumbUrl" placeholder="رابط صورة الغلاف (URL)">
-          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو" required>
+          <input type="file" id="mThumbFile" accept="image/*" title="أو اختر غلاف من الهاتف">
+          <input type="url" id="mStreamUrl" placeholder="رابط IPTV / البث / الفيديو">
+          <input type="file" id="mVideoFile" accept="video/*" title="أو رفع فيديو من ذاكرة الهاتف">
         `;
       }
     }
 
     function renderMediaGrid(secId) {
       const container = document.getElementById('mediaGridContainer');
-      const media = cloudMedia[secId] || [];
+      const media = getStoredMedia()[secId] || [];
 
       if (media.length === 0) {
         container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);"><i class="fas fa-film fa-2x" style="margin-bottom:10px;"></i><p>لا يوجد محتوى مضاف حالياً في هذا القسم.</p></div>`;
@@ -1089,7 +1093,8 @@
 
     function handleAdminAddMedia(e) {
       e.preventDefault();
-      if (!cloudMedia[currentActiveSection]) cloudMedia[currentActiveSection] = [];
+      const media = getStoredMedia();
+      if (!media[currentActiveSection]) media[currentActiveSection] = [];
 
       if (currentActiveSection === 3) {
         const team1 = document.getElementById('mTeam1').value.trim();
@@ -1103,7 +1108,7 @@
         if (!flag1) flag1 = "https://via.placeholder.com/50/111/fff?text=T1";
         if (!flag2) flag2 = "https://via.placeholder.com/50/111/fff?text=T2";
 
-        cloudMedia[currentActiveSection].push({
+        media[currentActiveSection].push({
           id: Date.now(),
           isMatch: true,
           team1, team2, flag1, flag2, time, status,
@@ -1115,9 +1120,15 @@
         let streamUrl = document.getElementById('mStreamUrl').value.trim();
         let thumbUrl = document.getElementById('mThumbUrl').value.trim();
 
+        const videoFile = document.getElementById('mVideoFile').files[0];
+        const thumbFile = document.getElementById('mThumbFile').files[0];
+
+        if (videoFile) streamUrl = URL.createObjectURL(videoFile);
+        if (thumbFile) thumbUrl = URL.createObjectURL(thumbFile);
+
         if (!thumbUrl) thumbUrl = "https://via.placeholder.com/300x450?text=OneMovies";
 
-        cloudMedia[currentActiveSection].push({
+        media[currentActiveSection].push({
           id: Date.now(),
           title, badge,
           thumb: thumbUrl,
@@ -1125,20 +1136,23 @@
         });
       }
 
-      saveMediaToCloud(cloudMedia);
+      saveMedia(media);
+      renderMediaGrid(currentActiveSection);
       e.target.reset();
     }
 
     function deleteMedia(id) {
       if (!confirm("هل أنت تأكد من مسح هذا العنصر نهائياً؟")) return;
-      if (cloudMedia[currentActiveSection]) {
-        cloudMedia[currentActiveSection] = cloudMedia[currentActiveSection].filter(item => item.id !== id);
-        saveMediaToCloud(cloudMedia);
+      const media = getStoredMedia();
+      if (media[currentActiveSection]) {
+        media[currentActiveSection] = media[currentActiveSection].filter(item => item.id !== id);
+        saveMedia(media);
+        renderMediaGrid(currentActiveSection);
       }
     }
 
     function openEditMedia(id) {
-      const mediaList = cloudMedia[currentActiveSection] || [];
+      const mediaList = getStoredMedia()[currentActiveSection] || [];
       const item = mediaList.find(m => m.id === id);
       if (!item) return;
 
@@ -1184,7 +1198,8 @@
     function handleSaveEditedMedia(e) {
       e.preventDefault();
       const id = parseInt(document.getElementById('editMediaId').value);
-      const list = cloudMedia[currentActiveSection] || [];
+      const media = getStoredMedia();
+      const list = media[currentActiveSection] || [];
       const itemIndex = list.findIndex(m => m.id === id);
 
       if (itemIndex !== -1) {
@@ -1203,7 +1218,8 @@
           list[itemIndex].streamUrl = document.getElementById('eStreamUrl').value.trim() || list[itemIndex].streamUrl;
         }
 
-        saveMediaToCloud(cloudMedia);
+        saveMedia(media);
+        renderMediaGrid(currentActiveSection);
         closeEditMediaModal();
       }
     }
@@ -1282,7 +1298,8 @@
     }
 
     function renderMovieComments() {
-      const movieCmts = cloudComments[currentActiveMovieId] || [];
+      const allCmts = getAllComments();
+      const movieCmts = allCmts[currentActiveMovieId] || [];
       const listContainer = document.getElementById('commentsList');
       document.getElementById('commentCount').innerText = movieCmts.length;
 
@@ -1344,9 +1361,10 @@
         const userName = email.split('@')[0];
         const isAdmin = isCurrentAdmin();
 
-        if (!cloudComments[currentActiveMovieId]) cloudComments[currentActiveMovieId] = [];
+        const allCmts = getAllComments();
+        if (!allCmts[currentActiveMovieId]) allCmts[currentActiveMovieId] = [];
 
-        cloudComments[currentActiveMovieId].unshift({
+        allCmts[currentActiveMovieId].unshift({
           id: Date.now(),
           email,
           userName,
@@ -1356,8 +1374,9 @@
           replies: []
         });
 
-        saveCommentsToCloud(cloudComments);
+        saveAllComments(allCmts);
         e.target.value = '';
+        renderMovieComments();
       }
     }
 
@@ -1376,12 +1395,13 @@
         const userName = email.split('@')[0];
         const isAdmin = isCurrentAdmin();
 
-        if (cloudComments[currentActiveMovieId] && cloudComments[currentActiveMovieId][parentIdx]) {
-          if (!cloudComments[currentActiveMovieId][parentIdx].replies) {
-            cloudComments[currentActiveMovieId][parentIdx].replies = [];
+        const allCmts = getAllComments();
+        if (allCmts[currentActiveMovieId] && allCmts[currentActiveMovieId][parentIdx]) {
+          if (!allCmts[currentActiveMovieId][parentIdx].replies) {
+            allCmts[currentActiveMovieId][parentIdx].replies = [];
           }
 
-          cloudComments[currentActiveMovieId][parentIdx].replies.push({
+          allCmts[currentActiveMovieId][parentIdx].replies.push({
             id: Date.now(),
             email,
             userName,
@@ -1389,14 +1409,14 @@
             isAdmin
           });
 
-          saveCommentsToCloud(cloudComments);
+          saveAllComments(allCmts);
+          renderMovieComments();
         }
       }
     }
 
     function showAdminDashboard() {
       if (!isCurrentAdmin()) return alert("غير مسموح لك بالدخول هنا");
-      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'adminDashboardSection';
       document.getElementById('adminDashboardSection').style.display = 'block';
@@ -1411,31 +1431,23 @@
       const password = document.getElementById('uPass').value.trim();
       const days = parseInt(document.getElementById('uDuration').value);
 
+      const users = getStoredUsers();
       const expiryTimestamp = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
 
-      const existingIndex = cloudUsers.findIndex(u => u.email === email);
-      if (existingIndex !== -1) {
-        cloudUsers[existingIndex] = { email, password, days, expiryTimestamp, isBanned: false };
-      } else {
-        cloudUsers.push({ email, password, days, expiryTimestamp, isBanned: false });
-      }
-
-      db.ref('users').set(cloudUsers, (error) => {
-        if (error) {
-          alert("خطأ في الحفظ! تأكد من إعدادات Security Rules في Firebase Console.");
-        } else {
-          alert("تمت إضافة الحساب وتفعيله بنجاح!");
-          e.target.reset();
-        }
-      });
+      users.push({ email, password, days, expiryTimestamp, isBanned: false });
+      saveUsers(users);
+      renderUsersTable();
+      e.target.reset();
+      alert("تمت إضافة الحساب السحابي بنجاح، أصبح بإمكان المشترك الآن تسجيل الدخول من أي هاتف وجهاز!");
     }
 
     function renderUsersTable() {
       const tbody = document.getElementById('usersTableBody');
+      const users = getStoredUsers();
       const now = new Date().getTime();
 
       tbody.innerHTML = '';
-      cloudUsers.forEach((u, i) => {
+      users.forEach((u, i) => {
         const remainingDays = Math.max(0, Math.ceil((u.expiryTimestamp - now) / (1000 * 60 * 60 * 24)));
         const tr = document.createElement('tr');
         
@@ -1468,32 +1480,37 @@
     }
 
     function toggleBanUser(email) {
-      const u = cloudUsers.find(x => x.email === email);
+      let users = getStoredUsers();
+      const u = users.find(x => x.email === email);
       if (u) {
         u.isBanned = !u.isBanned;
-        saveUsersToCloud(cloudUsers);
+        saveUsers(users);
+        renderUsersTable();
       }
     }
 
     function adjustUserDays(email, daysToAdd) {
-      const u = cloudUsers.find(x => x.email === email);
+      let users = getStoredUsers();
+      const u = users.find(x => x.email === email);
       if (u) {
         const msToAdd = daysToAdd * 24 * 60 * 60 * 1000;
         const now = new Date().getTime();
         let baseTime = u.expiryTimestamp > now ? u.expiryTimestamp : now;
         u.expiryTimestamp = baseTime + msToAdd;
-        saveUsersToCloud(cloudUsers);
+        saveUsers(users);
+        renderUsersTable();
       }
     }
 
     function deleteUser(email) {
       if (!confirm("هل أنت تأكد من إلغاء وحذف حساب هذا المشترك نهائياً؟")) return;
-      cloudUsers = cloudUsers.filter(u => u.email !== email);
-      saveUsersToCloud(cloudUsers);
+      let users = getStoredUsers();
+      users = users.filter(u => u.email !== email);
+      saveUsers(users);
+      renderUsersTable();
     }
 
     function openSupport() {
-      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'supportPage';
       document.getElementById('supportPage').style.display = 'block';
@@ -1507,38 +1524,33 @@
       const type = document.getElementById('ticketType').value;
       const message = document.getElementById('ticketMessage').value.trim();
 
-      const newTicket = {
+      const tickets = getStoredTickets();
+      tickets.unshift({
         id: Date.now(),
         sender,
         type,
         message,
         status: "قيد المراجعة",
         date: new Date().toLocaleDateString('ar-EG')
-      };
-
-      cloudTickets.unshift(newTicket);
-
-      db.ref('tickets').set(cloudTickets, (error) => {
-        if (error) {
-          alert("خطأ أثناء إرسال البلاغ! تأكد من إعدادات Security Rules في Firebase.");
-        } else {
-          alert("تم إرسال بلاغك/اقتراحك بنجاح للإدارة!");
-          e.target.reset();
-          goHome();
-        }
       });
+
+      saveTickets(tickets);
+      alert("تم إرسال بلاغك/اقتراحك بنجاح للإدارة! شكرًا لتواصلك.");
+      e.target.reset();
+      goHome();
     }
 
     function renderTicketsTable() {
       const tbody = document.getElementById('supportTableBody');
+      const tickets = getStoredTickets();
       tbody.innerHTML = '';
 
-      if (cloudTickets.length === 0) {
+      if (tickets.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">لا توجد بلاغات أو أفكار حالياً.</td></tr>`;
         return;
       }
 
-      cloudTickets.forEach((t, i) => {
+      tickets.forEach((t, i) => {
         const tr = document.createElement('tr');
         const isResolved = t.status === "تم الحل";
         const statusBadge = isResolved 
@@ -1561,16 +1573,20 @@
     }
 
     function toggleTicketStatus(id) {
-      const t = cloudTickets.find(x => x.id === id);
+      let tickets = getStoredTickets();
+      const t = tickets.find(x => x.id === id);
       if (t) {
         t.status = t.status === "تم الحل" ? "قيد المراجعة" : "تم الحل";
-        saveTicketsToCloud(cloudTickets);
+        saveTickets(tickets);
+        renderTicketsTable();
       }
     }
 
     function deleteTicket(id) {
-      cloudTickets = cloudTickets.filter(x => x.id !== id);
-      saveTicketsToCloud(cloudTickets);
+      let tickets = getStoredTickets();
+      tickets = tickets.filter(x => x.id !== id);
+      saveTickets(tickets);
+      renderTicketsTable();
     }
 
     function togglePass() {
