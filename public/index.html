@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OneMovies Tv - Ultra-Luxurious Cyber Panel</title>
+  <title>OneMovies Tv - Cyberpunk Dynamic Cinema Platform</title>
   
   <!-- Fonts: Tajawal for Arabic, JetBrains Mono for Code/Stats -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -35,7 +36,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       overflow-x: hidden;
       position: relative;
@@ -452,6 +453,7 @@
       display: inline-block; width: 100%; padding: 12px; border-radius: 12px;
       background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
       color: #fff; text-decoration: none; font-weight: 700; margin-top: 20px; transition: 0.3s;
+      cursor: pointer;
     }
 
     .section-card:hover .btn-enter { background: var(--primary-purple); }
@@ -484,6 +486,223 @@
     .add-section-card i {
       font-size: 2.5rem;
       color: var(--primary-purple);
+    }
+
+    /* ---------------- 2.1 DYNAMIC SECTION DISPLAY VIEW (SPA) ---------------- */
+    .section-view-page {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px 20px;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .view-page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .btn-back-home {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--primary-purple);
+      color: #c084fc;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-back-home:hover {
+      background: var(--primary-purple);
+      color: #fff;
+      box-shadow: 0 0 15px var(--glow-purple);
+    }
+
+    /* Admin Add Item Form Card */
+    .admin-add-item-card {
+      display: none;
+      background: var(--bg-card);
+      border: 1px dashed var(--primary-purple);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 35px;
+      backdrop-filter: blur(15px);
+    }
+
+    .admin-mode .admin-add-item-card {
+      display: block;
+    }
+
+    .admin-add-item-card h3 {
+      font-size: 1.1rem;
+      color: #c084fc;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .item-form-grid input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: #fff;
+      outline: none;
+    }
+
+    .btn-submit-item {
+      background: linear-gradient(135deg, var(--primary-purple), var(--secondary-pink));
+      border: none;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-submit-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+    }
+
+    /* Media Cyber Cards Grid */
+    .media-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+    }
+
+    .cyber-media-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-neon);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cyber-media-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--primary-purple);
+      box-shadow: 0 15px 35px var(--glow-purple);
+    }
+
+    .card-thumb-wrap {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .card-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .cyber-media-card:hover .card-thumb-wrap img {
+      transform: scale(1.1);
+    }
+
+    .card-thumb-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to top, rgba(15, 12, 28, 0.95) 0%, transparent 70%);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(10, 8, 22, 0.8);
+      border: 1px solid var(--secondary-pink);
+      color: #f472b6;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .card-body-content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .btn-watch-neon {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      border: 1px solid var(--primary-purple);
+      color: #fff;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    }
+
+    .cyber-media-card:hover .btn-watch-neon {
+      background: linear-gradient(135deg, var(--primary-purple), var(--secondary-pink));
+      border-color: transparent;
+      box-shadow: 0 0 20px var(--primary-purple);
+    }
+
+    .empty-content-box {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-content-box i {
+      font-size: 3rem;
+      color: var(--primary-purple);
+      margin-bottom: 15px;
     }
 
     /* ---------------- ULTRA-LUXURY CYBERPUNK FOOTER ---------------- */
@@ -608,6 +827,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      cursor: pointer;
     }
 
     .footer-links a i {
@@ -1118,69 +1338,97 @@
     <div class="sections-container" id="sectionsContainer">
       <!-- Sections dynamically rendered via Javascript -->
     </div>
-
-    <!-- 🌐 ULTRA-LUXURY CYBERPUNK FOOTER -->
-    <footer class="cyber-footer">
-      <div class="footer-grid">
-        <!-- Col 1: Logo & Info -->
-        <div class="footer-col">
-          <div class="footer-logo">
-            <div class="footer-logo-glow"></div>
-            OneMovies Tv
-          </div>
-          <p class="footer-about">
-            المنصة الرائدة في خدمات البث السينمائي المباشر وسيرفرات الـ IPTV فائقة السرعة بدون تقطيع وبجودات تصل إلى 4K.
-          </p>
-          <div class="server-live-badge">
-            <div class="live-dot"></div>
-            <span>LIVE SERVER STATUS: ONLINE</span>
-          </div>
-        </div>
-
-        <!-- Col 2: Quick Navigation -->
-        <div class="footer-col">
-          <h4>التنقل السريع</h4>
-          <ul class="footer-links">
-            <li><a href="#"><i class="fas fa-chevron-left"></i> قسم الأنمي (Anime Corner)</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> الأفلام والمسلسلات</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> البث المباشر (Sports)</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> سيرفرات VIP</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 3: Support & Info -->
-        <div class="footer-col">
-          <h4>الدعم والمعلومات</h4>
-          <ul class="footer-links">
-            <li><a onclick="openSupportModal()" style="cursor: pointer;"><i class="fas fa-chevron-left"></i> الدعم الفني المباشر</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة FAQ</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> شروط الخدمة والاستخدام</a></li>
-            <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4: Community & Social -->
-        <div class="footer-col">
-          <h4>مجتمع المنصة</h4>
-          <p class="footer-about">انضم لمجتمعاتنا الرسمية لمتابعة أحدث السيرفرات والتحديثات المباشرة:</p>
-          <div class="social-btn-group">
-            <a href="https://wa.me/212621482778" target="_blank" class="social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/lu_x_smos" target="_blank" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="social-icon" title="Updates Channel"><i class="fas fa-bullhorn"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div>© 2026 OneMovies Tv. All Rights Reserved.</div>
-        <div class="cyber-guard-badge">
-          <i class="fas fa-shield-alt"></i>
-          <span>PROTECTED BY CYBER GUARD 🛡️</span>
-        </div>
-      </div>
-    </footer>
   </div>
+
+  <!-- 2️⃣.1️⃣ DYNAMIC SECTION DISPLAY PAGE (SPA Dynamic Screen) -->
+  <div class="section-view-page" id="sectionViewPage">
+    <div class="view-page-header">
+      <div>
+        <h1 id="viewPageTitle" style="font-size: 2rem; background: linear-gradient(to right, var(--primary-purple), var(--secondary-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h1>
+        <p id="viewPageDesc" style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;"></p>
+      </div>
+      <button class="btn-back-home" onclick="goBackHome()"><i class="fas fa-arrow-right"></i> العودة للرئيسية</button>
+    </div>
+
+    <!-- 👑 Admin Add New Media Form (Admin Only) -->
+    <div class="admin-add-item-card" id="adminItemFormCard">
+      <h3><i class="fas fa-plus-circle"></i> إضافة عنصر جديد لهذا القسم (خاص بالأدمن)</h3>
+      <form onsubmit="handleAddNewMedia(event)">
+        <div class="item-form-grid">
+          <input type="text" id="itemTitle" placeholder="اسم العرض / المباراة" required>
+          <input type="url" id="itemThumb" placeholder="رابط الصورة (Thumbnail URL)" required>
+          <input type="text" id="itemBadge" placeholder="التقييم / السيرفر (مثال: 4K VIP أو ⭐ 8.9)" required>
+        </div>
+        <button type="submit" class="btn-submit-item"><i class="fas fa-upload"></i> إضافة العرض فوراً</button>
+      </form>
+    </div>
+
+    <!-- Media Cards Container -->
+    <div class="media-cards-grid" id="mediaCardsGrid">
+      <!-- Cards dynamically generated here -->
+    </div>
+  </div>
+
+  <!-- 🌐 ULTRA-LUXURY CYBERPUNK FOOTER -->
+  <footer class="cyber-footer" id="globalFooter">
+    <div class="footer-grid">
+      <!-- Col 1: Logo & Info -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="footer-logo-glow"></div>
+          OneMovies Tv
+        </div>
+        <p class="footer-about">
+          المنصة الرائدة في خدمات البث السينمائي المباشر وسيرفرات الـ IPTV فائقة السرعة بدون تقطيع وبجودات تصل إلى 4K.
+        </p>
+        <div class="server-live-badge">
+          <div class="live-dot"></div>
+          <span>LIVE SERVER STATUS: ONLINE</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Quick Navigation -->
+      <div class="footer-col">
+        <h4>التنقل السريع</h4>
+        <ul class="footer-links">
+          <li><a onclick="openSectionDirectly(1)"><i class="fas fa-chevron-left"></i> قسم الأنمي (Anime Corner)</a></li>
+          <li><a onclick="openSectionDirectly(2)"><i class="fas fa-chevron-left"></i> الأفلام والمسلسلات</a></li>
+          <li><a onclick="openSectionDirectly(3)"><i class="fas fa-chevron-left"></i> البث المباشر (Sports)</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Support & Info -->
+      <div class="footer-col">
+        <h4>الدعم والمعلومات</h4>
+        <ul class="footer-links">
+          <li><a onclick="openSupportModal()"><i class="fas fa-chevron-left"></i> الدعم الفني المباشر</a></li>
+          <li><a href="#"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة FAQ</a></li>
+          <li><a href="#"><i class="fas fa-chevron-left"></i> شروط الخدمة والاستخدام</a></li>
+          <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Community & Social -->
+      <div class="footer-col">
+        <h4>مجتمع المنصة</h4>
+        <p class="footer-about">انضم لمجتمعاتنا الرسمية لمتابعة أحدث السيرفرات والتحديثات المباشرة:</p>
+        <div class="social-btn-group">
+          <a href="https://wa.me/212621482778" target="_blank" class="social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.instagram.com/lu_x_smos" target="_blank" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://whatsapp.com/channel/0029VbCqTet1NCrUrFaD5h3z" target="_blank" class="social-icon" title="Updates Channel"><i class="fas fa-bullhorn"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <div>© 2026 OneMovies Tv. All Rights Reserved.</div>
+      <div class="cyber-guard-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>PROTECTED BY CYBER GUARD 🛡️</span>
+      </div>
+    </div>
+  </footer>
 
   <!-- 3️⃣ ADMIN VPS CYBER PANEL -->
   <div class="admin-dashboard" id="adminDashboardSection">
@@ -1313,12 +1561,13 @@
     };
 
     let currentFilterStatus = 'all';
+    let currentActiveSectionId = null;
 
     // 🟢 Initial Sections Data
     const defaultSections = [
       {
         id: 1,
-        title: "Anime Corner",
+        title: "قسم الأنمي (Anime Corner)",
         desc: "شاهد أحدث حلقات وأفلام الأنمي المترجمة بجودة عالية HD.",
         icon: "fa-tv",
         hidden: false,
@@ -1326,7 +1575,7 @@
       },
       {
         id: 2,
-        title: "Movies & Series",
+        title: "الأفلام والمسلسلات (Movies & Series)",
         desc: "مكتبة ضخمة تضم أحدث أفلام الأكشن والإثارة والسينما العالمية.",
         icon: "fa-film",
         hidden: false,
@@ -1334,13 +1583,29 @@
       },
       {
         id: 3,
-        title: "Live Sports IPTV",
+        title: "البث المباشر (Live Sports IPTV)",
         desc: "بث مباشر لجميع المباريات والدوريات العالمية بدون تقطيع.",
         icon: "fa-futbol",
         hidden: false,
         views: 9450
       }
     ];
+
+    // Default Media Content for Default Sections
+    const defaultMediaData = {
+      1: [
+        { id: 101, title: "Attack on Titan: Final Season", thumb: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60", badge: "⭐ 9.1" },
+        { id: 102, title: "Demon Slayer: Kimetsu no Yaiba", thumb: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", badge: "⭐ 8.9" }
+      ],
+      2: [
+        { id: 201, title: "Cyberpunk 2077: Edgerunners", thumb: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&auto=format&fit=crop&q=60", badge: "4K ULTRA HD" },
+        { id: 202, title: "Interstellar Movie VIP", thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60", badge: "⭐ 8.7" }
+      ],
+      3: [
+        { id: 301, title: "Real Madrid vs Barcelona - Live Stream", thumb: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", badge: "BEIN SPORTS VIP" },
+        { id: 302, title: "UEFA Champions League - Final", thumb: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&auto=format&fit=crop&q=60", badge: "SERVER 1 60FPS" }
+      ]
+    };
 
     // Initial Demo Users
     const defaultUsers = Array.from({ length: 10 }, (_, i) => {
@@ -1355,7 +1620,7 @@
       };
     });
 
-    // Handle LocalStorage for Sections & Users
+    // Handle LocalStorage for Sections, Users & Media
     function getSections() {
       const stored = localStorage.getItem('virix_sections');
       if (stored) return JSON.parse(stored);
@@ -1378,10 +1643,30 @@
       localStorage.setItem('virix_users', JSON.stringify(users));
     }
 
+    function getMediaData() {
+      const stored = localStorage.getItem('virix_media_data');
+      if (stored) return JSON.parse(stored);
+      localStorage.setItem('virix_media_data', JSON.stringify(defaultMediaData));
+      return defaultMediaData;
+    }
+
+    function saveMediaData(data) {
+      localStorage.setItem('virix_media_data', JSON.stringify(data));
+    }
+
+    function getSession() {
+      return JSON.parse(localStorage.getItem('virix_session'));
+    }
+
+    function isCurrentAdmin() {
+      const session = getSession();
+      return session && session.isAdmin === true;
+    }
+
     const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
 
     window.addEventListener('load', () => {
-      const session = JSON.parse(localStorage.getItem('virix_session'));
+      const session = getSession();
       const now = new Date().getTime();
 
       if (session && (now - session.loginTime < FIFTEEN_DAYS)) {
@@ -1436,10 +1721,11 @@
       }
     }
 
-    // عرض صفحة الأقسام ديناميكياً
+    // عرض صفحة الأقسام الرئيسية
     function showDashboard(isAdmin = false) {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'none';
+      document.getElementById('sectionViewPage').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'block';
 
       const devTopBar = document.getElementById('devTopBar');
@@ -1456,14 +1742,13 @@
       renderSections(isAdmin);
     }
 
-    // 🌐 عرض الأقسام الحقيقية من الـ LocalStorage
+    // 🌐 عرض الأقسام الحقيقية
     function renderSections(isAdmin) {
       const container = document.getElementById('sectionsContainer');
       const sections = getSections();
       container.innerHTML = '';
 
       sections.forEach(sec => {
-        // إذا كان القسم مخفي والداخل مستخدم عادي، لا يظهر نهائياً
         if (sec.hidden && !isAdmin) return;
 
         const card = document.createElement('div');
@@ -1479,16 +1764,16 @@
             <button class="dev-tool-btn delete-btn" title="حذف القسم نهائياً 🗑️" onclick="devDeleteCard(${sec.id})"><i class="fas fa-trash-alt"></i></button>
           </div>
 
-          <div class="icon-box"><i class="fas ${sec.icon || 'fa-tv'}"></i></div>
+          <div class="icon-box"><i class="fas ${sec.icon || 'fa-folder-open'}"></i></div>
           <h3>${sec.title}</h3>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">${sec.desc}</p>
-          <a href="#" class="btn-enter">${sec.hidden ? 'مخفي عن المستخدمين' : 'دخول القسم'}</a>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 8px;">${sec.desc}</p>
+          <button onclick="openSectionPage(${sec.id})" class="btn-enter">${sec.hidden ? 'مخفي (اضغط للدخول)' : 'دخول القسم'}</button>
         `;
 
         container.appendChild(card);
       });
 
-      // إضافة زر "إضافة قسم جديد" للمطور فقط
+      // زر إضافة قسم جديد للأدمن
       if (isAdmin) {
         const addBtnCard = document.createElement('div');
         addBtnCard.className = 'add-section-card';
@@ -1499,6 +1784,136 @@
         `;
         container.appendChild(addBtnCard);
       }
+    }
+
+    /* ---------------- ⚡ Dynamic Page Router / SPA View ---------------- */
+    function openSectionPage(sectionId) {
+      const sections = getSections();
+      const sec = sections.find(s => s.id === sectionId);
+      if (!sec) return;
+
+      currentActiveSectionId = sectionId;
+
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('adminDashboardSection').style.display = 'none';
+      document.getElementById('sectionViewPage').style.display = 'block';
+
+      document.getElementById('viewPageTitle').innerText = sec.title;
+      document.getElementById('viewPageDesc').innerText = sec.desc;
+
+      const isAdmin = isCurrentAdmin();
+      const formCard = document.getElementById('adminItemFormCard');
+      if (isAdmin) {
+        formCard.style.display = 'block';
+      } else {
+        formCard.style.display = 'none';
+      }
+
+      renderSectionMediaItems(sectionId);
+    }
+
+    function openSectionDirectly(secId) {
+      const session = getSession();
+      if (!session) {
+        alert("يرجى تسجيل الدخول أولاً للمتابعة.");
+        return;
+      }
+      openSectionPage(secId);
+    }
+
+    function goBackHome() {
+      const isAdmin = isCurrentAdmin();
+      showDashboard(isAdmin);
+    }
+
+    function renderSectionMediaItems(sectionId) {
+      const grid = document.getElementById('mediaCardsGrid');
+      grid.innerHTML = '';
+
+      const mediaData = getMediaData();
+      const items = mediaData[sectionId] || [];
+      const isAdmin = isCurrentAdmin();
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-content-box">
+            <i class="fas fa-film"></i>
+            <h3>لا يوجد محتوى مضاف في هذا القسم حالياً.</h3>
+            <p>${isAdmin ? 'يمكنك استخدام النموذج أعلاه لإضافة أول فيلم/مباراة لهذا القسم.' : 'يرجى الانتظار لحين قيام الإدارة بإضافة محتوى جديد.'}</p>
+          </div>
+        `;
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'cyber-media-card';
+        card.innerHTML = `
+          <div class="card-thumb-wrap">
+            <img src="${item.thumb}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=60'">
+            <div class="card-thumb-overlay"></div>
+            <span class="card-badge">${item.badge || 'HD'}</span>
+          </div>
+          <div class="card-body-content">
+            <h4 class="card-title">${item.title}</h4>
+            ${isAdmin ? `<button onclick="deleteMediaItem(${sectionId},${item.id})" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; padding: 6px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-trash"></i> حذف العنصر</button>` : ''}
+            <button class="btn-watch-neon" onclick="playMedia('${item.title}')"><i class="fas fa-play"></i> Watch Now / Play</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function handleAddNewMedia(e) {
+      e.preventDefault();
+      if (!isCurrentAdmin()) {
+        alert("غير مسموح! هذه الصلاحية للأدمن فقط.");
+        return;
+      }
+
+      const title = document.getElementById('itemTitle').value.trim();
+      const thumb = document.getElementById('itemThumb').value.trim();
+      const badge = document.getElementById('itemBadge').value.trim();
+
+      if (!currentActiveSectionId) return;
+
+      const mediaData = getMediaData();
+      if (!mediaData[currentActiveSectionId]) {
+        mediaData[currentActiveSectionId] = [];
+      }
+
+      const newItem = {
+        id: Date.now(),
+        title,
+        thumb,
+        badge
+      };
+
+      mediaData[currentActiveSectionId].push(newItem);
+      saveMediaData(mediaData);
+
+      document.getElementById('itemTitle').value = '';
+      document.getElementById('itemThumb').value = '';
+      document.getElementById('itemBadge').value = '';
+
+      renderSectionMediaItems(currentActiveSectionId);
+      alert("تمت إضافة العنصر الجديد بنجاح إلى الصفحة!");
+    }
+
+    function deleteMediaItem(sectionId, itemId) {
+      if (!isCurrentAdmin()) return;
+      if (confirm("هل أنت تأكد من حذف هذا العنصر؟")) {
+        const mediaData = getMediaData();
+        if (mediaData[sectionId]) {
+          mediaData[sectionId] = mediaData[sectionId].filter(i => i.id !== itemId);
+          saveMediaData(mediaData);
+          renderSectionMediaItems(sectionId);
+        }
+      }
+    }
+
+    function playMedia(title) {
+      alert(`جاري تشغيل: [ ${title} ] عبر سيرفرات OneMovies Tv فائقة السرعة! 🚀`);
     }
 
     /* 🛠️ أدوات المطورين للأقسام */
@@ -1531,10 +1946,15 @@
     }
 
     function devDeleteCard(id) {
-      if (confirm("هل أنت تأكد من رغبتك في حذف هذا القسم نهائياً؟")) {
+      if (confirm("هل أنت تأكد من رغبتك في حذف هذا القسم وجميع محتوياته نهائياً؟")) {
         let sections = getSections();
         sections = sections.filter(s => s.id !== id);
         saveSections(sections);
+
+        let mediaData = getMediaData();
+        delete mediaData[id];
+        saveMediaData(mediaData);
+
         renderSections(true);
         alert("تم حذف القسم بنجاح!");
       }
@@ -1543,10 +1963,11 @@
     function devAddNewCard() {
       const title = prompt("أدخل اسم القسم الجديد:");
       if (title && title.trim() !== "") {
-        const desc = prompt("أدخل وصف القسم:") || "وصف جديد للقسم الحالي.";
+        const desc = prompt("أدخل وصف القسم:") || "صفحة قسم مخصص تم إنشاؤها تلقائياً.";
         let sections = getSections();
+        const newSecId = Date.now();
         const newSec = {
-          id: Date.now(),
+          id: newSecId,
           title: title.trim(),
           desc: desc.trim(),
           icon: "fa-folder-open",
@@ -1555,8 +1976,14 @@
         };
         sections.push(newSec);
         saveSections(sections);
+
+        // إنشاء مساحة محتوى جديدة للقسم في mediaData
+        let mediaData = getMediaData();
+        mediaData[newSecId] = [];
+        saveMediaData(mediaData);
+
         renderSections(true);
-        alert("تمت إضافة القسم الجديد بنجاح!");
+        alert("تم إنشاء القسم وصفحته التلقائية بنجاح!");
       }
     }
 
@@ -1572,6 +1999,7 @@
     function showAdminDashboard() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('sectionViewPage').style.display = 'none';
       document.getElementById('adminDashboardSection').style.display = 'block';
       renderUsersTable();
       updateStats();
