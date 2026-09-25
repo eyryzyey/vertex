@@ -489,7 +489,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
   <!-- الخلفية الضبابية السينمائية التفاعلية -->
   <div class="bg-cyber-glow"></div>
@@ -559,7 +559,7 @@
         <h1 id="viewPageTitle"></h1>
         <p id="viewPageDesc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;"></p>
       </div>
-      <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة</button>
+      <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة للرئيسية</button>
     </div>
 
     <!-- نموذج إضافة المحتوى للأدمن -->
@@ -576,7 +576,7 @@
 
   <!-- 4️⃣ صفحة المشاهدة المستقلة -->
   <div class="watch-page" id="watchPage">
-    <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc; margin-bottom: 15px;" onclick="goHome()"><i class="fas fa-arrow-right"></i> العودة للرئيسية</button>
+    <button class="btn-logout" style="border-color: var(--primary-purple); color: #c084fc; margin-bottom: 15px;" onclick="closeWatchView()"><i class="fas fa-arrow-right"></i> العودة للقسم</button>
     
     <div class="watch-container">
       <div>
@@ -767,12 +767,21 @@
 
   <!-- JS Cloud Sync Framework -->
   <script>
+    /* 🔒 تعطيل أدوات المطور (Developer Tools Protection) */
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I, J, C
+        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
     const ADMIN_SECTION_TITLE = "لوحة الإدارة";
     const HARDCODED_ADMINS = ["admin1@app.com", "admin2@app.com"];
     const DEFAULT_ADMIN_PASS = "admin123";
-
-    // محاكاة الاتصال برابط السحابة المركزية (يمكن ربطه بـ Firebase / JSONBin API)
-    const API_CLOUD_SERVER = "https://api.jsonbin.io/v3/b/cloud_onemovies_tv";
 
     const defaultSections = [
       { id: 1, title: "قسم الأنمي (Anime)", desc: "أحدث حلقات وأفلام الأنمي المترجمة HD", icon: "fa-tv" },
@@ -790,7 +799,7 @@
     let currentActiveSection = null;
     let currentActiveMovieId = null;
 
-    /* --------- محرك المزامنة السحابية اللحظي (Global Sync Engine) --------- */
+    /* --------- محرك المزامنة السحابية اللحظي --------- */
     function syncGet(key, fallback) {
       const cloudData = localStorage.getItem('sys_cloud_' + key);
       return cloudData ? JSON.parse(cloudData) : fallback;
@@ -798,7 +807,6 @@
 
     function syncSet(key, val) {
       localStorage.setItem('sys_cloud_' + key, JSON.stringify(val));
-      // إرسال الإشعار لجميع الأجهزة والمتصفحات المفتوحة حالياً
       window.dispatchEvent(new Event('storage'));
     }
 
@@ -830,7 +838,7 @@
     function openEditMediaModal() { document.getElementById('editMediaModal').style.display = 'flex'; }
     function closeEditMediaModal() { document.getElementById('editMediaModal').style.display = 'none'; }
 
-    // التزامن التلقائي الفوري لدى كافة المستخدمين والمشتركين
+    // التزامن التلقائي الفوري
     window.addEventListener('storage', () => {
       renderSections();
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
@@ -841,7 +849,6 @@
       }
     });
 
-    // المزامنة الدورية الأوتوماتيكية كل ثانية لضمان ظهور البث والتعديلات لحظياً
     setInterval(() => {
       if (currentActiveSection) renderMediaGrid(currentActiveSection);
       if (currentActiveMovieId) renderMovieComments();
@@ -855,6 +862,7 @@
       if (sess) {
         showMainDashboard();
       } else {
+        stopVideoPlayer();
         hideAllPages();
         document.getElementById('authSection').style.display = 'block';
         document.getElementById('topLogoutBtn').style.display = 'none';
@@ -898,8 +906,11 @@
       }
     }
 
+    /* 🧠 نظام التنقل الذكي عبر زر الشريط العلوي */
     function handleSmartHeaderBtn() {
-      if (currentActivePage === 'dashboardSection') {
+      if (currentActivePage === 'watchPage') {
+        closeWatchView();
+      } else if (currentActivePage === 'dashboardSection') {
         logout();
       } else {
         goHome();
@@ -920,8 +931,13 @@
           icon.className = "fas fa-sign-out-alt";
           btn.style.borderColor = "#ef4444";
           btn.style.color = "#f87171";
+        } else if (currentActivePage === 'watchPage') {
+          text.innerText = "العودة للقسم";
+          icon.className = "fas fa-arrow-right";
+          btn.style.borderColor = "var(--primary-purple)";
+          btn.style.color = "#c084fc";
         } else {
-          text.innerText = "العودة";
+          text.innerText = "العودة للرئيسية";
           icon.className = "fas fa-arrow-right";
           btn.style.borderColor = "var(--primary-purple)";
           btn.style.color = "#c084fc";
@@ -930,6 +946,7 @@
     }
 
     function logout() {
+      stopVideoPlayer();
       localStorage.removeItem('sys_session');
       document.body.classList.remove('admin-mode');
       hideAllPages();
@@ -947,12 +964,33 @@
       document.getElementById('supportPage').style.display = 'none';
     }
 
+    /* 🎬 إيقاف مشغل الفيديو فوراً وإزالة البث للحفاظ على موارد الجهاز والتوقف عن التشغيل */
+    function stopVideoPlayer() {
+      const playerContainer = document.getElementById('videoPlayerContainer');
+      if (playerContainer) {
+        playerContainer.innerHTML = '';
+      }
+      currentActiveMovieId = null;
+    }
+
+    /* 🚪 إغلاق شاشة المشاهدة والعودة الفورية للقسم */
+    function closeWatchView() {
+      stopVideoPlayer();
+      if (currentActiveSection) {
+        openSectionDirectly(currentActiveSection);
+      } else {
+        goHome();
+      }
+    }
+
     function goHome() {
+      stopVideoPlayer();
       hideAllPages();
       showMainDashboard();
     }
 
     function showMainDashboard() {
+      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'dashboardSection';
       document.getElementById('dashboardSection').style.display = 'block';
@@ -998,6 +1036,7 @@
 
     function openSectionDirectly(id) {
       if (!getSession()) return alert("الرجاء تسجيل الدخول أولاً");
+      stopVideoPlayer();
       currentActiveSection = id;
       hideAllPages();
       currentActivePage = 'sectionViewPage';
@@ -1417,6 +1456,7 @@
 
     function showAdminDashboard() {
       if (!isCurrentAdmin()) return alert("غير مسموح لك بالدخول هنا");
+      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'adminDashboardSection';
       document.getElementById('adminDashboardSection').style.display = 'block';
@@ -1511,6 +1551,7 @@
     }
 
     function openSupport() {
+      stopVideoPlayer();
       hideAllPages();
       currentActivePage = 'supportPage';
       document.getElementById('supportPage').style.display = 'block';
