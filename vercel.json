@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "public/index.php": { "runtime": "vercel-php@0.7.3" },
+    "public/api.php": { "runtime": "vercel-php@0.7.3" },
+    "public/install.php": { "runtime": "vercel-php@0.7.3" }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/public/api.php?endpoint=$1" },
+    { "source": "/install", "destination": "/public/install.php" },
+    { "source": "/install/(.*)", "destination": "/public/install.php" },
+    { "source": "/(.*)", "destination": "/public/index.php" }
+  ]
+}
