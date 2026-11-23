@@ -129,6 +129,35 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
+/* Particules */
+.bg-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--violet-neon);
+  border-radius: 50%;
+  animation: float 15s infinite;
+  box-shadow: 0 0 10px var(--violet-neon);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+
 /* خلفية الفيديو بكامل الشاشة */
 .video-background-container {
   position: fixed;
@@ -895,6 +924,8 @@ body {
 
 <body>
 
+<div class="bg-particles" id="particles"></div>
+
 <div class="video-background-container">
   <video class="video-bg" autoplay loop muted playsinline>
     <source src="205008.mp4" type="video/mp4">
@@ -994,6 +1025,18 @@ const CONFIG = {
 
 let toutesAPIs = [];
 let categories = [];
+
+function creerParticules() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    container.appendChild(particle);
+  }
+}
 
 function escapeHtml(str) {
   return String(str ?? '')
@@ -1294,6 +1337,7 @@ async function chargerAPIs() {
 }
 
 function initialiser() {
+  creerParticules();
   chargerAPIs();
 }
 
