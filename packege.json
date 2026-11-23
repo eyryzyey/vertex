@@ -1,26 +1,19 @@
 {
-  "name": "api-hub",
-  "version": "1.0.0",
-  "description": "موقع API Hub",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-"express": "^4.18.2",
-"axios": "*",
-"cheerio": "*",
-"node-fetch": "*",
-"crypto": "*",
-"tough-cookie": "*",
-"axios-cookiejar-support": "*",
-"tough-cookie": "*",
-"https": "*",
-"mime-types": "*",
-"formdata-node": "*",
-"file-type": "*",
-"form-data": "*",
-"mime-types": "*",
-"yt-search": "*",
-"moment-timezone": "*"
-  }
+    "name": "demo-site",
+    "version": "1.0.0",
+    "description": "موقع تجريبي",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
 }
