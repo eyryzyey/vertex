@@ -32,7 +32,7 @@ body.light-mode .scene-3d-atmosphere {
     radial-gradient(circle at 18% 15%, rgba(255, 143, 184, 0.24), transparent 46%),
     radial-gradient(circle at 82% 22%, rgba(185, 103, 255, 0.16), transparent 50%),
     radial-gradient(circle at 50% 85%, rgba(0, 212, 255, 0.12), transparent 55%),
-    linear-gradient(180deg, rgba(248, 245, 248, 0.78) 0%, rgba(242, 240, 246, 0.88) 100%);
+    linear-gradient(180deg, rgba(248, 245, 248, 0.72) 0%, rgba(242, 240, 246, 0.82) 100%);
 }
 
 body.light-mode .hero-header {
@@ -63,7 +63,7 @@ body.light-mode .description-api {
 }
 
 body.light-mode .nav-categories {
-  background: rgba(245,245,247,0.8);
+  background: transparent;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -118,6 +118,11 @@ body.light-mode .theme-btn {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+body.light-mode .footer-luxe {
+  background: transparent;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -156,7 +161,7 @@ body {
     radial-gradient(circle at 16% 14%, rgba(255, 107, 157, 0.16), transparent 44%),
     radial-gradient(circle at 84% 20%, rgba(255, 64, 150, 0.11), transparent 48%),
     radial-gradient(circle at 52% 88%, rgba(0, 212, 255, 0.08), transparent 55%),
-    linear-gradient(180deg, rgba(10, 10, 14, 0.52) 0%, rgba(10, 10, 14, 0.76) 100%);
+    linear-gradient(180deg, rgba(10, 10, 14, 0.48) 0%, rgba(10, 10, 14, 0.72) 100%);
   transition: background 0.25s ease;
 }
 
@@ -337,9 +342,7 @@ body {
 .nav-categories {
   position: sticky;
   top: 0;
-  background: rgba(10,10,10,0.65);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: transparent;
   padding: 15px 20px 10px 20px;
   z-index: 100;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -708,7 +711,7 @@ body {
 .footer-luxe {
   text-align: center;
   padding: 45px 20px;
-  background: rgba(10, 10, 10, 0.85);
+  background: transparent;
   border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: 60px;
   position: relative;
@@ -1009,10 +1012,10 @@ function initSakuraMapleScene() {
   let smoothPointerY = 0;
 
   const palettes = [
-    { main: '#ffc2d9', edge: '#ff7eb3', vein: '#ff9ec7' }, // وردي باستيل ناعم
-    { main: '#ff85b3', edge: '#e03c8a', vein: '#ffb3d1' }, // وردي ماجينتا خريفي
-    { main: '#ffd1e3', edge: '#ff94bd', vein: '#ffe6f0' }, // وردي خجول فاتح
-    { main: '#f48fb1', edge: '#c2185b', vein: '#f8bbd0' }  // قيقب وردي دافئ
+    { main: '#ffc2d9', edge: '#ff7eb3', vein: '#ff9ec7' },
+    { main: '#ff85b3', edge: '#e03c8a', vein: '#ffb3d1' },
+    { main: '#ffd1e3', edge: '#ff94bd', vein: '#ffe6f0' },
+    { main: '#f48fb1', edge: '#c2185b', vein: '#f8bbd0' }
   ];
 
   const leafCount = 72;
@@ -1028,7 +1031,7 @@ function initSakuraMapleScene() {
   }
 
   function createLeaf(randomY = false) {
-    const depth = 0.35 + Math.random() * 0.95; // عمق ثلاثي الأبعاد (قريب/بعيد)
+    const depth = 0.35 + Math.random() * 0.95;
     const palette = palettes[Math.floor(Math.random() * palettes.length)];
     const isMaple = Math.random() > 0.45;
     return {
@@ -1191,7 +1194,6 @@ function initSakuraMapleScene() {
       ctx.transform(scaleX, tilt3D, -tilt3D * 0.4, scaleX, 0, 0);
       ctx.globalAlpha = leaf.alpha;
 
-      // عمق مجال بصري ناعم (DOF) للأوراق البعيدة والقريبة جداً
       if (leaf.depth < 0.55 || leaf.depth > 1.15) {
         ctx.shadowColor = leaf.palette.main;
         ctx.shadowBlur = leaf.depth < 0.55 ? 6 : 5;
