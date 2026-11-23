@@ -1,157 +1,1189 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fadwa API</title>
+<title>Fadwa API - Collection Dynamique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-body {
+:root {
+  --noir-profond: #0a0a0a;
+  --noir-elegant: #121212;
+  --or-rose: #ff6b9d;
+  --violet-neon: #b967ff;
+  --bleu-cyan: #00d4ff;
+  --or: #ffd700;
+  --argent: #c0c0c0;
+  --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
+  --gradient-or: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffb347 100%);
+}
+
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #ffd6ec, #e0c3fc);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--noir-profond);
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Loader Premium */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--noir-profond);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 4px solid rgba(255,107,157,0.2);
+  border-top-color: var(--or-rose);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: relative;
+}
+
+.loader::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 4px solid transparent;
+  border-top-color: var(--violet-neon);
+  border-radius: 50%;
+  animation: spin 2s linear infinite reverse;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.texte-loader {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  color: var(--argent);
+  letter-spacing: 3px;
+  animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Particules */
+.bg-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--violet-neon);
+  border-radius: 50%;
+  animation: float 15s infinite;
+  box-shadow: 0 0 10px var(--violet-neon);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
 }
 
 /* Header */
-.header {
+.hero-header {
+  position: relative;
+  padding: 80px 20px 60px;
   text-align: center;
-  padding: 25px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(90deg, #ff6ec4, #7873f5);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
 }
 
-/* Container */
-.container {
+.hero-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, var(--or-rose), transparent, var(--violet-neon), transparent);
+  animation: rotate 20s linear infinite;
+  opacity: 0.1;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.logo-principal {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 2px;
+}
+
+.sous-titre {
+  font-size: 1.2rem;
+  color: var(--argent);
+  font-weight: 300;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.ligne-decoration {
+  width: 200px;
+  height: 2px;
+  background: var(--gradient-principal);
+  margin: 30px auto;
+  position: relative;
+  z-index: 1;
+}
+
+.ligne-decoration::before,
+.ligne-decoration::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--or-rose);
+  font-size: 12px;
+}
+
+.ligne-decoration::before { left: -20px; }
+.ligne-decoration::after { right: -20px; }
+
+.stats-header {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-valeur {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--or-rose);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Navigation */
+.nav-categories {
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
   padding: 20px;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-categorie {
+  padding: 12px 25px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: var(--argent);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-categorie:hover,
+.btn-categorie.active {
+  background: var(--gradient-principal);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(185,103,255,0.3);
+}
+
+/* Contenu */
+.conteneur-principal {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+  min-height: 400px;
+}
+
+/* Message vide */
+.message-vide {
+  text-align: center;
+  padding: 100px 20px;
+  color: #666;
+}
+
+.message-vide i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: var(--violet-neon);
+}
+
+/* Sections */
+.section-categorie {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.titre-categorie {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.titre-categorie::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: var(--gradient-principal);
+  border-radius: 2px;
+}
+
+.icone-categorie {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-principal);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 10px 30px rgba(255,107,157,0.3);
+}
+
+.compteur-api {
+  margin-left: auto;
+  font-size: 1rem;
+  color: #666;
+  font-family: 'Inter';
+  background: rgba(255,255,255,0.05);
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+/* Grille */
+.grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+/* Carte API */
+.carte-api {
+  background: linear-gradient(145deg, #161616, #1a1a1a);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+}
+
+.carte-api::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-principal);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.carte-api:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255,107,157,0.3);
+  box-shadow: 0 30px 60px rgba(185,103,255,0.2);
+}
+
+.carte-api:hover::before {
+  opacity: 1;
+}
+
+.en-tete-carte {
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
   gap: 20px;
 }
 
-/* Card */
-.card {
-  background: #fff;
+.logo-api {
+  width: 70px;
+  height: 70px;
   border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
-  text-align: center;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* Logo */
-.logo {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
-  border: 3px solid #ff6ec4;
+  border: 3px solid transparent;
+  background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
+              var(--gradient-principal) border-box;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* Title */
-.card h3 {
-  margin: 5px 0;
-  color: #ff4fa3;
+.info-en-tete {
+  flex: 1;
 }
 
-/* Info */
-.info {
-  font-size: 14px;
-  margin: 10px 0;
-  color: #555;
+.nom-api {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* URL */
-.url {
-  background: #f3f3f3;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 13px;
-  word-break: break-all;
+.badge-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(0,212,255,0.15);
+  color: var(--bleu-cyan);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid rgba(0,212,255,0.3);
 }
 
-/* Button */
-.copy-btn {
-  margin-top: 12px;
-  width: 100%;
-  padding: 10px;
+.badge-statut.actif::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff88;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.corps-carte {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.description-api {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+/* Métriques */
+.metriques {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.metrique {
+  background: rgba(255,255,255,0.03);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.valeur-metrique {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--or-rose);
+  display: block;
+}
+
+.label-metrique {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+/* Détails - MODIFIÉ : Auth et Format retirés */
+.details-tech {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.ligne-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ligne-detail:last-child {
+  border-bottom: none;
+}
+
+.label-detail {
+  color: #666;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.valeur-detail {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* URL Section - MODIFIÉ : Style miroir/cadre sans affichage texte */
+.section-url {
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.1) 100%);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,107,157,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet miroir/cadre */
+.section-url::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255,107,157,0.05) 0%, 
+    rgba(185,103,255,0.05) 50%,
+    rgba(0,212,255,0.05) 100%);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Bordure brillante animée */
+.section-url::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--gradient-principal);
+  border-radius: 18px;
+  z-index: -1;
+  opacity: 0.3;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.label-url {
+  font-size: 0.8rem;
+  color: var(--or-rose);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  display: block;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Conteneur des boutons - MODIFIÉ : sans input visible */
+.conteneur-url {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Input caché mais présent pour la fonctionnalité */
+.input-url-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Boutons d'action */
+.btn-action {
+  padding: 14px 28px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(90deg, #ff6ec4, #7873f5);
-  color: white;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
 }
 
-.copy-btn:hover {
-  opacity: 0.8;
+.btn-copier {
+  background: var(--gradient-principal);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255,107,157,0.3);
 }
 
-/* Badge */
-.badge {
-  display: inline-block;
-  background: #ffe0f0;
-  color: #ff4fa3;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  margin-top: 5px;
+.btn-copier:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,107,157,0.5);
+}
+
+.btn-copier::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-copier:hover::before {
+  left: 100%;
+}
+
+.btn-copier.copie {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+}
+
+.btn-ouvrir {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.3);
+  color: white;
+}
+
+.btn-ouvrir:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--bleu-cyan);
+  color: var(--bleu-cyan);
+  transform: translateY(-2px);
+}
+
+/* Endpoints */
+.section-endpoints {
+  margin-bottom: 20px;
+}
+
+.titre-endpoints {
+  font-size: 0.8rem;
+  color: var(--violet-neon);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.liste-endpoints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge-endpoint {
+  background: rgba(185,103,255,0.15);
+  color: var(--violet-neon);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: 'Courier New', monospace;
+  border: 1px solid rgba(185,103,255,0.3);
+}
+
+/* Bouton Explorer */
+.btn-explorer {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.2);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+.btn-explorer:hover {
+  background: var(--gradient-principal);
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* Erreur */
+.message-erreur {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255,0,0,0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,0,0,0.3);
+}
+
+.message-erreur i {
+  font-size: 3rem;
+  color: #ff4444;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.footer-luxe {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(to top, #0a0a0a, #161616);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 80px;
+}
+
+.texte-footer {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+
+.copyright {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo-principal { font-size: 2.5rem; }
+  .grille-cartes { grid-template-columns: 1fr; }
+  .titre-categorie { font-size: 1.8rem; }
+  .metriques { grid-template-columns: 1fr; }
+  .stats-header { flex-direction: column; gap: 20px; }
+  .btn-action { padding: 12px 20px; font-size: 0.85rem; }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--noir-profond);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-principal);
+  border-radius: 5px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  💖 Fadwa API 💖
+<!-- Loader -->
+<div class="loader-container" id="loader">
+  <div class="loader"></div>
+  <div class="texte-loader">Chargement des APIs...</div>
 </div>
 
-<div class="container" id="apiContainer"></div>
+<!-- Particules -->
+<div class="bg-particles" id="particles"></div>
+
+<!-- Header -->
+<header class="hero-header">
+  <h1 class="logo-principal">Fadwa API</h1>
+  <p class="sous-titre">Collection Dynamique</p>
+  <div class="ligne-decoration"></div>
+  
+  <div class="stats-header">
+    <div class="stat-item">
+      <span class="stat-valeur" id="totalAPIs">0</span>
+      <span class="stat-label">APIs Disponibles</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-valeur" id="totalCategories">0</span>
+      <span class="stat-label">Catégories</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-valeur" id="statutSystem">✓</span>
+      <span class="stat-label">Système Actif</span>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav class="nav-categories" id="navCategories">
+  <button class="btn-categorie active" data-cat="all">Tous</button>
+</nav>
+
+<!-- Contenu -->
+<main class="conteneur-principal" id="mainContainer">
+  <div class="message-vide" id="messageVide">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Chargement en cours...</p>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer-luxe">
+  <div class="texte-footer">Fadwa API Collection</div>
+  <p class="copyright">© 2026 - Système Dynamique Français</p>
+</footer>
 
 <script>
-const API_URL = "/api/list";
+// ⚙️ CONFIGURATION - Modifier selon ton projet
+const CONFIG = {
+  // URL de ton API (modifie selon ton projet)
+  API_URL: "/api/list",  // ou "https://ton-domaine.com/api/list"
+  
+  // Icônes par catégorie (s'adapte automatiquement)
+  ICONES_CATEGORIES: {
+    "social": "fa-share-nodes",
+    "media": "fa-photo-film",
+    "data": "fa-database",
+    "finance": "fa-chart-line",
+    "ai": "fa-brain",
+    "ml": "fa-robot",
+    "nlp": "fa-language",
+    "tools": "fa-screwdriver-wrench",
+    "utility": "fa-bolt",
+    "default": "fa-code"
+  }
+};
 
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("apiContainer");
+// État global
+let toutesAPIs = [];
+let categories = [];
 
-    data.forEach(api => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <img class="logo" src="${api.logo || 'https://via.placeholder.com/60'}" />
-
-        <h3>${api.name}</h3>
-        <div class="badge">${api.category}</div>
-
-        <p class="info">${api.info}</p>
-
-        <div class="url">${api.url[0] || "No URL"}</div>
-
-        <button class="copy-btn" onclick="copyUrl('${api.url[0] || ""}')">
-          📋 Copy API Link
-        </button>
-      `;
-
-      container.appendChild(card);
-    });
-  });
-
-// 📋 Copy
-function copyUrl(url) {
-  navigator.clipboard.writeText(url);
-  alert("✅ تم نسخ الرابط!");
+// Créer particules
+function creerParticules() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    container.appendChild(particle);
+  }
 }
+
+// Obtenir icône pour catégorie
+function getIconeCategorie(categorie) {
+  const cat = categorie.toLowerCase();
+  for (const [key, icon] of Object.entries(CONFIG.ICONES_CATEGORIES)) {
+    if (cat.includes(key)) return icon;
+  }
+  return CONFIG.ICONES_CATEGORIES.default;
+}
+
+// Formater les données API (s'adapte à n'importe quel format)
+function formaterAPI(api) {
+  return {
+    id: api.id || Math.random().toString(36),
+    name: api.name || api.title || api.nom || "API Sans Nom",
+    category: api.category || api.categorie || api.type || "Général",
+    info: api.info || api.description || api.desc || "Aucune description disponible",
+    logo: api.logo || api.icon || api.image || "https://via.placeholder.com/70/161616/ff6b9d?text=API",
+    url: Array.isArray(api.url) ? api.url : [api.url || api.endpoint || api.link || "#"],
+    method: api.method || api.httpMethod || "GET",
+    latency: api.latency || api.latence || api.speed || "N/A",
+    uptime: api.uptime || api.disponibilite || "99%",
+    requests: api.requests || api.limit || "Illimité",
+    // Auth et Format retirés de l'affichage mais gardés si besoin
+    version: api.version || api.v || "v1.0",
+    endpoints: api.endpoints || api.routes || api.paths || ["/"]
+  };
+}
+
+// Grouper par catégorie
+function grouperParCategorie(apis) {
+  return apis.reduce((acc, api) => {
+    const cat = api.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(api);
+    return acc;
+  }, {});
+}
+
+// Créer navigation
+function creerNavigation(categoriesList) {
+  const nav = document.getElementById('navCategories');
+  // Vider sauf "Tous"
+  nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
+  
+  categoriesList.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-categorie';
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    btn.onclick = () => filtrerCategorie(cat, btn);
+    nav.appendChild(btn);
+  });
+}
+
+// Filtrer
+function filtrerCategorie(categorie, btnElement) {
+  document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
+  btnElement.classList.add('active');
+  
+  const sections = document.querySelectorAll('.section-categorie');
+  sections.forEach(section => {
+    if (categorie === 'all' || section.dataset.category === categorie) {
+      section.style.display = 'block';
+      section.style.animation = 'none';
+      setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
+    } else {
+      section.style.display = 'none';
+    }
+  });
+}
+
+// Créer carte API - MODIFIÉ : sans Auth/Format, URL cachée
+function creerCarteAPI(api) {
+  const carte = document.createElement('div');
+  carte.className = 'carte-api';
+  carte.style.animationDelay = Math.random() * 0.5 + 's';
+  
+  const endpointsHTML = api.endpoints.map(ep => 
+    `<span class="badge-endpoint">${ep}</span>`
+  ).join('');
+  
+  carte.innerHTML = `
+    <div class="en-tete-carte">
+      <img class="logo-api" src="${api.logo}" alt="${api.name}" 
+           onerror="this.src='https://via.placeholder.com/70/161616/ff6b9d?text=${api.name.charAt(0)}'">
+      <div class="info-en-tete">
+        <h3 class="nom-api">${api.name}</h3>
+        <span class="badge-statut actif">
+          <i class="fas fa-circle"></i> Opérationnel
+        </span>
+      </div>
+    </div>
+    
+    <div class="corps-carte">
+      <p class="description-api">${api.info}</p>
+      
+      <div class="metriques">
+        <div class="metrique">
+          <span class="valeur-metrique">${api.latency}</span>
+          <span class="label-metrique">Latence</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.uptime}</span>
+          <span class="label-metrique">Disponibilité</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.requests}</span>
+          <span class="label-metrique">Requêtes</span>
+        </div>
+      </div>
+      
+      <div class="details-tech">
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-code"></i> Méthode</span>
+          <span class="valeur-detail" style="color: ${api.method === 'GET' ? '#00ff88' : '#ff6b9d'}">${api.method}</span>
+        </div>
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-tag"></i> Version</span>
+          <span class="valeur-detail" style="color: var(--bleu-cyan)">${api.version}</span>
+        </div>
+      </div>
+      
+      <div class="section-endpoints">
+        <div class="titre-endpoints">
+          <i class="fas fa-route"></i> Endpoints Disponibles
+        </div>
+        <div class="liste-endpoints">
+          ${endpointsHTML}
+        </div>
+      </div>
+      
+      <div class="section-url">
+        <span class="label-url"><i class="fas fa-link"></i> Accès API</span>
+        <div class="conteneur-url">
+          <input type="text" class="input-url-hidden" id="url-${api.id}" value="${api.url[0]}" readonly>
+          <button class="btn-action btn-copier" onclick="copierURL('${api.id}', this)">
+            <i class="fas fa-copy"></i> Copier
+          </button>
+          <button class="btn-action btn-ouvrir" onclick="ouvrirURL('${api.url[0]}')">
+            <i class="fas fa-external-link-alt"></i> Ouvrir
+          </button>
+        </div>
+      </div>
+      
+      <button class="btn-explorer" onclick="testerAPI('${api.url[0]}')">
+        <i class="fas fa-play"></i> Tester l'API
+      </button>
+    </div>
+  `;
+  
+  return carte;
+}
+
+// Créer section catégorie
+function creerSectionCategorie(categorie, apis) {
+  const section = document.createElement('div');
+  section.className = 'section-categorie';
+  section.dataset.category = categorie;
+  
+  const icone = getIconeCategorie(categorie);
+  
+  section.innerHTML = `
+    <h2 class="titre-categorie">
+      <div class="icone-categorie">
+        <i class="fas ${icone}"></i>
+      </div>
+      ${categorie}
+      <span class="compteur-api">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
+    </h2>
+    <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
+  `;
+  
+  const grille = section.querySelector('.grille-cartes');
+  apis.forEach(api => {
+    grille.appendChild(creerCarteAPI(api));
+  });
+  
+  return section;
+}
+
+// Copier URL - MODIFIÉ : utilise l'input caché
+function copierURL(apiId, btn) {
+  const input = document.getElementById(`url-${apiId}`);
+  const url = input.value;
+  
+  navigator.clipboard.writeText(url);
+  
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
+  btn.classList.add('copie');
+  
+  setTimeout(() => {
+    btn.innerHTML = originalHTML;
+    btn.classList.remove('copie');
+  }, 2000);
+}
+
+// Ouvrir URL - NOUVEAU
+function ouvrirURL(url) {
+  if (url === "#" || !url || url === "undefined") {
+    alert("URL non disponible");
+    return;
+  }
+  window.open(url, '_blank');
+}
+
+// Tester API
+function testerAPI(url) {
+  if (url === "#" || !url || url === "undefined") {
+    alert("URL non disponible pour le test");
+    return;
+  }
+  window.open(url, '_blank');
+}
+
+// Afficher erreur
+function afficherErreur(message) {
+  const container = document.getElementById('mainContainer');
+  container.innerHTML = `
+    <div class="message-erreur">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3 style="color: #ff4444; margin-bottom: 10px;">Erreur de Connexion</h3>
+      <p>${message}</p>
+      <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 30px; background: var(--gradient-principal); border: none; border-radius: 25px; color: white; cursor: pointer;">
+        <i class="fas fa-refresh"></i> Réessayer
+      </button>
+    </div>
+  `;
+}
+
+// Charger APIs depuis le serveur
+async function chargerAPIs() {
+  try {
+    const response = await fetch(CONFIG.API_URL);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    // Gérer différents formats de réponse
+    let apis = [];
+    if (Array.isArray(data)) {
+      apis = data;
+    } else if (data.apis || data.data || data.results || data.list) {
+      apis = data.apis || data.data || data.results || data.list;
+    } else {
+      apis = [data]; // Si c'est un seul objet
+    }
+    
+    // Formater les données
+    toutesAPIs = apis.map(formaterAPI);
+    
+    // Mettre à jour stats
+    document.getElementById('totalAPIs').textContent = toutesAPIs.length;
+    
+    // Grouper et afficher
+    const groupe = grouperParCategorie(toutesAPIs);
+    categories = Object.keys(groupe);
+    document.getElementById('totalCategories').textContent = categories.length;
+    
+    // Créer navigation
+    creerNavigation(categories);
+    
+    // Afficher sections
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    
+    if (toutesAPIs.length === 0) {
+      container.innerHTML = `
+        <div class="message-vide">
+          <i class="fas fa-inbox"></i>
+          <p>Aucune API disponible pour le moment</p>
+        </div>
+      `;
+    } else {
+      categories.forEach((cat, index) => {
+        const section = creerSectionCategorie(cat, groupe[cat]);
+        section.style.animationDelay = (index * 0.1) + 's';
+        container.appendChild(section);
+      });
+    }
+    
+    // Cacher loader
+    document.getElementById('loader').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+    }, 500);
+    
+  } catch (error) {
+    console.error('Erreur:', error);
+    afficherErreur(`Impossible de charger les APIs: ${error.message}`);
+    document.getElementById('loader').style.display = 'none';
+  }
+}
+
+// Initialisation
+function initialiser() {
+  creerParticules();
+  chargerAPIs();
+  
+  // Rafraîchissement automatique toutes les 5 minutes
+  setInterval(chargerAPIs, 300000);
+}
+
+// Lancer
+initialiser();
 </script>
 
 </body>
