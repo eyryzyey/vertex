@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fadwa API</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #ffd6ec, #e0c3fc);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #ff6ec4, #7873f5);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Container */
+.container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Logo */
+.logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid #ff6ec4;
+}
+
+/* Title */
+.card h3 {
+  margin: 5px 0;
+  color: #ff4fa3;
+}
+
+/* Info */
+.info {
+  font-size: 14px;
+  margin: 10px 0;
+  color: #555;
+}
+
+/* URL */
+.url {
+  background: #f3f3f3;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+/* Button */
+.copy-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff6ec4, #7873f5);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.copy-btn:hover {
+  opacity: 0.8;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: #ffe0f0;
+  color: #ff4fa3;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  💖 Fadwa API 💖
+</div>
+
+<div class="container" id="apiContainer"></div>
+
+<script>
+const API_URL = "/api/list";
+
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("apiContainer");
+
+    data.forEach(api => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img class="logo" src="${api.logo || 'https://via.placeholder.com/60'}" />
+
+        <h3>${api.name}</h3>
+        <div class="badge">${api.category}</div>
+
+        <p class="info">${api.info}</p>
+
+        <div class="url">${api.url[0] || "No URL"}</div>
+
+        <button class="copy-btn" onclick="copyUrl('${api.url[0] || ""}')">
+          📋 Copy API Link
+        </button>
+      `;
+
+      container.appendChild(card);
+    });
+  });
+
+// 📋 Copy
+function copyUrl(url) {
+  navigator.clipboard.writeText(url);
+  alert("✅ تم نسخ الرابط!");
+}
+</script>
+
+</body>
+</html>
