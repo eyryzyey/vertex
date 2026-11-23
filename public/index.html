@@ -995,6 +995,22 @@ const CONFIG = {
 let toutesAPIs = [];
 let categories = [];
 
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeAttr(str) {
+  return String(str ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '&quot;');
+}
+
 function toggleTheme() {
   const body = document.body;
   const themeBtn = document.getElementById('themeBtn');
@@ -1071,7 +1087,10 @@ function creerNavigation(categoriesList) {
 function filtrerCategorie(categorie, btnElement) {
   document.getElementById('apiSearchInput').value = "";
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
-  const targetBtn = btnElement || document.querySelector(`.btn-categorie[data-cat="${categorie}"]`);
+  const selector = typeof CSS !== 'undefined' && CSS.escape
+    ? `.btn-categorie[data-cat="${CSS.escape(String(categorie))}"]`
+    : `.btn-categorie[data-cat="${escapeAttr(categorie)}"]`;
+  const targetBtn = btnElement || document.querySelector(selector);
   if (targetBtn) targetBtn.classList.add('active');
   renderInterface(toutesAPIs);
 }
@@ -1107,7 +1126,7 @@ function filterApisSmart() {
     container.innerHTML = `
       <div class="message-vide">
         <i class="fas fa-search-minus" style="color: var(--or-rose);"></i>
-        <p>Aucun résultat intelligent trouvé pour "${document.getElementById('apiSearchInput').value}"</p>
+        <p>Aucun résultat intelligent trouvé pour "${escapeHtml(document.getElementById('apiSearchInput').value)}"</p>
       </div>`;
     return;
   }
@@ -1127,26 +1146,33 @@ function creerCarteAPI(api) {
   carte.className = 'carte-api';
   const safeInitial = encodeURIComponent(api.name.charAt(0) || 'A');
   const firstUrl = api.url[0] || '#';
+  const safeNameHtml = escapeHtml(api.name);
+  const safeInfoHtml = escapeHtml(api.info);
+  const safeLogoAttr = escapeHtml(api.logo);
+  const safeLatencyHtml = escapeHtml(api.latency);
+  const safeUptimeHtml = escapeHtml(api.uptime);
+  const safeRequestsHtml = escapeHtml(api.requests);
+  const safeUrlJs = escapeAttr(firstUrl);
   
   carte.innerHTML = `
     <div class="en-tete-carte">
-      <img class="logo-api" src="${api.logo}" alt="${api.name}" 
+      <img class="logo-api" src="${safeLogoAttr}" alt="${safeNameHtml}" 
            onerror="this.onerror=null;this.src='https://via.placeholder.com/60/161616/ff6b9d?text=${safeInitial}'">
       <div class="info-en-tete">
-        <h3 class="nom-api">${api.name}</h3>
+        <h3 class="nom-api">${safeNameHtml}</h3>
         <span class="badge-statut actif"><i class="fas fa-circle"></i> Opérationnel</span>
       </div>
     </div>
     <div class="corps-carte">
-      <p class="description-api">${api.info}</p>
+      <p class="description-api">${safeInfoHtml}</p>
       <div class="metriques">
-        <div class="metrique"><span class="valeur-metrique">${api.latency}</span><span class="label-metrique">Latence</span></div>
-        <div class="metrique"><span class="valeur-metrique">${api.uptime}</span><span class="label-metrique">Uptime</span></div>
-        <div class="metrique"><span class="valeur-metrique">${api.requests}</span><span class="label-metrique">Requêtes</span></div>
+        <div class="metrique"><span class="valeur-metrique">${safeLatencyHtml}</span><span class="label-metrique">Latence</span></div>
+        <div class="metrique"><span class="valeur-metrique">${safeUptimeHtml}</span><span class="label-metrique">Uptime</span></div>
+        <div class="metrique"><span class="valeur-metrique">${safeRequestsHtml}</span><span class="label-metrique">Requêtes</span></div>
       </div>
       <div class="actions-api">
-        <button class="btn-copier-api" onclick="copierURL('${firstUrl}', this)"><i class="fas fa-copy"></i> Copier</button>
-        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${firstUrl}')"><i class="fas fa-external-link-alt"></i> Ouvrir</button>
+        <button class="btn-copier-api" onclick="copierURL('${safeUrlJs}', this)"><i class="fas fa-copy"></i> Copier</button>
+        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${safeUrlJs}')"><i class="fas fa-external-link-alt"></i> Ouvrir</button>
       </div>
     </div>
   `;
@@ -1161,7 +1187,7 @@ function creerSectionCategorie(categorie, apis) {
   section.innerHTML = `
     <h2 class="titre-categorie">
       <div class="icone-categorie"><i class="fas ${icone}"></i></div>
-      ${categorie}
+      ${escapeHtml(categorie)}
       <span class="compteur-api">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
     </h2>
     <div class="grille-cartes"></div>
