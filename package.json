@@ -10,7 +10,5 @@
 "axios": "*",
 "cheerio": "*",
 "node-fetch": "*",
-"crypto": "*"
-
   }
 }
