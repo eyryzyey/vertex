@@ -1,8 +1,0 @@
-{
-  "buildCommand": "npx prisma generate && next build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "env": {
-    "PRISMA_CLI_BINARY_TARGETS": "native,rhel-openssl-3.0.x"
-  }
-}
