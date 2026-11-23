@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIRIX PLATFORM</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background-color: #050508;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      perspective: 1000px;
+    }
+
+    /* خلفية داكنة مع تدرج نيون خفيف */
+    .bg-dark-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 30%, rgba(88, 28, 135, 0.25) 0%, rgba(5, 5, 8, 1) 75%);
+      z-index: -1;
+    }
+
+    /* ---------------- 1. الصفحة الأولى: واجهة تسجيل الدخول ---------------- */
+    .house-stage {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      perspective: 1200px;
+    }
+
+    .roof-left, .roof-right {
+      position: absolute;
+      top: -15px;
+      width: 50%;
+      height: 6px;
+      background: #7e22ce;
+      box-shadow: 0 0 20px #7e22ce;
+      z-index: 10;
+      transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .roof-left { left: 20px; transform-origin: left center; }
+    .roof-right { right: 20px; transform-origin: right center; }
+
+    .login-card {
+      background: rgba(15, 15, 22, 0.85);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(126, 34, 206, 0.25);
+      border-radius: 24px;
+      padding: 35px 25px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+      opacity: 0;
+      transform: scale(0.3) rotateX(30deg) translateY(150px);
+      transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .house-stage.open .login-card {
+      opacity: 1;
+      transform: scale(1) rotateX(0deg) translateY(0);
+    }
+
+    .house-stage.open .roof-left {
+      transform: rotate(-40deg) translateY(-25px);
+      opacity: 0;
+    }
+
+    .house-stage.open .roof-right {
+      transform: rotate(40deg) translateY(-25px);
+      opacity: 0;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 14px 45px 14px 45px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 30px;
+      outline: none;
+      color: #fff;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .input-box input:focus {
+      border-color: #a855f7;
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    }
+
+    /* أيقونات الخانات */
+    .input-box i.icon-main {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* أيقونة العين لإظهار/إخفاء كلمة المرور */
+    .input-box i.toggle-eye {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .input-box i.toggle-eye:hover {
+      color: #a855f7;
+    }
+
+    /* زر Login الأبيض الرئيسي */
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      background: #ffffff;
+      border: none;
+      border-radius: 30px;
+      color: #09090b;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: #e4e4e7;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .support-link {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.9rem;
+      color: #a1a1aa;
+    }
+
+    .support-link a {
+      color: #a855f7;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.3s;
+    }
+
+    .support-link a:hover {
+      color: #c084fc;
+      text-decoration: underline;
+    }
+
+    /* ---------------- 2. الصفحة الثانية: الأقسام الثلاثة ---------------- */
+    .main-dashboard {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      padding: 40px 20px;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dashboard-header h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(to right, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-logout:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    /* الأقسام الثلاثة جنبًا إلى جنب */
+    .sections-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .section-card {
+      background: rgba(20, 20, 28, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .section-card:hover {
+      transform: translateY(-8px);
+      border-color: #a855f7;
+      box-shadow: 0 15px 30px rgba(168, 85, 247, 0.2);
+    }
+
+    .section-card .icon-box {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .anime .icon-box { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .movies .icon-box { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+    .matches .icon-box { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+
+    .section-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .section-card p {
+      color: #a1a1aa;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .btn-enter {
+      display: inline-block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .section-card:hover .btn-enter {
+      background: #a855f7;
+      border-color: #a855f7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(100px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-dark-glow"></div>
+
+  <!-- 1️⃣ الصفحة الأولى (تسجيل الدخول) -->
+  <div class="house-stage" id="authSection">
+    <div class="roof-left"></div>
+    <div class="roof-right"></div>
+
+    <div class="login-card">
+      <div class="login-header">
+        <h2>تسجيل الدخول</h2>
+      </div>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="input-box">
+          <input type="email" id="emailInput" placeholder="البريد الإلكتروني (Gmail)" required>
+          <i class="fas fa-envelope icon-main"></i>
+        </div>
+
+        <div class="input-box">
+          <input type="password" id="passInput" placeholder="كلمة المرور" required>
+          <i class="fas fa-lock icon-main"></i>
+          <!-- أيقونة العين لرؤية/إخفاء كلمة السر -->
+          <i class="fas fa-eye toggle-eye" id="togglePassword" onclick="togglePass()"></i>
+        </div>
+
+        <!-- زر Login الأبيض فقط -->
+        <button type="submit" class="btn-login">Login</button>
+
+        <div class="error-msg" id="errorMsg">البريد الإلكتروني أو كلمة المرور غير صحيحة!</div>
+
+        <!-- خدمة العملاء بدلاً من إنشاء حساب جديد -->
+        <div class="support-link">
+          تحتاج إلى مساعدة؟ <a href="#" onclick="contactSupport()">خدمة العملاء <i class="fas fa-headset"></i></a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2️⃣ الصفحة الثانية (الأقسام الثلاثة) -->
+  <div class="main-dashboard" id="dashboardSection">
+    <div class="dashboard-header">
+      <h1>مرحباً بك في VIRIX</h1>
+      <button class="btn-logout" onclick="logout()">تسجيل الخروج <i class="fas fa-sign-out-alt"></i></button>
+    </div>
+
+    <div class="sections-container">
+      <!-- قسم الأنمي -->
+      <div class="section-card anime">
+        <div class="icon-box"><i class="fas fa-tv"></i></div>
+        <h3>قسم الأنمي</h3>
+        <p>شاهد أحدث حلقات وأفلام الأنمي اليابانية المترجمة بجودة عالية HD.</p>
+        <a href="#" class="btn-enter">دخول القسم</a>
+      </div>
+
+      <!-- قسم الأفلام -->
+      <div class="section-card movies">
+        <div class="icon-box"><i class="fas fa-film"></i></div>
+        <h3>قسم الأفلام</h3>
+        <p>مكتبة ضخمة تضم أحدث أفلام الأكشن والإثارة والسينما العالمية.</p>
+        <a href="#" class="btn-enter">دخول القسم</a>
+      </div>
+
+      <!-- قسم المباريات -->
+      <div class="section-card matches">
+        <div class="icon-box"><i class="fas fa-futbol"></i></div>
+        <h3>قسم المباريات</h3>
+        <p>بث مباشر لجميع المباريات والدوريات العالمية بدون تقطيع.</p>
+        <a href="#" class="btn-enter">دخول القسم</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // قاعدة البيانات المغروسة (20 حساب معتمد)
+    const validUsers = Array.from({ length: 20 }, (_, i) => {
+      const id = String(i + 1).padStart(2, '0');
+      return {
+        email: `user${id}.virix@gmail.com`,
+        password: `VrxPass#2026_${i + 1}`
+      };
+    });
+
+    const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
+
+    // تشغيل أنيميشن الفتح والتحقق من الجلسة (15 يوم)
+    window.addEventListener('load', () => {
+      const session = JSON.parse(localStorage.getItem('virix_session'));
+      const now = new Date().getTime();
+
+      if (session && (now - session.loginTime < FIFTEEN_DAYS)) {
+        showDashboard();
+      } else {
+        setTimeout(() => {
+          document.getElementById('authSection').classList.add('open');
+        }, 200);
+      }
+    });
+
+    // إظهار/إخفاء كلمة المرور بواسطة العين
+    function togglePass() {
+      const passInput = document.getElementById('passInput');
+      const toggleEye = document.getElementById('togglePassword');
+
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        toggleEye.classList.remove('fa-eye');
+        toggleEye.classList.add('fa-eye-slash');
+      } else {
+        passInput.type = 'password';
+        toggleEye.classList.remove('fa-eye-slash');
+        toggleEye.classList.add('fa-eye');
+      }
+    }
+
+    // تسجيل الدخول والانتقال للصفحة الثانية
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const pass = document.getElementById('passInput').value;
+      const errorMsg = document.getElementById('errorMsg');
+
+      const user = validUsers.find(u => u.email === email && u.password === pass);
+
+      if (user) {
+        saveSession(user.email);
+        showDashboard();
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    // زر خدمة العملاء
+    function contactSupport() {
+      alert("جاري تحويلك إلى الدعم الفني وخدمة العملاء...");
+    }
+
+    // حفظ الجلسة لمدة 15 يوماً
+    function saveSession(email) {
+      const sessionData = {
+        user: email,
+        loginTime: new Date().getTime()
+      };
+      localStorage.setItem('virix_session', JSON.stringify(sessionData));
+    }
+
+    // الانتقال المباشر للصفحة الثانية (الأقسام)
+    function showDashboard() {
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+    }
+
+    // تسجيل الخروج
+    function logout() {
+      localStorage.removeItem('virix_session');
+      location.reload();
+    }
+  </script>
+</body>
+</html>
