@@ -144,7 +144,7 @@ module.exports = {
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/hq/catalog`,
   logo: "https://intelligencehq.io/favicon.ico",
-  category: "sports",
+  category: "news",
   info: "Catalogue gratuit et données sportives en direct (prédictions, scores, classements) via Intelligence HQ",
   router,
 };
